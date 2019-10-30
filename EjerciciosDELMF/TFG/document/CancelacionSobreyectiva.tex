@@ -1,0 +1,406 @@
+%
+\begin{isabellebody}%
+\setisabellecontext{CancelacionSobreyectiva}%
+%
+\isadelimtheory
+%
+\endisadelimtheory
+%
+\isatagtheory
+%
+\endisatagtheory
+{\isafoldtheory}%
+%
+\isadelimtheory
+%
+\endisadelimtheory
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\isatagdocument
+%
+\isamarkupsection{Cancelación de las funciones sobreyectivas%
+}
+\isamarkuptrue%
+%
+\endisatagdocument
+{\isafolddocument}%
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\begin{isamarkuptext}%
+El siguiente teorema prueba una propiedad de las funciones
+ sobreyectivas. El enunciado es el siguiente: 
+\begin {teorema}
+Las funciones sobreyectivas son cancelativas por la derecha. Es decir,
+ si f es sobreyectiva entonces para todas funciones g y h tal que g o f
+ = h o f se tiene que g = h.
+\end {teorema}
+ 
+\begin {demostracion}
+\begin {itemize}
+\item Supongamos que tenemos que $g o f = h o f$, queremos probar que $g =
+ h.$ Usando la definición de sobreyectividad $(\forall y \in Y,
+ \exists x | y = f(x))$ y nuestra hipótesis, tenemos que:
+$$g(y) = g(f(x)) = (g o f) (x) = (h o f) (x) = h(f(x)) = h(y)$$
+\item Supongamos que $g = h$, hay que probar que $g o f = h o f.$ Usando
+nuestra hipótesis, tenemos que:
+$$ (g o f)(x) = g(f(x)) = h(f(x)) = (h o f) (x).$$
+\end {itemize}
+.
+\end {demostracion}
+
+Su especificación es la siguiente:%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ {\isachardoublequoteopen}surj\ f\ {\isasymLongrightarrow}\ {\isacharparenleft}\ g\ {\isasymo}\ f\ {\isacharequal}\ h\ {\isasymo}\ f\ {\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}g\ {\isacharequal}\ h{\isacharparenright}{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{oops}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+En la especificación anterior, \isa{surj\ f} es una abreviatura de 
+  \isa{surj\ f}, donde \isa{range\ f} es el rango o imagen
+de la función f.
+ Por otra parte, \isa{UNIV} es el conjunto universal definido en la 
+  teoría \href{http://bit.ly/2XtHCW6}{Set.thy} como una abreviatura de 
+  \isa{top} que, a su vez está definido en la teoría 
+  \href{http://bit.ly/2Xyj9Pe}{Orderings.thy} mediante la siguiente
+  propiedad 
+  \begin{itemize}
+    \item[] \isa{\mbox{}\inferrule{\mbox{ordering{\isacharunderscore}top\ less{\isacharunderscore}eq\ less\ top}}{\mbox{less{\isacharunderscore}eq\ a\ top}}} 
+      \hfill (\isa{ordering{\isacharunderscore}top{\isachardot}extremum})
+  \end{itemize} 
+Además queda añadir que la teoría donde se encuentra definido \isa{surj\ f}
+ es en \href{http://bit.ly/2XuPQx5}{Fun.thy}. Esta teoría contiene la
+ definicion \isa{surj{\isacharunderscore}def}.
+ \begin{itemize}
+    \item[] \isa{surj\ f\ {\isacharequal}\ {\isacharparenleft}{\isasymforall}y{\isachardot}\ {\isasymexists}x{\isachardot}\ y\ {\isacharequal}\ f\ x{\isacharparenright}} \hfill (\isa{inj{\isacharunderscore}on{\isacharunderscore}def})
+  \end{itemize} 
+
+Presentaremos distintas demostraciones del teorema. La primera es la
+ detallada:%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ \isanewline
+\ \ \isakeyword{assumes}\ {\isachardoublequoteopen}surj\ f{\isachardoublequoteclose}\ \isanewline
+\ \ \isakeyword{shows}\ {\isachardoublequoteopen}{\isacharparenleft}\ g\ {\isasymcirc}\ f\ {\isacharequal}\ h\ {\isasymcirc}\ f\ {\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}g\ {\isacharequal}\ h{\isacharparenright}{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}rule\ iffI{\isacharparenright}\isanewline
+\ \ \isacommand{assume}\isamarkupfalse%
+\ {\isadigit{1}}{\isacharcolon}\ {\isachardoublequoteopen}\ g\ {\isasymcirc}\ f\ {\isacharequal}\ h\ {\isasymcirc}\ f\ {\isachardoublequoteclose}\isanewline
+\ \ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}g\ {\isacharequal}\ h{\isachardoublequoteclose}\ \isanewline
+\ \ \isacommand{proof}\isamarkupfalse%
+\ \isanewline
+\ \ \ \ \isacommand{fix}\isamarkupfalse%
+\ x\ \isanewline
+\ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}\ {\isasymexists}y\ {\isachardot}\ x\ {\isacharequal}\ f{\isacharparenleft}y{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ assms\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}surj{\isacharunderscore}def{\isacharparenright}\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{obtain}\isamarkupfalse%
+\ {\isachardoublequoteopen}y{\isachardoublequoteclose}\ \isakeyword{where}\ {\isadigit{2}}{\isacharcolon}{\isachardoublequoteopen}x\ {\isacharequal}\ f{\isacharparenleft}y{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ exE{\isacharparenright}\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}g{\isacharparenleft}x{\isacharparenright}\ {\isacharequal}\ g{\isacharparenleft}f{\isacharparenleft}y{\isacharparenright}{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isachardot}{\isachardot}{\isachardot}\ {\isacharequal}\ {\isacharparenleft}g\ {\isasymcirc}\ f{\isacharparenright}\ {\isacharparenleft}y{\isacharparenright}\ \ {\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isachardot}{\isachardot}{\isachardot}\ {\isacharequal}\ {\isacharparenleft}h\ o\ f{\isacharparenright}\ {\isacharparenleft}y{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{1}}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isachardot}{\isachardot}{\isachardot}\ {\isacharequal}\ h{\isacharparenleft}f{\isacharparenleft}y{\isacharparenright}{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isachardot}{\isachardot}{\isachardot}\ {\isacharequal}\ h{\isacharparenleft}x{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{2}}\ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}\ {\isacartoucheopen}x\ {\isacharequal}\ f\ y{\isacartoucheclose}{\isacharparenright}\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}\ g{\isacharparenleft}x{\isacharparenright}\ {\isacharequal}\ h{\isacharparenleft}x{\isacharparenright}\ {\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \ \ \isacommand{using}\isamarkupfalse%
+\ {\isacartoucheopen}{\isacharparenleft}g\ {\isasymcirc}\ f{\isacharparenright}\ y\ {\isacharequal}\ {\isacharparenleft}h\ {\isasymcirc}\ f{\isacharparenright}\ y{\isacartoucheclose}\ {\isacartoucheopen}{\isacharparenleft}h\ {\isasymcirc}\ f{\isacharparenright}\ y\ {\isacharequal}\ h\ {\isacharparenleft}f\ y{\isacharparenright}{\isacartoucheclose}\isanewline
+\ \ \ \ {\isacartoucheopen}g\ {\isacharparenleft}f\ y{\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}g\ {\isasymcirc}\ f{\isacharparenright}\ y{\isacartoucheclose}\ {\isacartoucheopen}g\ x\ {\isacharequal}\ g\ {\isacharparenleft}f\ y{\isacharparenright}{\isacartoucheclose}\ {\isacartoucheopen}h\ {\isacharparenleft}f\ y{\isacharparenright}\ {\isacharequal}\ h\ x{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ presburger\isanewline
+\ \ \isacommand{qed}\isamarkupfalse%
+\isanewline
+\isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{assume}\isamarkupfalse%
+\ {\isachardoublequoteopen}g\ {\isacharequal}\ h{\isachardoublequoteclose}\ \isanewline
+\ \ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}g\ {\isasymcirc}\ f\ {\isacharequal}\ h\ {\isasymcirc}\ f{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{proof}\isamarkupfalse%
+\isanewline
+\ \ \ \ \isacommand{fix}\isamarkupfalse%
+\ x\isanewline
+\ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isacharparenleft}g\ {\isasymcirc}\ f{\isacharparenright}\ x\ {\isacharequal}\ g{\isacharparenleft}f{\isacharparenleft}x{\isacharparenright}{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{also}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isasymdots}\ {\isacharequal}\ h{\isacharparenleft}f{\isacharparenleft}x{\isacharparenright}{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isacharbackquoteopen}g\ {\isacharequal}\ h{\isacharbackquoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{also}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isasymdots}\ {\isacharequal}\ {\isacharparenleft}h\ {\isasymcirc}\ f{\isacharparenright}\ x{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{finally}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isacharparenleft}g\ {\isasymcirc}\ f{\isacharparenright}\ x\ {\isacharequal}\ {\isacharparenleft}h\ {\isasymcirc}\ f{\isacharparenright}\ x{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{qed}\isamarkupfalse%
+\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+En la demostración hemos introducido: 
+ \begin{itemize}
+    \item[] \isa{\mbox{}\inferrule{\mbox{{\isasymexists}x{\isachardot}\ P\ x}\\\ \mbox{{\isasymAnd}x{\isachardot}\ \mbox{}\inferrule{\mbox{P\ x}}{\mbox{Q}}}}{\mbox{Q}}} 
+      \hfill (\isa{rule\ exE}) 
+  \end{itemize} 
+ \begin{itemize}
+    \item[] \isa{{\isasymlbrakk}P\ {\isasymLongrightarrow}\ Q{\isacharsemicolon}\ Q\ {\isasymLongrightarrow}\ P{\isasymrbrakk}\ {\isasymLongrightarrow}\ P\ {\isacharequal}\ Q} 
+      \hfill (\isa{iffI})
+  \end{itemize} 
+
+La demostración aplicativa es:%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ {\isachardoublequoteopen}surj\ f\ {\isasymLongrightarrow}\ {\isacharparenleft}{\isacharparenleft}g\ {\isasymcirc}\ f{\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}h\ {\isasymcirc}\ f{\isacharparenright}\ {\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}g\ {\isacharequal}\ h{\isacharparenright}{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{apply}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}\ surj{\isacharunderscore}def\ fun{\isacharunderscore}eq{\isacharunderscore}iff{\isacharparenright}\isanewline
+\ \ \isacommand{apply}\isamarkupfalse%
+\ \ metis\isanewline
+\ \ \isacommand{done}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+En esta demostración hemos introducido:
+ \begin{itemize}
+    \item[] \isa{{\isacharparenleft}f\ {\isacharequal}\ g{\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}{\isasymforall}x{\isachardot}\ f\ x\ {\isacharequal}\ g\ x{\isacharparenright}} 
+      \hfill (\isa{fun{\isacharunderscore}eq{\isacharunderscore}iff})
+  \end{itemize}%
+\end{isamarkuptext}\isamarkuptrue%
+%
+\isadelimtheory
+%
+\endisadelimtheory
+%
+\isatagtheory
+%
+\endisatagtheory
+{\isafoldtheory}%
+%
+\isadelimtheory
+%
+\endisadelimtheory
+%
+\end{isabellebody}%
+\endinput
+%:%file=/home/carlos/Escritorio/TFG-v1/EjerciciosDELMF/CancelacionSobreyectiva.thy%:%
+%:%24=7%:%
+%:%36=10%:%
+%:%37=11%:%
+%:%38=12%:%
+%:%39=13%:%
+%:%40=14%:%
+%:%41=15%:%
+%:%42=16%:%
+%:%43=17%:%
+%:%44=18%:%
+%:%45=19%:%
+%:%46=20%:%
+%:%47=21%:%
+%:%48=22%:%
+%:%49=23%:%
+%:%50=24%:%
+%:%51=25%:%
+%:%52=26%:%
+%:%53=27%:%
+%:%54=28%:%
+%:%55=29%:%
+%:%56=30%:%
+%:%57=31%:%
+%:%59=34%:%
+%:%60=34%:%
+%:%63=35%:%
+%:%67=35%:%
+%:%77=38%:%
+%:%78=39%:%
+%:%79=40%:%
+%:%80=41%:%
+%:%81=42%:%
+%:%82=43%:%
+%:%83=44%:%
+%:%84=45%:%
+%:%85=46%:%
+%:%86=47%:%
+%:%87=48%:%
+%:%88=49%:%
+%:%89=50%:%
+%:%90=51%:%
+%:%91=52%:%
+%:%92=53%:%
+%:%93=54%:%
+%:%94=55%:%
+%:%95=56%:%
+%:%96=57%:%
+%:%97=58%:%
+%:%99=61%:%
+%:%100=61%:%
+%:%101=62%:%
+%:%102=63%:%
+%:%109=64%:%
+%:%110=64%:%
+%:%111=65%:%
+%:%112=65%:%
+%:%113=66%:%
+%:%114=66%:%
+%:%115=67%:%
+%:%116=67%:%
+%:%117=68%:%
+%:%118=68%:%
+%:%119=69%:%
+%:%120=69%:%
+%:%121=69%:%
+%:%122=69%:%
+%:%123=70%:%
+%:%124=70%:%
+%:%125=70%:%
+%:%126=70%:%
+%:%127=71%:%
+%:%128=71%:%
+%:%129=71%:%
+%:%130=71%:%
+%:%131=72%:%
+%:%132=72%:%
+%:%133=72%:%
+%:%134=72%:%
+%:%135=73%:%
+%:%136=73%:%
+%:%137=73%:%
+%:%138=73%:%
+%:%139=73%:%
+%:%140=74%:%
+%:%141=74%:%
+%:%142=74%:%
+%:%143=74%:%
+%:%144=75%:%
+%:%145=75%:%
+%:%146=75%:%
+%:%147=75%:%
+%:%148=75%:%
+%:%149=76%:%
+%:%150=76%:%
+%:%151=76%:%
+%:%152=77%:%
+%:%153=77%:%
+%:%154=78%:%
+%:%155=78%:%
+%:%156=79%:%
+%:%157=79%:%
+%:%158=80%:%
+%:%159=80%:%
+%:%160=81%:%
+%:%161=81%:%
+%:%162=82%:%
+%:%163=82%:%
+%:%164=83%:%
+%:%165=83%:%
+%:%166=84%:%
+%:%167=84%:%
+%:%168=85%:%
+%:%169=85%:%
+%:%170=85%:%
+%:%171=86%:%
+%:%172=86%:%
+%:%173=86%:%
+%:%174=86%:%
+%:%175=86%:%
+%:%176=87%:%
+%:%177=87%:%
+%:%178=87%:%
+%:%179=87%:%
+%:%180=88%:%
+%:%181=88%:%
+%:%182=88%:%
+%:%183=88%:%
+%:%184=89%:%
+%:%185=89%:%
+%:%186=90%:%
+%:%196=93%:%
+%:%197=94%:%
+%:%198=95%:%
+%:%199=96%:%
+%:%200=97%:%
+%:%201=98%:%
+%:%202=99%:%
+%:%203=100%:%
+%:%204=101%:%
+%:%205=102%:%
+%:%206=103%:%
+%:%208=105%:%
+%:%209=105%:%
+%:%212=106%:%
+%:%216=106%:%
+%:%217=106%:%
+%:%218=107%:%
+%:%219=107%:%
+%:%220=108%:%
+%:%230=110%:%
+%:%231=111%:%
+%:%232=112%:%
+%:%233=113%:%
+%:%234=114%:%

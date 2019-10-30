@@ -1,0 +1,474 @@
+%
+\begin{isabellebody}%
+\setisabellecontext{ConjuntosFinitos}%
+%
+\isadelimtheory
+%
+\endisadelimtheory
+%
+\isatagtheory
+%
+\endisatagtheory
+{\isafoldtheory}%
+%
+\isadelimtheory
+%
+\endisadelimtheory
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\isatagdocument
+%
+\isamarkupsection{Propiedad de los conjuntos finitos de números naturales%
+}
+\isamarkuptrue%
+%
+\endisatagdocument
+{\isafolddocument}%
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\begin{isamarkuptext}%
+El siguiente teorema es una propiedad que verifican todos los conjuntos finitos de números
+  naturales  estudiado en el \href{http://bit.ly/2XBW6n2}{tema 10} de la
+asignatura de LMF. Su enunciado es el siguiente 
+
+  \begin{teorema} 
+    Sea S un conjunto finito de números naturales.  Entonces todos los
+ elementos de S son menores o iguales que la suma de los elementos de
+ S, es decir, $$\forall m , m \in S \Longrightarrow m \leq \sum S$$ 
+\newline
+donde $\sum S $ denota la suma de todos los elementos de S.
+  \end{teorema} 
+
+\begin{demostracion}
+La demostración del teorema la haremos por inducción sobre conjuntos
+ finitos naturales.\\
+Primero veamos el caso base, es decir, supongamos que $S = \emptyset$:
+
+Tenemos que: $$\forall n, n \in \emptyset \Longrightarrow n \leq \sum
+ \emptyset.$$\\
+Ya hemos probado el caso base, veamos ahora el paso inductivo:
+\newline
+Sea S un conjunto finito para el que se cumple la hipótesis, es decir,
+ todos los elementos de S son menores o iguales que la suma de todos sus
+elementos, sea $a$ un elemento tal que $a \notin S$, ya que si $a \in S$
+entonces la demostración es trivial.\\
+Hay que probar: $$\forall n , n \in S \cup \{ a \} \Longrightarrow n
+ \leq \sum (S \cup \{ a \})$$
+Vamos a distinguir dos casos:\\
+Caso 1: $n = a$ \\
+Si $n = a$ tenemos que $n = a \leq a + \sum S = \sum ( S \cup \{ a
+ \})$\\
+Caso 2: $n \neq a$\\
+Si $n \neq a$ tenemos que $a \notin S$ y que $n \in S \cup \{ a \}$,
+ luego esto implica que $n \in S$ y usando la hipótesis de inducción
+$$n \in S \Longrightarrow n \leq \sum S \leq \sum S + a = \sum (S \cup
+ \{ a \})$$
+\end{demostracion}
+
+En la demostración del teorema hemos usado un resultado, que vamos a
+ probar en Isabelle después de la especificación del teorema,
+ el resultado es $\sum S + a = \sum (S \cup \{ a
+ \})$.%
+\end{isamarkuptext}\isamarkuptrue%
+%
+\begin{isamarkuptext}%
+Para la especificación del teorema en isabelle, primero debemos
+ notar que  \isa{finite\ S} indica que nuestro conjunto $S$ es 
+finito  y definir  la función \isa{sumaConj} tal que
+ \isa{sumaConj\ n} esla suma de todos los elementos de S.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ sumaConj\ {\isacharcolon}{\isacharcolon}\ {\isachardoublequoteopen}nat\ set\ {\isasymRightarrow}\ nat{\isachardoublequoteclose}\ \isakeyword{where}\isanewline
+\ \ {\isachardoublequoteopen}sumaConj\ S\ {\isasymequiv}\ {\isasymSum}S{\isachardoublequoteclose}%
+\begin{isamarkuptext}%
+El enunciado del teorema es el siguiente :%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ {\isachardoublequoteopen}finite\ S\ {\isasymLongrightarrow}\ {\isasymforall}x{\isasymin}S{\isachardot}\ x\ {\isasymle}\ sumaConj\ S{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\isanewline
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{oops}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+Vamos a demostrar primero el lema enunciado anteriormente%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ {\isachardoublequoteopen}\ x\ {\isasymnotin}\ S\ {\isasymand}\ finite\ S\ {\isasymlongrightarrow}\ sumaConj\ S\ {\isacharplus}\ x\ {\isacharequal}\ sumaConj{\isacharparenleft}insert\ x\ S{\isacharparenright}{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}\ sumaConj{\isacharunderscore}def{\isacharparenright}%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+La demostración del lema anterior se ha incluido
+ \isa{sumConj{\isacharunderscore}def}, que hace referencia a la definición sumaConj que
+ hemos hecho anteriormente. \\
+En la demostración se usará la táctica \isa{induct} que hace
+  uso del esquema de inducción sobre los conjuntos finitos naturales:
+  \begin{itemize}
+  \item[] \isa{{\isasymlbrakk}finite\ x{\isacharsemicolon}\ P\ {\isasymemptyset}{\isacharsemicolon}\ {\isasymAnd}A\ a{\isachardot}\ finite\ A\ {\isasymand}\ P\ A\ {\isasymLongrightarrow}\ P\ {\isacharparenleft}{\isacharbraceleft}a{\isacharbraceright}\ {\isasymunion}\ A{\isacharparenright}{\isasymrbrakk}\ {\isasymLongrightarrow}\ P\ x} \hfill (\isa{finite{\isachardot}induct})
+  \end{itemize} 
+
+Vamos a ver presentar las diferentes formas de demostración.
+
+
+La demostración aplicativa es:%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ {\isachardoublequoteopen}finite\ S\ {\isasymLongrightarrow}\ {\isasymforall}x{\isasymin}S{\isachardot}\ x\ {\isasymle}\ sumaConj\ S{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{apply}\isamarkupfalse%
+\ {\isacharparenleft}induct\ rule{\isacharcolon}\ finite{\isacharunderscore}induct{\isacharparenright}\isanewline
+\ \ \ \isacommand{apply}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{apply}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}\ add{\isacharunderscore}increasing\ sumaConj{\isacharunderscore}def{\isacharparenright}\isanewline
+\ \ \isacommand{done}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+En la demostración anterior se ha introducido:
+ \begin{itemize}
+    \item[] \isa{\mbox{}\inferrule{\mbox{{\isacharparenleft}{\isadigit{0}}\ {\isacharcolon}{\isacharcolon}\ {\isacharprime}a{\isacharparenright}\ {\isasymle}\ a\ {\isasymand}\ b\ {\isasymle}\ c}}{\mbox{b\ {\isasymle}\ a\ {\isacharplus}\ c}}} 
+      \hfill (\isa{add{\isacharunderscore}increasing})
+  \end{itemize} 
+ La demostración automática es:%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ {\isachardoublequoteopen}finite\ S\ {\isasymLongrightarrow}\ {\isasymforall}x{\isasymin}S{\isachardot}\ x\ {\isasymle}\ sumaConj\ S{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}induct\ rule{\isacharcolon}\ finite{\isacharunderscore}induct{\isacharparenright}\isanewline
+\ \ \ \ \ {\isacharparenleft}auto\ simp\ add{\isacharcolon}\ \ sumaConj{\isacharunderscore}def{\isacharparenright}%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+La demostración declarativa es:%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ sumaConj{\isacharunderscore}acota{\isacharcolon}\ \isanewline
+\ \ {\isachardoublequoteopen}finite\ S\ {\isasymLongrightarrow}\ {\isasymforall}x{\isasymin}S{\isachardot}\ x\ {\isasymle}\ sumaConj\ S{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}induct\ rule{\isacharcolon}\ finite{\isacharunderscore}induct{\isacharparenright}\isanewline
+\ \ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isasymforall}x\ {\isasymin}\ {\isacharbraceleft}{\isacharbraceright}{\isachardot}\ x\ {\isasymle}\ sumaConj\ {\isacharbraceleft}{\isacharbraceright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{fix}\isamarkupfalse%
+\ x\ \isakeyword{and}\ F\isanewline
+\ \ \isacommand{assume}\isamarkupfalse%
+\ fF{\isacharcolon}\ {\isachardoublequoteopen}finite\ F{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \ \isakeyword{and}\ xF{\isacharcolon}\ {\isachardoublequoteopen}x\ {\isasymnotin}\ F{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \ \isakeyword{and}\ HI{\isacharcolon}\ {\isachardoublequoteopen}{\isasymforall}\ x{\isasymin}F{\isachardot}\ x\ {\isasymle}\ sumaConj\ F{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isasymforall}y\ {\isasymin}\ insert\ x\ F{\isachardot}\ y\ {\isasymle}\ sumaConj\ {\isacharparenleft}insert\ x\ F{\isacharparenright}{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{proof}\isamarkupfalse%
+\ \isanewline
+\ \ \ \ \isacommand{fix}\isamarkupfalse%
+\ y\ \isanewline
+\ \ \ \ \isacommand{assume}\isamarkupfalse%
+\ {\isachardoublequoteopen}y\ {\isasymin}\ insert\ x\ F{\isachardoublequoteclose}\isanewline
+\ \ \ \ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}y\ {\isasymle}\ sumaConj\ {\isacharparenleft}insert\ x\ F{\isacharparenright}{\isachardoublequoteclose}\isanewline
+\ \ \ \ \isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}cases\ {\isachardoublequoteopen}y\ {\isacharequal}\ x{\isachardoublequoteclose}{\isacharparenright}\isanewline
+\ \ \ \ \ \ \isacommand{assume}\isamarkupfalse%
+\ {\isachardoublequoteopen}y\ {\isacharequal}\ x{\isachardoublequoteclose}\isanewline
+\ \ \ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}y\ {\isasymle}\ x\ {\isacharplus}\ {\isacharparenleft}sumaConj\ F{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \isacommand{also}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isasymdots}\ {\isacharequal}\ sumaConj\ {\isacharparenleft}insert\ x\ F{\isacharparenright}{\isachardoublequoteclose}\ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}\ fF\ sumaConj{\isacharunderscore}def\ xF{\isacharparenright}\ \isanewline
+\ \ \ \ \ \ \isacommand{finally}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{{\isachardot}}\isamarkupfalse%
+\isanewline
+\ \ \ \ \isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \ \ \ \ \isacommand{assume}\isamarkupfalse%
+\ {\isachardoublequoteopen}y\ {\isasymnoteq}\ x{\isachardoublequoteclose}\isanewline
+\ \ \ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}y\ {\isasymin}\ F{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isacharbackquoteopen}y\ {\isasymin}\ insert\ x\ F{\isacharbackquoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}y\ {\isasymle}\ sumaConj\ F{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ HI\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \isacommand{also}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isasymdots}\ {\isasymle}\ x\ {\isacharplus}\ {\isacharparenleft}sumaConj\ F{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \isacommand{also}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isasymdots}\ {\isacharequal}\ sumaConj\ {\isacharparenleft}insert\ x\ F{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ fF\ xF\isanewline
+\ \ \ \ \ \ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}\ sumaConj{\isacharunderscore}def{\isacharparenright}\isanewline
+\ \ \ \ \ \ \isacommand{finally}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{{\isachardot}}\isamarkupfalse%
+\isanewline
+\ \ \ \ \isacommand{qed}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{qed}\isamarkupfalse%
+\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isadelimtheory
+%
+\endisadelimtheory
+%
+\isatagtheory
+%
+\endisatagtheory
+{\isafoldtheory}%
+%
+\isadelimtheory
+%
+\endisadelimtheory
+%
+\end{isabellebody}%
+\endinput
+%:%file=/home/carlos/Escritorio/TFG-v1/EjerciciosDELMF/ConjuntosFinitos.thy%:%
+%:%24=7%:%
+%:%36=9%:%
+%:%37=10%:%
+%:%38=11%:%
+%:%39=12%:%
+%:%40=13%:%
+%:%41=14%:%
+%:%42=15%:%
+%:%43=16%:%
+%:%44=17%:%
+%:%45=18%:%
+%:%46=19%:%
+%:%47=20%:%
+%:%48=21%:%
+%:%49=22%:%
+%:%50=23%:%
+%:%51=24%:%
+%:%52=25%:%
+%:%53=26%:%
+%:%54=27%:%
+%:%55=28%:%
+%:%56=29%:%
+%:%57=30%:%
+%:%58=31%:%
+%:%59=32%:%
+%:%60=33%:%
+%:%61=34%:%
+%:%62=35%:%
+%:%63=36%:%
+%:%64=37%:%
+%:%65=38%:%
+%:%66=39%:%
+%:%67=40%:%
+%:%68=41%:%
+%:%69=42%:%
+%:%70=43%:%
+%:%71=44%:%
+%:%72=45%:%
+%:%73=46%:%
+%:%74=47%:%
+%:%75=48%:%
+%:%76=49%:%
+%:%77=50%:%
+%:%81=54%:%
+%:%82=55%:%
+%:%83=56%:%
+%:%84=57%:%
+%:%86=60%:%
+%:%87=60%:%
+%:%88=61%:%
+%:%90=63%:%
+%:%92=66%:%
+%:%93=66%:%
+%:%96=67%:%
+%:%97=68%:%
+%:%101=68%:%
+%:%111=70%:%
+%:%113=71%:%
+%:%114=71%:%
+%:%117=72%:%
+%:%121=72%:%
+%:%122=72%:%
+%:%131=75%:%
+%:%132=76%:%
+%:%133=77%:%
+%:%134=78%:%
+%:%135=79%:%
+%:%136=80%:%
+%:%137=81%:%
+%:%138=82%:%
+%:%139=83%:%
+%:%140=84%:%
+%:%141=85%:%
+%:%142=86%:%
+%:%143=87%:%
+%:%145=89%:%
+%:%146=89%:%
+%:%149=90%:%
+%:%153=90%:%
+%:%154=90%:%
+%:%155=91%:%
+%:%156=91%:%
+%:%157=92%:%
+%:%158=92%:%
+%:%159=93%:%
+%:%169=95%:%
+%:%170=96%:%
+%:%171=97%:%
+%:%172=98%:%
+%:%173=99%:%
+%:%174=100%:%
+%:%176=102%:%
+%:%177=102%:%
+%:%180=103%:%
+%:%184=103%:%
+%:%185=103%:%
+%:%186=104%:%
+%:%195=106%:%
+%:%197=108%:%
+%:%198=108%:%
+%:%199=109%:%
+%:%206=110%:%
+%:%207=110%:%
+%:%208=111%:%
+%:%209=111%:%
+%:%210=111%:%
+%:%211=112%:%
+%:%212=112%:%
+%:%213=113%:%
+%:%214=113%:%
+%:%215=114%:%
+%:%216=114%:%
+%:%217=115%:%
+%:%218=116%:%
+%:%219=117%:%
+%:%220=117%:%
+%:%221=118%:%
+%:%222=118%:%
+%:%223=119%:%
+%:%224=119%:%
+%:%225=120%:%
+%:%226=120%:%
+%:%227=121%:%
+%:%228=121%:%
+%:%229=122%:%
+%:%230=122%:%
+%:%231=123%:%
+%:%232=123%:%
+%:%233=124%:%
+%:%234=124%:%
+%:%235=124%:%
+%:%236=124%:%
+%:%237=125%:%
+%:%238=125%:%
+%:%239=125%:%
+%:%240=125%:%
+%:%241=126%:%
+%:%242=126%:%
+%:%243=126%:%
+%:%244=126%:%
+%:%245=127%:%
+%:%246=127%:%
+%:%247=128%:%
+%:%248=128%:%
+%:%249=129%:%
+%:%250=129%:%
+%:%251=129%:%
+%:%252=129%:%
+%:%253=129%:%
+%:%254=130%:%
+%:%255=130%:%
+%:%256=130%:%
+%:%257=130%:%
+%:%258=130%:%
+%:%259=131%:%
+%:%260=131%:%
+%:%261=131%:%
+%:%262=131%:%
+%:%263=132%:%
+%:%264=132%:%
+%:%265=132%:%
+%:%266=132%:%
+%:%267=133%:%
+%:%268=133%:%
+%:%269=134%:%
+%:%270=134%:%
+%:%271=134%:%
+%:%272=134%:%
+%:%273=135%:%
+%:%274=135%:%
+%:%275=136%:%
+%:%276=136%:%
+%:%277=137%:%

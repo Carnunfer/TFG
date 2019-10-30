@@ -1,0 +1,505 @@
+%
+\begin{isabellebody}%
+\setisabellecontext{CancelacionInyectiva}%
+%
+\isadelimtheory
+%
+\endisadelimtheory
+%
+\isatagtheory
+%
+\endisatagtheory
+{\isafoldtheory}%
+%
+\isadelimtheory
+%
+\endisadelimtheory
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\isatagdocument
+%
+\isamarkupsection{Cancelación de funciones inyectivas%
+}
+\isamarkuptrue%
+%
+\endisatagdocument
+{\isafolddocument}%
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\begin{isamarkuptext}%
+El siguiente teorema prueba una propiedad de las funciones
+  inyectivas estudiado en el \href{http://bit.ly/2XBW6n2}{tema 10} del 
+  curso. Su enunciado es el siguiente
+  
+  \begin{teorema}
+    Las funciones inyectivas son cancelativas por la izquierda. Es
+    decir, si $f$ es una función inyectiva entonces para todas $g$ y $h$
+    tales que \isa{f\ {\isasymcirc}\ g\ {\isacharequal}\ f\ {\isasymcirc}\ h} se tiene que $g = h$. 
+  \end{teorema}
+
+  \begin{demostracion}
+    La demostración la haremos por doble implicación: 
+\begin {enumerate}
+\item Supongamos que tenemos que $f \circ g = f \circ h$, queremos
+ demostrar que $g = h$. \\
+$$(f \circ g)(x) = (f \circ h)(x) \Longrightarrow f(g(x)) = f(h(x))
+ \isa{Usando\ que\ f\ es\ inyectiva} \Longrightarrow g(x) = h(x)$$
+\item Supongamos ahora que $g = h$, queremos demostrar que  $f \circ g
+ = f \circ h$. \\
+$$(f \circ g)(x) = f(g(x)) = f(h(x)) = (f \circ h)(x)$$
+\end {enumerate}
+.
+  \end{demostracion}
+
+  Su especificación es la siguiente:%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ \isanewline
+\ \ {\isachardoublequoteopen}inj\ f\ {\isasymLongrightarrow}\ {\isacharparenleft}f\ {\isasymcirc}\ g\ {\isacharequal}\ f\ {\isasymcirc}\ h{\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}g\ {\isacharequal}\ h{\isacharparenright}{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{oops}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+En la especificación anterior, \isa{inj\ f} es una 
+  abreviatura de \isa{inj\ f} definida en la teoría
+  \href{http://bit.ly/2XuPQx5}{Fun.thy}. Además, contiene la definición
+  de \isa{inj{\isacharunderscore}on}
+  \begin{itemize}
+    \item[] \isa{inj{\isacharunderscore}on\ f\ A\ {\isacharequal}\ {\isacharparenleft}{\isasymforall}x{\isasymin}A{\isachardot}\ {\isasymforall}y{\isasymin}A{\isachardot}\ f\ x\ {\isacharequal}\ f\ y\ {\isasymlongrightarrow}\ x\ {\isacharequal}\ y{\isacharparenright}} \hfill (\isa{inj{\isacharunderscore}on{\isacharunderscore}def})
+  \end{itemize} 
+  Por su parte, \isa{UNIV} es el conjunto universal definido en la 
+  teoría \href{http://bit.ly/2XtHCW6}{Set.thy} como una abreviatura de 
+  \isa{top} que, a su vez está definido en la teoría 
+  \href{http://bit.ly/2Xyj9Pe}{Orderings.thy} mediante la siguiente
+  propiedad 
+  \begin{itemize}
+    \item[] \isa{\mbox{}\inferrule{\mbox{ordering{\isacharunderscore}top\ less{\isacharunderscore}eq\ less\ top}}{\mbox{less{\isacharunderscore}eq\ a\ top}}} 
+      \hfill (\isa{ordering{\isacharunderscore}top{\isachardot}extremum})
+  \end{itemize} 
+  En el caso de la teoría de conjuntos, la relación de orden es la
+  inclusión de conjuntos.
+
+  Presentaremos distintas demostraciones del teorema. La primera
+  demostración es applicativa%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ \isanewline
+\ \ {\isachardoublequoteopen}inj\ f\ {\isasymLongrightarrow}\ {\isacharparenleft}f\ {\isasymcirc}\ g\ {\isacharequal}\ f\ {\isasymcirc}\ h{\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}g\ {\isacharequal}\ h{\isacharparenright}{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{apply}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}\ inj{\isacharunderscore}on{\isacharunderscore}def\ fun{\isacharunderscore}eq{\isacharunderscore}iff{\isacharparenright}\ \isanewline
+\ \ \isacommand{apply}\isamarkupfalse%
+\ auto\isanewline
+\ \ \isacommand{done}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+En la demostración anterior se ha usado el siguiente lema
+  \begin{itemize}
+    \item[] \isa{{\isacharparenleft}f\ {\isacharequal}\ g{\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}{\isasymforall}x{\isachardot}\ f\ x\ {\isacharequal}\ g\ x{\isacharparenright}} 
+      \hfill (\isa{fun{\isacharunderscore}eq{\isacharunderscore}iff})
+  \end{itemize} 
+
+  La demostración applicativa sin auto es%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\isanewline
+\ \ {\isachardoublequoteopen}inj\ f\ {\isasymLongrightarrow}\ {\isacharparenleft}f\ {\isasymcirc}\ g\ {\isacharequal}\ f\ {\isasymcirc}\ h{\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}g\ {\isacharequal}\ h{\isacharparenright}{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{apply}\isamarkupfalse%
+\ {\isacharparenleft}unfold\ inj{\isacharunderscore}on{\isacharunderscore}def{\isacharparenright}\ \isanewline
+\ \ \isacommand{apply}\isamarkupfalse%
+\ {\isacharparenleft}unfold\ fun{\isacharunderscore}eq{\isacharunderscore}iff{\isacharparenright}\ \isanewline
+\ \ \isacommand{apply}\isamarkupfalse%
+\ {\isacharparenleft}unfold\ o{\isacharunderscore}apply{\isacharparenright}\isanewline
+\ \ \isacommand{apply}\isamarkupfalse%
+\ {\isacharparenleft}rule\ iffI{\isacharparenright}\isanewline
+\ \ \ \isacommand{apply}\isamarkupfalse%
+\ simp{\isacharplus}\isanewline
+\ \ \isacommand{done}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+En la demostración anterior se ha introducido los siguientes
+  hechos
+  \begin{itemize}
+    \item \isa{{\isacharparenleft}f\ {\isasymcirc}\ g{\isacharparenright}\ x\ {\isacharequal}\ f\ {\isacharparenleft}g\ x{\isacharparenright}} \hfill (\isa{o{\isacharunderscore}apply})
+    \item \isa{{\isasymlbrakk}P\ {\isasymLongrightarrow}\ Q{\isacharsemicolon}\ Q\ {\isasymLongrightarrow}\ P{\isasymrbrakk}\ {\isasymLongrightarrow}\ P\ {\isacharequal}\ Q} \hfill (\isa{iffI})
+  \end{itemize} 
+
+  La demostración automática es%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\isanewline
+\ \ \isakeyword{assumes}\ {\isachardoublequoteopen}inj\ f{\isachardoublequoteclose}\isanewline
+\ \ \isakeyword{shows}\ {\isachardoublequoteopen}{\isacharparenleft}f\ {\isasymcirc}\ g\ {\isacharequal}\ f\ {\isasymcirc}\ h{\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}g\ {\isacharequal}\ h{\isacharparenright}{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{using}\isamarkupfalse%
+\ assms\isanewline
+\ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}auto\ simp\ add{\isacharcolon}\ inj{\isacharunderscore}on{\isacharunderscore}def\ fun{\isacharunderscore}eq{\isacharunderscore}iff{\isacharparenright}%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+La demostración declarativa%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\isanewline
+\ \ \isakeyword{assumes}\ {\isachardoublequoteopen}inj\ f{\isachardoublequoteclose}\isanewline
+\ \ \isakeyword{shows}\ {\isachardoublequoteopen}{\isacharparenleft}f\ {\isasymcirc}\ g\ {\isacharequal}\ f\ {\isasymcirc}\ h{\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}g\ {\isacharequal}\ h{\isacharparenright}{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ \isanewline
+\ \ \isacommand{assume}\isamarkupfalse%
+\ {\isachardoublequoteopen}f\ {\isasymcirc}\ g\ {\isacharequal}\ f\ {\isasymcirc}\ h{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}g\ {\isacharequal}\ h{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{proof}\isamarkupfalse%
+\isanewline
+\ \ \ \ \isacommand{fix}\isamarkupfalse%
+\ x\isanewline
+\ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isacharparenleft}f\ {\isasymcirc}\ g{\isacharparenright}{\isacharparenleft}x{\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}f\ {\isasymcirc}\ h{\isacharparenright}{\isacharparenleft}x{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isacharbackquoteopen}f\ {\isasymcirc}\ g\ {\isacharequal}\ f\ {\isasymcirc}\ h{\isacharbackquoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}f{\isacharparenleft}g{\isacharparenleft}x{\isacharparenright}{\isacharparenright}\ {\isacharequal}\ f{\isacharparenleft}h{\isacharparenleft}x{\isacharparenright}{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}g{\isacharparenleft}x{\isacharparenright}\ {\isacharequal}\ h{\isacharparenleft}x{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isacharbackquoteopen}inj\ f{\isacharbackquoteclose}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}inj{\isacharunderscore}on{\isacharunderscore}def{\isacharparenright}\isanewline
+\ \ \isacommand{qed}\isamarkupfalse%
+\isanewline
+\isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{assume}\isamarkupfalse%
+\ {\isachardoublequoteopen}g\ {\isacharequal}\ h{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}f\ {\isasymcirc}\ g\ {\isacharequal}\ f\ {\isasymcirc}\ h{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{proof}\isamarkupfalse%
+\isanewline
+\ \ \ \ \isacommand{fix}\isamarkupfalse%
+\ x\isanewline
+\ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isacharparenleft}f\ {\isasymcirc}\ g{\isacharparenright}\ x\ {\isacharequal}\ f{\isacharparenleft}g{\isacharparenleft}x{\isacharparenright}{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{also}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isasymdots}\ {\isacharequal}\ f{\isacharparenleft}h{\isacharparenleft}x{\isacharparenright}{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isacharbackquoteopen}g\ {\isacharequal}\ h{\isacharbackquoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{also}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isasymdots}\ {\isacharequal}\ {\isacharparenleft}f\ {\isasymcirc}\ h{\isacharparenright}\ x{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{finally}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isacharparenleft}f\ {\isasymcirc}\ g{\isacharparenright}\ x\ {\isacharequal}\ {\isacharparenleft}f\ {\isasymcirc}\ h{\isacharparenright}\ x{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{qed}\isamarkupfalse%
+\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+Otra demostración declarativa es%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ \isanewline
+\ \ \isakeyword{assumes}\ {\isachardoublequoteopen}inj\ f{\isachardoublequoteclose}\isanewline
+\ \ \isakeyword{shows}\ {\isachardoublequoteopen}{\isacharparenleft}f\ {\isasymcirc}\ g\ {\isacharequal}\ f\ {\isasymcirc}\ h{\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}g\ {\isacharequal}\ h{\isacharparenright}{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ \isanewline
+\ \ \isacommand{assume}\isamarkupfalse%
+\ {\isachardoublequoteopen}f\ {\isasymcirc}\ g\ {\isacharequal}\ f\ {\isasymcirc}\ h{\isachardoublequoteclose}\ \isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}g\ {\isacharequal}\ h{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isacharbackquoteopen}inj\ f{\isacharbackquoteclose}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}\ inj{\isacharunderscore}on{\isacharunderscore}def\ fun{\isacharunderscore}eq{\isacharunderscore}iff{\isacharparenright}\ \isanewline
+\isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{assume}\isamarkupfalse%
+\ {\isachardoublequoteopen}g\ {\isacharequal}\ h{\isachardoublequoteclose}\ \isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}f\ {\isasymcirc}\ g\ {\isacharequal}\ f\ {\isasymcirc}\ h{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{qed}\isamarkupfalse%
+\isanewline
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isadelimtheory
+%
+\endisadelimtheory
+%
+\isatagtheory
+%
+\endisatagtheory
+{\isafoldtheory}%
+%
+\isadelimtheory
+%
+\endisadelimtheory
+%
+\end{isabellebody}%
+\endinput
+%:%file=/home/carlos/Escritorio/TFG-v1/EjerciciosDELMF/CancelacionInyectiva.thy%:%
+%:%24=8%:%
+%:%36=10%:%
+%:%37=11%:%
+%:%38=12%:%
+%:%39=13%:%
+%:%40=14%:%
+%:%41=15%:%
+%:%42=16%:%
+%:%43=17%:%
+%:%44=18%:%
+%:%45=19%:%
+%:%46=20%:%
+%:%47=21%:%
+%:%48=22%:%
+%:%49=23%:%
+%:%50=24%:%
+%:%51=25%:%
+%:%52=26%:%
+%:%53=27%:%
+%:%54=28%:%
+%:%55=29%:%
+%:%56=30%:%
+%:%57=31%:%
+%:%58=32%:%
+%:%59=33%:%
+%:%60=34%:%
+%:%62=37%:%
+%:%63=37%:%
+%:%64=38%:%
+%:%71=39%:%
+%:%81=41%:%
+%:%82=42%:%
+%:%83=43%:%
+%:%84=44%:%
+%:%85=45%:%
+%:%86=46%:%
+%:%87=47%:%
+%:%88=48%:%
+%:%89=49%:%
+%:%90=50%:%
+%:%91=51%:%
+%:%92=52%:%
+%:%93=53%:%
+%:%94=54%:%
+%:%95=55%:%
+%:%96=56%:%
+%:%97=57%:%
+%:%98=58%:%
+%:%99=59%:%
+%:%100=60%:%
+%:%101=61%:%
+%:%103=63%:%
+%:%104=63%:%
+%:%105=64%:%
+%:%108=65%:%
+%:%112=65%:%
+%:%113=65%:%
+%:%114=66%:%
+%:%115=66%:%
+%:%116=67%:%
+%:%126=69%:%
+%:%127=70%:%
+%:%128=71%:%
+%:%129=72%:%
+%:%130=73%:%
+%:%131=74%:%
+%:%132=75%:%
+%:%134=77%:%
+%:%135=77%:%
+%:%136=78%:%
+%:%139=79%:%
+%:%143=79%:%
+%:%144=79%:%
+%:%145=80%:%
+%:%146=80%:%
+%:%147=81%:%
+%:%148=81%:%
+%:%149=82%:%
+%:%150=82%:%
+%:%151=83%:%
+%:%152=83%:%
+%:%153=84%:%
+%:%163=86%:%
+%:%164=87%:%
+%:%165=88%:%
+%:%166=89%:%
+%:%167=90%:%
+%:%168=91%:%
+%:%169=92%:%
+%:%170=93%:%
+%:%172=95%:%
+%:%173=95%:%
+%:%174=96%:%
+%:%175=97%:%
+%:%178=98%:%
+%:%182=98%:%
+%:%183=98%:%
+%:%184=99%:%
+%:%185=99%:%
+%:%194=101%:%
+%:%196=103%:%
+%:%197=103%:%
+%:%198=104%:%
+%:%199=105%:%
+%:%206=106%:%
+%:%207=106%:%
+%:%208=107%:%
+%:%209=107%:%
+%:%210=108%:%
+%:%211=108%:%
+%:%212=109%:%
+%:%213=109%:%
+%:%214=110%:%
+%:%215=110%:%
+%:%216=111%:%
+%:%217=111%:%
+%:%218=111%:%
+%:%219=111%:%
+%:%220=112%:%
+%:%221=112%:%
+%:%222=112%:%
+%:%223=112%:%
+%:%224=113%:%
+%:%225=113%:%
+%:%226=113%:%
+%:%227=113%:%
+%:%228=113%:%
+%:%229=114%:%
+%:%230=114%:%
+%:%231=115%:%
+%:%232=115%:%
+%:%233=116%:%
+%:%234=116%:%
+%:%235=117%:%
+%:%236=117%:%
+%:%237=118%:%
+%:%238=118%:%
+%:%239=119%:%
+%:%240=119%:%
+%:%241=120%:%
+%:%242=120%:%
+%:%243=120%:%
+%:%244=121%:%
+%:%245=121%:%
+%:%246=121%:%
+%:%247=121%:%
+%:%248=121%:%
+%:%249=122%:%
+%:%250=122%:%
+%:%251=122%:%
+%:%252=122%:%
+%:%253=123%:%
+%:%254=123%:%
+%:%255=123%:%
+%:%256=123%:%
+%:%257=124%:%
+%:%258=124%:%
+%:%259=125%:%
+%:%269=127%:%
+%:%271=129%:%
+%:%272=129%:%
+%:%273=130%:%
+%:%274=131%:%
+%:%281=132%:%
+%:%282=132%:%
+%:%283=133%:%
+%:%284=133%:%
+%:%285=134%:%
+%:%286=134%:%
+%:%287=134%:%
+%:%288=134%:%
+%:%289=134%:%
+%:%290=135%:%
+%:%291=135%:%
+%:%292=136%:%
+%:%293=136%:%
+%:%294=137%:%
+%:%295=137%:%
+%:%296=137%:%
+%:%297=137%:%
+%:%298=138%:%
+%:%299=138%:%
