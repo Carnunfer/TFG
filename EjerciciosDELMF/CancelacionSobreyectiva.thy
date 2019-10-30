@@ -17,7 +17,7 @@ Las funciones sobreyectivas son cancelativas por la derecha. Es decir,
  
 \begin {demostracion}
 \begin {itemize}
-\item Supongamos que tenemos que $g o f = h o f$, queremos probar que $g =
+\item Supongamos que tenemos que $g \circ  f = h \circ f$, queremos probar que $g =
  h.$ Usando la definición de sobreyectividad $(\forall y \in Y,
  \exists x | y = f(x))$ y nuestra hipótesis, tenemos que:
 $$g(y) = g(f(x)) = (g o f) (x) = (h o f) (x) = h(f(x)) = h(y)$$
@@ -36,7 +36,7 @@ lemma "surj f \<Longrightarrow> ( g \<o> f = h \<o> f ) = (g = h)"
 
   text \<open>
 En la especificación anterior, @{term "surj f"} es una abreviatura de 
-  @{term "range f = UNIV"}, donde @{term "range f"} es el rango o imagen
+  @{text "range f = UNIV"}, donde @{term "range f"} es el rango o imagen
 de la función f.
  Por otra parte, @{term UNIV} es el conjunto universal definido en la 
   teoría \href{http://bit.ly/2XtHCW6}{Set.thy} como una abreviatura de 
@@ -65,17 +65,16 @@ proof (rule iffI)
   assume 1: " g \<circ> f = h \<circ> f "
   show "g = h" 
   proof 
-    fix x 
+    fix x
+
     have " \<exists>y . x = f(y)" using assms by (simp add:surj_def)
     then obtain "y" where 2:"x = f(y)" by (rule exE)
     then have "g(x) = g(f(y))" by simp
-    then have "... = (g \<circ> f) (y)  " by simp
-    then have "... = (h o f) (y)" using 1 by simp
-    then have "... = h(f(y))" by simp
-    then have "... = h(x)" using 2   by (simp add: \<open>x = f y\<close>)
-    then show " g(x) = h(x) " 
-      using \<open>(g \<circ> f) y = (h \<circ> f) y\<close> \<open>(h \<circ> f) y = h (f y)\<close>
-    \<open>g (f y) = (g \<circ> f) y\<close> \<open>g x = g (f y)\<close> \<open>h (f y) = h x\<close> by presburger
+    also have "... = (g \<circ> f) (y)  " by simp
+    also have "... = (h \<circ> f) (y)" using 1 by simp
+    also have "... = h(f(y))" by simp
+    also have "... = h(x)" using 2   by (simp add: \<open>x = f y\<close>)
+    finally show  " g(x) = h(x) " by simp
   qed
 next
   assume "g = h" 
@@ -104,8 +103,18 @@ La demostración aplicativa es: \<close>
 
 lemma "surj f \<Longrightarrow> ((g \<circ> f) = (h \<circ> f) ) = (g = h)"
   apply (simp add: surj_def fun_eq_iff)
+  apply (rule iffI)
+   prefer 2
+  apply auto
+ 
   apply  metis
+
   done
+
+lemma "surj f \<Longrightarrow> ((g \<circ> f) = (h \<circ> f) ) = (g = h)"
+  apply (simp add: surj_def fun_eq_iff ) 
+  by metis
+
 
 text \<open>En esta demostración hemos introducido:
  \begin{itemize}
