@@ -7,16 +7,25 @@ begin
 
 section \<open>Cancelación de funciones inyectivas\<close>
 
-text \<open>El siguiente teorema prueba una propiedad de las funciones
-  inyectivas estudiado en el \href{http://bit.ly/2XBW6n2}{tema 10} del 
-  curso. Su enunciado es el siguiente
+text \<open>El siguiente teorema prueba una caracterización de las funciones
+ inyectivas, en otras palabras, las funciones inyectivas son
+ monomorfismos en la categoría de conjuntos. Un monomorfismo es un
+ homomorfismo inyectivo y la categoría de conjuntos es la categoría
+ cuyos objetos son los conjuntos.
   
   \begin{teorema}
-    Las funciones inyectivas son cancelativas por la izquierda. Es
-    decir, si $f$ es una función inyectiva entonces para todas $g$ y $h$
+    $f$ es una función inyectiva, si y solo si, para todas $g$ y $h$
     tales que @{text "f \<circ> g = f \<circ> h"} se tiene que $g = h$. 
   \end{teorema}
 
+Vamos a hacer dos lemas de nuestro teorema, ya que podemos la doble 
+implicación en dos implicaciones y demostrar cada una de ellas por
+ separado.
+
+\begin {lema}
+$f$ es una función inyectiva si para todas $g$ y $h$ tales que $f \circ
+ g = f \circ h$ se tiene que $g = h.$
+\end {lema}
   \begin{demostracion}
     La demostración la haremos por doble implicación: 
 \begin {enumerate}
@@ -31,12 +40,41 @@ $$(f \circ g)(x) = f(g(x)) = f(h(x)) = (f \circ h)(x)$$
 .
   \end{demostracion}
 
-  Su especificación es la siguiente:
+\begin {lema} 
+Si para toda $g$ y $h$ tales que $f \circ g =  f \circ h$ se tiene que $g
+= h$ entonces f es inyectiva.
+\end {lema} 
+
+\begin {demostracion}
+Supongamos que el dominio de nuestra función $f$ es distinto del vacío.
+Tenemos que demostrar que $\forall a,b$ tales que $f(a) = f(b),$ esto
+ implica que $a = b.$ \\
+Sean $a,b$ tales que $f(a) = f(b)$, sean ahora $g(x) = a \forall x$ y
+ $h(x) = b \forall x$ entonces 
+$$(f \circ g) = (f \circ h) \Longrightarrow  f(g(x)) = f(h(x)) \Longrightarrow f(a) = f(b)$$
+Por hipótesis tenemos entonces que $a = b,$ como queríamos demostrar.
+\end {demostracion}
+
+
+  Su especificación es la siguiente, pero al igual que hemos hecho en la demostración
+a mano vamos a demostrarlo a través de dos lemas:
 \<close>
 
+theorem 
+  "inj f \<longleftrightarrow> (f \<circ> g = f \<circ> h) = (g = h)"
+  oops
+
+
+  text \<open>Sus lemas son los siguientes: \<close>
+
 lemma 
-  "inj f \<Longrightarrow> (f \<circ> g = f \<circ> h) = (g = h)"
-oops
+"\<forall>g h. (f \<circ> g = f \<circ> h \<longrightarrow> g = h) \<Longrightarrow> inj f"
+  oops
+
+lemma 
+"inj f \<Longrightarrow> (f \<circ> g = f \<circ> h) = (g = h)"
+  oops
+
 
 text \<open>En la especificación anterior, @{term "inj f"} es una 
   abreviatura de @{term "inj_on f UNIV"} definida en la teoría
@@ -57,19 +95,34 @@ text \<open>En la especificación anterior, @{term "inj f"} es una
   En el caso de la teoría de conjuntos, la relación de orden es la
   inclusión de conjuntos.
 
-  Presentaremos distintas demostraciones del teorema. La primera
-  demostración es applicativa\<close> 
+  Presentaremos distintas demostraciones de los lemas. La primera
+  demostración es applicativa:\<close> 
 
-lemma 
+lemma inyectivapli:
   "inj f \<Longrightarrow> (f \<circ> g = f \<circ> h) = (g = h)"
   apply (simp add: inj_on_def fun_eq_iff) 
   apply auto
-  done
+  done 
 
-text \<open>En la demostración anterior se ha usado el siguiente lema
+lemma inyectivapli2:
+"\<forall>g h. (f \<circ> g = f \<circ> h \<longrightarrow> g = h) \<Longrightarrow> inj f"
+  apply (rule injI)
+  by (metis fun_upd_apply fun_upd_comp)
+
+
+text \<open>En las demostraciones anteriores se han usado los siguientes
+ lemas:
   \begin{itemize}
     \item[] @{thm[mode=Rule] fun_eq_iff[no_vars]} 
       \hfill (@{text fun_eq_iff})
+  \end{itemize} 
+  \begin{itemize}
+    \item[] @{thm[mode=Rule] fun_upd_apply[no_vars]} 
+      \hfill (@{text fun_upd_apply})
+  \end{itemize} 
+  \begin{itemize}
+    \item[] @{thm[mode=Rule] fun_eq_iff[no_vars]} 
+      \hfill (@{text fun_upd_comp})
   \end{itemize} 
 
   La demostración applicativa sin auto es\<close>
@@ -136,6 +189,12 @@ next
   assume "g = h" 
   then show "f \<circ> g = f \<circ> h" by simp
 qed
+
+text \<open>En consecuencia, la demostración de nuestro teorema: \<close>
+
+theorem 
+"\<forall>g h. (f \<circ> g = f \<circ> h \<longrightarrow> g = h) \<longleftrightarrow> inj f"
+  oops
 
 (*<*)
 end

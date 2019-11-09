@@ -21,9 +21,9 @@ text \<open>El siguiente teorema prueba una propiedad de las funciones
     La demostración la haremos por doble implicación: 
 \begin {enumerate}
 \item Supongamos que tenemos que $f \circ g = f \circ h$, queremos
- demostrar que $g = h$. \\
-$$(f \circ g)(x) = (f \circ h)(x) \Longrightarrow f(g(x)) = f(h(x))
- @{text "Usando que f es inyectiva"} \Longrightarrow g(x) = h(x)$$
+ demostrar que $g = h$, usando que f es inyectiva tenemos que: \\
+$$(f \circ g)(x) = (f \circ h)(x) \Longrightarrow f(g(x)) = f(h(x)) = 
+g(x) = h(x)$$
 \item Supongamos ahora que $g = h$, queremos demostrar que  $f \circ g
  = f \circ h$. \\
 $$(f \circ g)(x) = f(g(x)) = f(h(x)) = (f \circ h)(x)$$
