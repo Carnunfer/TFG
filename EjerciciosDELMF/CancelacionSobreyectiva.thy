@@ -7,14 +7,26 @@ begin
 section \<open>Cancelación de las funciones sobreyectivas\<close>
 
 text \<open>
-El siguiente teorema prueba una propiedad de las funciones
- sobreyectivas. El enunciado es el siguiente: 
+El siguiente teorema prueba una caracterización de las funciones
+ sobreyectivas, en otras palabras, las funciones sobreyectivas son
+ epimorfismos en la categoría de conjuntos. Donde un epimorfismo es un
+ homomorfismo sobreyectivo y la categoría de conjuntos es la categoría
+ donde los objetos son conjuntos.
+
+
 \begin {teorema}
-Las funciones sobreyectivas son cancelativas por la derecha. Es decir,
- si f es sobreyectiva entonces para todas funciones g y h tal que g o f
+  f es sobreyectiva si y solo si  para todas funciones g y h tal que g o f
  = h o f se tiene que g = h.
 \end {teorema}
  
+El teorema lo podemos dividir en dos lemas, ya que el teorema se
+ demuestra por una doble implicación, luego vamos a dividir el teorema
+ en las dos implicaciones.
+
+\begin {lema}
+  f es sobreyectiva entonces  para todas funciones g y h tal que g o f
+ = h o f se tiene que g = h.
+\end {lema}
 \begin {demostracion}
 \begin {itemize}
 \item Supongamos que tenemos que $g \circ  f = h \circ f$, queremos probar que $g =
@@ -28,11 +40,28 @@ $$ (g o f)(x) = g(f(x)) = h(f(x)) = (h o f) (x).$$
 .
 \end {demostracion}
 
-Su especificación es la siguiente: 
+\begin {lema}
+ Si  para todas funciones g y h tal que g o f  = h o f se tiene
+ que g = h entonces f es sobreyectiva.
+\end {lema}
+
+
+Su especificación es la siguiente, que la dividiremos en dos al igual que 
+en la demostración a mano: 
 \<close>
 
-lemma "surj f \<Longrightarrow> ( g \<o> f = h \<o> f ) = (g = h)"
+theorem
+ "surj f \<longleftrightarrow> (g \<circ> f = h \<circ> f) = (g = h)"
   oops
+
+lemma 
+"surj f \<Longrightarrow>  (g \<circ> f = h \<circ> f) = (g = h)"
+  oops
+
+lemma 
+"\<forall>g h. (g \<circ> f = h \<circ> f \<longrightarrow> g = h) \<longrightarrow> surj f"
+  oops
+
 
   text \<open>
 En la especificación anterior, @{term "surj f"} es una abreviatura de 
