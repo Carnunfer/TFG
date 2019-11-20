@@ -1,0 +1,604 @@
+%
+\begin{isabellebody}%
+\setisabellecontext{SumaImpares}%
+%
+\isadelimtheory
+%
+\endisadelimtheory
+%
+\isatagtheory
+%
+\endisatagtheory
+{\isafoldtheory}%
+%
+\isadelimtheory
+%
+\endisadelimtheory
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\isatagdocument
+%
+\isamarkupsection{Suma de los primeros números impares%
+}
+\isamarkuptrue%
+%
+\endisatagdocument
+{\isafolddocument}%
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\begin{isamarkuptext}%
+El primer teorema es una propiedad de los números naturales.
+
+  \begin{teorema}
+    La suma de los $n$ primeros números impares es $n^2$.
+  \end{teorema}
+
+  \begin{demostracion}
+    La demostración la haremos en inducción sobre $n$.
+    
+    (Base de la inducción) El caso $n = 0$ es trivial.
+    
+    (Paso de la inducción) Supongamos que la propiedad se verifica para
+    $n$ y veamos que también se verifica para $n+1$. 
+ 
+    Tenemos que demostrar que $\sum_{j=1}^{n+1} k_j = (n+1)^2$ donde
+    $k_j$ el j--ésimo impar; es decir, $k_j = 2j - 1$.
+
+    $$\begin{array}{l}
+      \sum_{j = 1}^{n+1} k_j \\
+      = k_{n+1} + \sum^{n}_{j=1} k_j \\ 
+      = k_{n+1} + n^2 \\
+      = 2(n+1) - 1 + n^2 \\
+      = n^2 + 2n + 1 \\ 
+      = (n+1)^2
+      \end{array}$$ 
+  \end{demostracion}
+
+  Para especificar el teorema en Isabelle, se comienza definiendo 
+  la función \isa{suma{\isacharunderscore}impares} tal que \isa{suma{\isacharunderscore}impares\ n} es
+  la suma de los $n$ primeros números impares%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{fun}\isamarkupfalse%
+\ suma{\isacharunderscore}impares\ {\isacharcolon}{\isacharcolon}\ {\isachardoublequoteopen}nat\ {\isasymRightarrow}\ nat{\isachardoublequoteclose}\ \isakeyword{where}\isanewline
+\ \ {\isachardoublequoteopen}suma{\isacharunderscore}impares\ {\isadigit{0}}\ {\isacharequal}\ {\isadigit{0}}{\isachardoublequoteclose}\ \isanewline
+{\isacharbar}\ {\isachardoublequoteopen}suma{\isacharunderscore}impares\ {\isacharparenleft}Suc\ n{\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}{\isadigit{2}}{\isacharasterisk}{\isacharparenleft}Suc\ n{\isacharparenright}\ {\isacharminus}\ {\isadigit{1}}{\isacharparenright}\ {\isacharplus}\ suma{\isacharunderscore}impares\ n{\isachardoublequoteclose}%
+\begin{isamarkuptext}%
+El enunciado del teorema es el siguiente:%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ {\isachardoublequoteopen}suma{\isacharunderscore}impares\ n\ {\isacharequal}\ n\ {\isacharasterisk}\ n{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{oops}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+En la demostración se usará la táctica \isa{induct} que hace
+  uso del esquema de inducción sobre los naturales:
+  \begin{itemize}
+  \item[] \isa{\mbox{}\inferrule{\mbox{P\ {\isadigit{0}}}\\\ \mbox{{\isasymAnd}nat{\isachardot}\ \mbox{}\inferrule{\mbox{P\ nat}}{\mbox{P\ {\isacharparenleft}Suc\ nat{\isacharparenright}}}}}{\mbox{P\ nat}}} 
+          \hfill (\isa{nat{\isachardot}induct})
+  \end{itemize}
+
+  Vamos a presentar distintas demostraciones del teorema. La 
+  primera es la demostración aplicativa detallada.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ {\isachardoublequoteopen}suma{\isacharunderscore}impares\ n\ {\isacharequal}\ n\ {\isacharasterisk}\ n{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{apply}\isamarkupfalse%
+\ {\isacharparenleft}induct\ n{\isacharparenright}\ \isanewline
+\ \ \ \isacommand{apply}\isamarkupfalse%
+\ {\isacharparenleft}simp\ only{\isacharcolon}\ suma{\isacharunderscore}impares{\isachardot}simps{\isacharparenleft}{\isadigit{1}}{\isacharparenright}{\isacharparenright}\isanewline
+\ \ \isacommand{apply}\isamarkupfalse%
+\ {\isacharparenleft}simp\ only{\isacharcolon}\ suma{\isacharunderscore}impares{\isachardot}simps{\isacharparenleft}{\isadigit{2}}{\isacharparenright}{\isacharparenright}\isanewline
+\ \ \isacommand{apply}\isamarkupfalse%
+\ {\isacharparenleft}simp\ only{\isacharcolon}\ mult{\isacharunderscore}Suc\ mult{\isacharunderscore}Suc{\isacharunderscore}right{\isacharparenright}\isanewline
+\ \ \isacommand{done}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+Pendiente: Comentar la demostración anterior.%
+\end{isamarkuptext}\isamarkuptrue%
+%
+\begin{isamarkuptext}%
+Se puede eliminar los detalles de la demostración anterior.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ {\isachardoublequoteopen}suma{\isacharunderscore}impares\ n\ {\isacharequal}\ n\ {\isacharasterisk}\ n{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{apply}\isamarkupfalse%
+\ {\isacharparenleft}induct\ n{\isacharparenright}\ \isanewline
+\ \ \ \isacommand{apply}\isamarkupfalse%
+\ simp{\isacharunderscore}all\isanewline
+\ \ \isacommand{done}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+La correspondiente demostración automática es%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ {\isachardoublequoteopen}suma{\isacharunderscore}impares\ n\ {\isacharequal}\ n\ {\isacharasterisk}\ n{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}induct\ n{\isacharparenright}\ simp{\isacharunderscore}all%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+La demostración estructurada y detallada del lema anterior es%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ {\isachardoublequoteopen}suma{\isacharunderscore}impares\ n\ {\isacharequal}\ n\ {\isacharasterisk}\ n{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}induct\ n{\isacharparenright}\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}suma{\isacharunderscore}impares\ {\isadigit{0}}\ {\isacharequal}\ {\isadigit{0}}{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ only{\isacharcolon}\ suma{\isacharunderscore}impares{\isachardot}simps{\isacharparenleft}{\isadigit{1}}{\isacharparenright}{\isacharparenright}\isanewline
+\ \ \isacommand{also}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isasymdots}\ {\isacharequal}\ {\isadigit{0}}\ {\isacharasterisk}\ {\isadigit{0}}{\isachardoublequoteclose}\isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ only{\isacharcolon}\ mult{\isacharunderscore}{\isadigit{0}}{\isacharparenright}\isanewline
+\ \ \isacommand{finally}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}suma{\isacharunderscore}impares\ {\isadigit{0}}\ {\isacharequal}\ {\isadigit{0}}\ {\isacharasterisk}\ {\isadigit{0}}{\isachardoublequoteclose}\isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{fix}\isamarkupfalse%
+\ n\ \isanewline
+\ \ \isacommand{assume}\isamarkupfalse%
+\ HI{\isacharcolon}\ {\isachardoublequoteopen}suma{\isacharunderscore}impares\ n\ {\isacharequal}\ n\ {\isacharasterisk}\ n{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}suma{\isacharunderscore}impares\ {\isacharparenleft}Suc\ n{\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}{\isadigit{2}}\ {\isacharasterisk}\ {\isacharparenleft}Suc\ n{\isacharparenright}\ {\isacharminus}\ {\isadigit{1}}{\isacharparenright}\ {\isacharplus}\ suma{\isacharunderscore}impares\ n{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ only{\isacharcolon}\ suma{\isacharunderscore}impares{\isachardot}simps{\isacharparenleft}{\isadigit{2}}{\isacharparenright}{\isacharparenright}\isanewline
+\ \ \isacommand{also}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isasymdots}\ {\isacharequal}\ {\isacharparenleft}{\isadigit{2}}\ {\isacharasterisk}\ {\isacharparenleft}Suc\ n{\isacharparenright}\ {\isacharminus}\ {\isadigit{1}}{\isacharparenright}\ {\isacharplus}\ n\ {\isacharasterisk}\ n{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ only{\isacharcolon}\ HI{\isacharparenright}\isanewline
+\ \ \isacommand{also}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isasymdots}\ {\isacharequal}\ n\ {\isacharasterisk}\ n\ {\isacharplus}\ {\isadigit{2}}\ {\isacharasterisk}\ n\ {\isacharplus}\ {\isadigit{1}}{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ only{\isacharcolon}\ mult{\isacharunderscore}Suc{\isacharunderscore}right{\isacharparenright}\isanewline
+\ \ \isacommand{also}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isasymdots}\ {\isacharequal}\ {\isacharparenleft}Suc\ n{\isacharparenright}\ {\isacharasterisk}\ {\isacharparenleft}Suc\ n{\isacharparenright}{\isachardoublequoteclose}\isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ only{\isacharcolon}\ mult{\isacharunderscore}Suc\ mult{\isacharunderscore}Suc{\isacharunderscore}right{\isacharparenright}\isanewline
+\ \ \isacommand{finally}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}suma{\isacharunderscore}impares\ {\isacharparenleft}Suc\ n{\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}Suc\ n{\isacharparenright}\ {\isacharasterisk}\ {\isacharparenleft}Suc\ n{\isacharparenright}{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+En la demostración anterior se pueden ocultar detalles.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ {\isachardoublequoteopen}suma{\isacharunderscore}impares\ n\ {\isacharequal}\ n\ {\isacharasterisk}\ n{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}induct\ n{\isacharparenright}\isanewline
+\ \ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}suma{\isacharunderscore}impares\ {\isadigit{0}}\ {\isacharequal}\ {\isadigit{0}}\ {\isacharasterisk}\ {\isadigit{0}}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{fix}\isamarkupfalse%
+\ n\ \isanewline
+\ \ \isacommand{assume}\isamarkupfalse%
+\ HI{\isacharcolon}\ {\isachardoublequoteopen}suma{\isacharunderscore}impares\ n\ {\isacharequal}\ n\ {\isacharasterisk}\ n{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}suma{\isacharunderscore}impares\ {\isacharparenleft}Suc\ n{\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}{\isadigit{2}}\ {\isacharasterisk}\ {\isacharparenleft}Suc\ n{\isacharparenright}\ {\isacharminus}\ {\isadigit{1}}{\isacharparenright}\ {\isacharplus}\ suma{\isacharunderscore}impares\ n{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{also}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isasymdots}\ {\isacharequal}\ {\isacharparenleft}{\isadigit{2}}\ {\isacharasterisk}\ {\isacharparenleft}Suc\ n{\isacharparenright}\ {\isacharminus}\ {\isadigit{1}}{\isacharparenright}\ {\isacharplus}\ n\ {\isacharasterisk}\ n{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \isacommand{using}\isamarkupfalse%
+\ HI\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{also}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isasymdots}\ {\isacharequal}\ {\isacharparenleft}Suc\ n{\isacharparenright}\ {\isacharasterisk}\ {\isacharparenleft}Suc\ n{\isacharparenright}{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{finally}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}suma{\isacharunderscore}impares\ {\isacharparenleft}Suc\ n{\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}Suc\ n{\isacharparenright}\ {\isacharasterisk}\ {\isacharparenleft}Suc\ n{\isacharparenright}{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+La demostración anterior se puede simplificar usando patrones.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ {\isachardoublequoteopen}suma{\isacharunderscore}impares\ n\ {\isacharequal}\ n\ {\isacharasterisk}\ n{\isachardoublequoteclose}\ {\isacharparenleft}\isakeyword{is}\ {\isachardoublequoteopen}{\isacharquery}P\ n\ {\isacharequal}\ {\isacharquery}Q\ n{\isachardoublequoteclose}{\isacharparenright}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}induct\ n{\isacharparenright}\isanewline
+\ \ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isacharquery}P\ {\isadigit{0}}\ {\isacharequal}\ {\isacharquery}Q\ {\isadigit{0}}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{fix}\isamarkupfalse%
+\ n\ \isanewline
+\ \ \isacommand{assume}\isamarkupfalse%
+\ HI{\isacharcolon}\ {\isachardoublequoteopen}{\isacharquery}P\ n\ {\isacharequal}\ {\isacharquery}Q\ n{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isacharquery}P\ {\isacharparenleft}Suc\ n{\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}{\isadigit{2}}\ {\isacharasterisk}\ {\isacharparenleft}Suc\ n{\isacharparenright}\ {\isacharminus}\ {\isadigit{1}}{\isacharparenright}\ {\isacharplus}\ suma{\isacharunderscore}impares\ n{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{also}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isasymdots}\ {\isacharequal}\ {\isacharparenleft}{\isadigit{2}}\ {\isacharasterisk}\ {\isacharparenleft}Suc\ n{\isacharparenright}\ {\isacharminus}\ {\isadigit{1}}{\isacharparenright}\ {\isacharplus}\ n\ {\isacharasterisk}\ n{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ HI\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{also}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isasymdots}\ {\isacharequal}\ {\isacharquery}Q\ {\isacharparenleft}Suc\ n{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{finally}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isacharquery}P\ {\isacharparenleft}Suc\ n{\isacharparenright}\ {\isacharequal}\ {\isacharquery}Q\ {\isacharparenleft}Suc\ n{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+La demostración usando otro patrón es%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ {\isachardoublequoteopen}suma{\isacharunderscore}impares\ n\ {\isacharequal}\ n\ {\isacharasterisk}\ n{\isachardoublequoteclose}\ {\isacharparenleft}\isakeyword{is}\ {\isachardoublequoteopen}{\isacharquery}P\ n{\isachardoublequoteclose}{\isacharparenright}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}induct\ n{\isacharparenright}\isanewline
+\ \ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isacharquery}P\ {\isadigit{0}}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{fix}\isamarkupfalse%
+\ n\ \isanewline
+\ \ \isacommand{assume}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isacharquery}P\ n{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isacharquery}P\ {\isacharparenleft}Suc\ n{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{qed}\isamarkupfalse%
+\isanewline
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isadelimtheory
+%
+\endisadelimtheory
+%
+\isatagtheory
+%
+\endisatagtheory
+{\isafoldtheory}%
+%
+\isadelimtheory
+%
+\endisadelimtheory
+%
+\end{isabellebody}%
+\endinput
+%:%file=~/ownCloud/alonso/curso-TFG/Carlos/TFG/SumaImpares.thy%:%
+%:%24=8%:%
+%:%36=10%:%
+%:%37=11%:%
+%:%38=12%:%
+%:%39=13%:%
+%:%40=14%:%
+%:%41=15%:%
+%:%42=16%:%
+%:%43=17%:%
+%:%44=18%:%
+%:%45=19%:%
+%:%46=20%:%
+%:%47=21%:%
+%:%48=22%:%
+%:%49=23%:%
+%:%50=24%:%
+%:%51=25%:%
+%:%52=26%:%
+%:%53=27%:%
+%:%54=28%:%
+%:%55=29%:%
+%:%56=30%:%
+%:%57=31%:%
+%:%58=32%:%
+%:%59=33%:%
+%:%60=34%:%
+%:%61=35%:%
+%:%62=36%:%
+%:%63=37%:%
+%:%64=38%:%
+%:%65=39%:%
+%:%67=41%:%
+%:%68=41%:%
+%:%69=42%:%
+%:%70=43%:%
+%:%72=45%:%
+%:%74=47%:%
+%:%75=47%:%
+%:%82=48%:%
+%:%92=50%:%
+%:%93=51%:%
+%:%94=52%:%
+%:%95=53%:%
+%:%96=54%:%
+%:%97=55%:%
+%:%98=56%:%
+%:%99=57%:%
+%:%100=58%:%
+%:%102=60%:%
+%:%103=60%:%
+%:%106=61%:%
+%:%110=61%:%
+%:%111=61%:%
+%:%112=62%:%
+%:%113=62%:%
+%:%114=63%:%
+%:%115=63%:%
+%:%116=64%:%
+%:%117=64%:%
+%:%118=65%:%
+%:%128=67%:%
+%:%132=69%:%
+%:%134=71%:%
+%:%135=71%:%
+%:%138=72%:%
+%:%142=72%:%
+%:%143=72%:%
+%:%144=73%:%
+%:%145=73%:%
+%:%146=74%:%
+%:%156=76%:%
+%:%158=78%:%
+%:%159=78%:%
+%:%162=79%:%
+%:%166=79%:%
+%:%167=79%:%
+%:%176=81%:%
+%:%178=83%:%
+%:%179=83%:%
+%:%186=84%:%
+%:%187=84%:%
+%:%188=85%:%
+%:%189=85%:%
+%:%190=86%:%
+%:%191=86%:%
+%:%192=87%:%
+%:%193=87%:%
+%:%194=87%:%
+%:%195=88%:%
+%:%196=88%:%
+%:%197=89%:%
+%:%198=89%:%
+%:%199=89%:%
+%:%200=90%:%
+%:%201=90%:%
+%:%202=91%:%
+%:%203=91%:%
+%:%204=92%:%
+%:%205=92%:%
+%:%206=93%:%
+%:%207=93%:%
+%:%208=94%:%
+%:%209=94%:%
+%:%210=95%:%
+%:%211=95%:%
+%:%212=96%:%
+%:%213=96%:%
+%:%214=96%:%
+%:%215=97%:%
+%:%216=97%:%
+%:%217=98%:%
+%:%218=98%:%
+%:%219=98%:%
+%:%220=99%:%
+%:%221=99%:%
+%:%222=100%:%
+%:%223=100%:%
+%:%224=100%:%
+%:%225=101%:%
+%:%226=101%:%
+%:%227=102%:%
+%:%228=102%:%
+%:%229=102%:%
+%:%230=103%:%
+%:%231=103%:%
+%:%232=104%:%
+%:%242=106%:%
+%:%244=108%:%
+%:%245=108%:%
+%:%252=109%:%
+%:%253=109%:%
+%:%254=110%:%
+%:%255=110%:%
+%:%256=110%:%
+%:%257=111%:%
+%:%258=111%:%
+%:%259=112%:%
+%:%260=112%:%
+%:%261=113%:%
+%:%262=113%:%
+%:%263=114%:%
+%:%264=114%:%
+%:%265=115%:%
+%:%266=115%:%
+%:%267=116%:%
+%:%268=116%:%
+%:%269=116%:%
+%:%270=117%:%
+%:%271=117%:%
+%:%272=117%:%
+%:%273=118%:%
+%:%274=118%:%
+%:%275=118%:%
+%:%276=119%:%
+%:%277=119%:%
+%:%278=120%:%
+%:%279=120%:%
+%:%280=120%:%
+%:%281=121%:%
+%:%282=121%:%
+%:%283=122%:%
+%:%293=124%:%
+%:%295=126%:%
+%:%296=126%:%
+%:%303=127%:%
+%:%304=127%:%
+%:%305=128%:%
+%:%306=128%:%
+%:%307=128%:%
+%:%308=129%:%
+%:%309=129%:%
+%:%310=130%:%
+%:%311=130%:%
+%:%312=131%:%
+%:%313=131%:%
+%:%314=132%:%
+%:%315=132%:%
+%:%316=133%:%
+%:%317=133%:%
+%:%318=134%:%
+%:%319=134%:%
+%:%320=134%:%
+%:%321=134%:%
+%:%322=134%:%
+%:%323=135%:%
+%:%324=135%:%
+%:%325=135%:%
+%:%326=135%:%
+%:%327=136%:%
+%:%328=136%:%
+%:%329=136%:%
+%:%330=136%:%
+%:%331=137%:%
+%:%341=139%:%
+%:%343=141%:%
+%:%344=141%:%
+%:%351=142%:%
+%:%352=142%:%
+%:%353=143%:%
+%:%354=143%:%
+%:%355=143%:%
+%:%356=144%:%
+%:%357=144%:%
+%:%358=145%:%
+%:%359=145%:%
+%:%360=146%:%
+%:%361=146%:%
+%:%362=147%:%
+%:%363=147%:%
+%:%364=147%:%
+%:%365=147%:%
+%:%366=148%:%
+%:%367=148%:%
