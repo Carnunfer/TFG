@@ -37,7 +37,7 @@ $$g(y) = g(f(x)) = (g o f) (x) = (h o f) (x) = h(f(x)) = h(y)$$
 nuestra hipótesis, tenemos que:
 $$ (g o f)(x) = g(f(x)) = h(f(x)) = (h o f) (x).$$
 \end {itemize}
-.
+(*<*).(*>*)
 \end {demostracion}
 
 \begin {lema}
@@ -45,17 +45,37 @@ $$ (g o f)(x) = g(f(x)) = h(f(x)) = (h o f) (x).$$
  que g = h entonces f es sobreyectiva.
 \end {lema}
 
+\begin {demostracion}
+Para la demostración del ejercicios, primero debemos señalar los
+ dominios y codominios de las funciones que vamos a usar.
+ $f : C \longrightarrow A,$ $g,h: A \longrightarrow B.$ También debemos
+ notar que nuestro conjunto  $B$ tiene que tener almenos dos elementos
+ diferentes, supongamos que $B = \{a,b\}.$ \\
+La prueba la vamos a realizar por reducción al absurdo. Luego supongamos
+que nuestra función $f$ no es sobreyectiva, es decir, $\exists y_{1} \in
+ A \ @{text " tal que "} \  \nexists x \in C \ : f(x) = y.$ \\
+Definamos ahora las funciones $g,h:$
+$$g(y) = a \  \forall y \in A$$
+$$h(y) = a  \ @{text " si "} \  y \neq y_{1} \ h(y) =  b \ 
+ @{text " si "} \  y =  y_{1}$$
+
+Entonces sabemos que $g(y) \neq h(y)  \forall y \in A.$ Sin embargo,
+ por hipótesis tenemos que si $g \circ f = h \circ f$, lo cual es
+ cierto, se tiene que $h = g.$ Por lo que hemos llegado a una
+ contradicción, entonces $f$ es sobreyectiva.
+\end {demostracion}
+
 
 Su especificación es la siguiente, que la dividiremos en dos al igual que 
 en la demostración a mano: 
 \<close>
 
 theorem
- "surj f \<longleftrightarrow> (g \<circ> f = h \<circ> f) = (g = h)"
+ "surj f \<longleftrightarrow> (\<forall>g h.(g \<circ> f = h \<circ> f) \<longrightarrow> (g = h))"
   oops
 
 lemma 
-"surj f \<Longrightarrow>  (g \<circ> f = h \<circ> f) = (g = h)"
+"surj f \<Longrightarrow>  (\<forall>g h. (g \<circ> f = h \<circ> f) \<longrightarrow> (g = h))"
   oops
 
 lemma 
@@ -76,47 +96,67 @@ de la función f.
     \item[] @{thm[mode=Rule] ordering_top.extremum[no_vars]} 
       \hfill (@{text ordering_top.extremum})
   \end{itemize} 
-Además queda añadir que la teoría donde se encuentra definido @{term"surj f"}
- es en \href{http://bit.ly/2XuPQx5}{Fun.thy}. Esta teoría contiene la
- definicion @{term" surj_def"}.
+Además queda añadir que la teoría donde se encuentra definido
+ @{term"surj f"} es en \href{http://bit.ly/2XuPQx5}{Fun.thy}. Esta
+ teoría contiene la definicion @{term" surj_def"}.
  \begin{itemize}
-    \item[] @{thm[mode=Rule] surj_def[no_vars]} \hfill (@{text inj_on_def})
+    \item[] @{thm[mode=Rule] surj_def[no_vars]}
+ \hfill (@{text inj_on_def})
   \end{itemize} 
 
-Presentaremos distintas demostraciones del teorema. La primera es la
- detallada:
+Presentaremos distintas demostraciones de los lemas. Las primeras son
+ las detalladas:
 \<close>
+(*<*)declare [[show_types]]
+(*>*)
 
-lemma 
+lemma sobreyectivadetallada:
   assumes "surj f" 
-  shows "( g \<circ> f = h \<circ> f ) = (g = h)"
-proof (rule iffI)
-  assume 1: " g \<circ> f = h \<circ> f "
-  show "g = h" 
-  proof 
-    fix x
-
-    have " \<exists>y . x = f(y)" using assms by (simp add:surj_def)
-    then obtain "y" where 2:"x = f(y)" by (rule exE)
-    then have "g(x) = g(f(y))" by simp
-    also have "... = (g \<circ> f) (y)  " by simp
-    also have "... = (h \<circ> f) (y)" using 1 by simp
-    also have "... = h(f(y))" by simp
-    also have "... = h(x)" using 2   by (simp add: \<open>x = f y\<close>)
-    finally show  " g(x) = h(x) " by simp
-  qed
-next
-  assume "g = h" 
-  show "g \<circ> f = h \<circ> f"
-  proof
-    fix x
-    have "(g \<circ> f) x = g(f(x))" by simp
-    also have "\<dots> = h(f(x))" using `g = h` by simp
-    also have "\<dots> = (h \<circ> f) x" by simp
-    finally show "(g \<circ> f) x = (h \<circ> f) x" by simp
+  shows "\<forall>g h. ( g \<circ> f = h \<circ> f ) \<longrightarrow> (g = h)"
+proof (rule allI)
+  fix g :: "'a \<Rightarrow>'c" 
+  show "\<forall>h. (g \<circ> f = h \<circ> f) \<longrightarrow> (g = h)"
+  proof (rule allI)
+    fix h
+    show "(g \<circ> f = h \<circ> f) \<longrightarrow> (g = h)" 
+    proof (rule impI)
+      assume 1: "g \<circ> f = h \<circ> f"
+      show "g = h"
+      proof  
+        fix x
+        have " \<exists>y . x = f(y)" using assms by (simp add:surj_def)
+        then obtain  "y" where 2:"x = f(y)" by (rule exE)
+        then have  "g(x) = g(f(y))" by simp
+        also have  "... = (g \<circ> f) (y)  " by simp
+        also have  "... = (h \<circ> f) (y)" using 1 by simp
+        also have  "... = h(f(y))" by simp
+        also have  "... = h(x)" using 2   by (simp add: \<open>x = f y\<close>)
+        finally show  " g(x) = h(x) " by simp
+      qed
+    qed
   qed
 qed
 
+
+lemma sobreyectivadetallada2:
+  fixes f :: "'c \<Rightarrow> 'a" 
+  assumes "\<forall>(g :: 'a \<Rightarrow> 'b) (h :: 'a \<Rightarrow> 'b). ( g \<circ> f = h \<circ> f ) \<longrightarrow> (g = h)"
+  shows "surj f"
+proof (rule surjI)
+  assume 1:" \<not> surj f"
+  have " \<not>(\<forall>y. \<exists>x. y = f x)" using 1 by (simp add: surj_def)
+  then have "\<exists>y. \<nexists>x. y = f x" by simp
+  then obtain y1 where "\<nexists>x. y1 = f x" by (rule exE)
+  then have "\<forall>x. y1 \<noteq> f x"  by simp
+  let ?g = "\<lambda>x :: 'a. a :: 'b" 
+  let ?h =" fun_upd ?g y1 (b :: 'b)"
+  have 2:"?g \<circ> f = ?h \<circ> f \<longrightarrow> ?g = ?h" using assms by blast
+  have 3:"?g \<circ> f = ?h \<circ> f" 
+    by (metis (mono_tags, lifting) fun_upd_def \<open>\<nexists>x :: 'c. (y1 :: 'a) = (f :: 'c \<Rightarrow> 'a) x\<close> f_inv_into_f fun.map_cong0)
+  have "?g = ?h" using 2 3 by (rule mp)
+  have "?g \<noteq> ?h" 
+  proof 
+    oops
 
 text \<open>En la demostración hemos introducido: 
  \begin{itemize}

@@ -63,7 +63,7 @@ $$g(y) = g(f(x)) = (g o f) (x) = (h o f) (x) = h(f(x)) = h(y)$$
 nuestra hipótesis, tenemos que:
 $$ (g o f)(x) = g(f(x)) = h(f(x)) = (h o f) (x).$$
 \end {itemize}
-.
+(*<*).(*>*)
 \end {demostracion}
 
 \begin {lema}
@@ -71,13 +71,33 @@ $$ (g o f)(x) = g(f(x)) = h(f(x)) = (h o f) (x).$$
  que g = h entonces f es sobreyectiva.
 \end {lema}
 
+\begin {demostracion}
+Para la demostración del ejercicios, primero debemos señalar los
+ dominios y codominios de las funciones que vamos a usar.
+ $f : C \longrightarrow A,$ $g,h: A \longrightarrow B.$ También debemos
+ notar que nuestro conjunto  $B$ tiene que tener almenos dos elementos
+ diferentes, supongamos que $B = \{a,b\}.$ \\
+La prueba la vamos a realizar por reducción al absurdo. Luego supongamos
+que nuestra función $f$ no es sobreyectiva, es decir, $\exists y_{1} \in
+ A \ \isa{tal\ que} \  \nexists x \in C \ : f(x) = y.$ \\
+Definamos ahora las funciones $g,h:$
+$$g(y) = a \  \forall y \in A$$
+$$h(y) = a  \ \isa{si} \  y \neq y_{1} \ h(y) =  b \ 
+ \isa{si} \  y =  y_{1}$$
+
+Entonces sabemos que $g(y) \neq h(y)  \forall y \in A.$ Sin embargo,
+ por hipótesis tenemos que si $g \circ f = h \circ f$, lo cual es
+ cierto, se tiene que $h = g.$ Por lo que hemos llegado a una
+ contradicción, entonces $f$ es sobreyectiva.
+\end {demostracion}
+
 
 Su especificación es la siguiente, que la dividiremos en dos al igual que 
 en la demostración a mano:%
 \end{isamarkuptext}\isamarkuptrue%
 \isacommand{theorem}\isamarkupfalse%
 \isanewline
-\ {\isachardoublequoteopen}surj\ f\ {\isasymlongleftrightarrow}\ {\isacharparenleft}g\ {\isasymcirc}\ f\ {\isacharequal}\ h\ {\isasymcirc}\ f{\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}g\ {\isacharequal}\ h{\isacharparenright}{\isachardoublequoteclose}\isanewline
+\ {\isachardoublequoteopen}surj\ f\ {\isasymlongleftrightarrow}\ {\isacharparenleft}{\isasymforall}g\ h{\isachardot}{\isacharparenleft}g\ {\isasymcirc}\ f\ {\isacharequal}\ h\ {\isasymcirc}\ f{\isacharparenright}\ {\isasymlongrightarrow}\ {\isacharparenleft}g\ {\isacharequal}\ h{\isacharparenright}{\isacharparenright}{\isachardoublequoteclose}\isanewline
 %
 \isadelimproof
 \ \ %
@@ -96,7 +116,7 @@ en la demostración a mano:%
 \isanewline
 \isacommand{lemma}\isamarkupfalse%
 \ \isanewline
-{\isachardoublequoteopen}surj\ f\ {\isasymLongrightarrow}\ \ {\isacharparenleft}g\ {\isasymcirc}\ f\ {\isacharequal}\ h\ {\isasymcirc}\ f{\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}g\ {\isacharequal}\ h{\isacharparenright}{\isachardoublequoteclose}\isanewline
+{\isachardoublequoteopen}surj\ f\ {\isasymLongrightarrow}\ \ {\isacharparenleft}{\isasymforall}g\ h{\isachardot}\ {\isacharparenleft}g\ {\isasymcirc}\ f\ {\isacharequal}\ h\ {\isasymcirc}\ f{\isacharparenright}\ {\isasymlongrightarrow}\ {\isacharparenleft}g\ {\isacharequal}\ h{\isacharparenright}{\isacharparenright}{\isachardoublequoteclose}\isanewline
 %
 \isadelimproof
 \ \ %
@@ -144,20 +164,22 @@ de la función f.
     \item[] \isa{\mbox{}\inferrule{\mbox{ordering{\isacharunderscore}top\ less{\isacharunderscore}eq\ less\ top}}{\mbox{less{\isacharunderscore}eq\ a\ top}}} 
       \hfill (\isa{ordering{\isacharunderscore}top{\isachardot}extremum})
   \end{itemize} 
-Además queda añadir que la teoría donde se encuentra definido \isa{surj\ f}
- es en \href{http://bit.ly/2XuPQx5}{Fun.thy}. Esta teoría contiene la
- definicion \isa{surj{\isacharunderscore}def}.
+Además queda añadir que la teoría donde se encuentra definido
+ \isa{surj\ f} es en \href{http://bit.ly/2XuPQx5}{Fun.thy}. Esta
+ teoría contiene la definicion \isa{surj{\isacharunderscore}def}.
  \begin{itemize}
-    \item[] \isa{surj\ f\ {\isacharequal}\ {\isacharparenleft}{\isasymforall}y{\isachardot}\ {\isasymexists}x{\isachardot}\ y\ {\isacharequal}\ f\ x{\isacharparenright}} \hfill (\isa{inj{\isacharunderscore}on{\isacharunderscore}def})
+    \item[] \isa{surj\ f\ {\isacharequal}\ {\isacharparenleft}{\isasymforall}y{\isachardot}\ {\isasymexists}x{\isachardot}\ y\ {\isacharequal}\ f\ x{\isacharparenright}}
+ \hfill (\isa{inj{\isacharunderscore}on{\isacharunderscore}def})
   \end{itemize} 
 
-Presentaremos distintas demostraciones del teorema. La primera es la
- detallada:%
+Presentaremos distintas demostraciones de los lemas. Las primeras son
+ las detalladas:%
 \end{isamarkuptext}\isamarkuptrue%
+\isanewline
 \isacommand{lemma}\isamarkupfalse%
-\ \isanewline
+\ sobreyectivadetallada{\isacharcolon}\isanewline
 \ \ \isakeyword{assumes}\ {\isachardoublequoteopen}surj\ f{\isachardoublequoteclose}\ \isanewline
-\ \ \isakeyword{shows}\ {\isachardoublequoteopen}{\isacharparenleft}\ g\ {\isasymcirc}\ f\ {\isacharequal}\ h\ {\isasymcirc}\ f\ {\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}g\ {\isacharequal}\ h{\isacharparenright}{\isachardoublequoteclose}\isanewline
+\ \ \isakeyword{shows}\ {\isachardoublequoteopen}{\isasymforall}g\ h{\isachardot}\ {\isacharparenleft}\ g\ {\isasymcirc}\ f\ {\isacharequal}\ h\ {\isasymcirc}\ f\ {\isacharparenright}\ {\isasymlongrightarrow}\ {\isacharparenleft}g\ {\isacharequal}\ h{\isacharparenright}{\isachardoublequoteclose}\isanewline
 %
 \isadelimproof
 %
@@ -165,81 +187,130 @@ Presentaremos distintas demostraciones del teorema. La primera es la
 %
 \isatagproof
 \isacommand{proof}\isamarkupfalse%
-\ {\isacharparenleft}rule\ iffI{\isacharparenright}\isanewline
-\ \ \isacommand{assume}\isamarkupfalse%
-\ {\isadigit{1}}{\isacharcolon}\ {\isachardoublequoteopen}\ g\ {\isasymcirc}\ f\ {\isacharequal}\ h\ {\isasymcirc}\ f\ {\isachardoublequoteclose}\isanewline
+\ {\isacharparenleft}rule\ allI{\isacharparenright}\isanewline
+\ \ \isacommand{fix}\isamarkupfalse%
+\ g\ {\isacharcolon}{\isacharcolon}\ {\isachardoublequoteopen}{\isacharprime}a\ {\isasymRightarrow}{\isacharprime}c{\isachardoublequoteclose}\ \isanewline
 \ \ \isacommand{show}\isamarkupfalse%
-\ {\isachardoublequoteopen}g\ {\isacharequal}\ h{\isachardoublequoteclose}\ \isanewline
+\ {\isachardoublequoteopen}{\isasymforall}h{\isachardot}\ {\isacharparenleft}g\ {\isasymcirc}\ f\ {\isacharequal}\ h\ {\isasymcirc}\ f{\isacharparenright}\ {\isasymlongrightarrow}\ {\isacharparenleft}g\ {\isacharequal}\ h{\isacharparenright}{\isachardoublequoteclose}\isanewline
 \ \ \isacommand{proof}\isamarkupfalse%
-\ \isanewline
+\ {\isacharparenleft}rule\ allI{\isacharparenright}\isanewline
 \ \ \ \ \isacommand{fix}\isamarkupfalse%
+\ h\isanewline
+\ \ \ \ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isacharparenleft}g\ {\isasymcirc}\ f\ {\isacharequal}\ h\ {\isasymcirc}\ f{\isacharparenright}\ {\isasymlongrightarrow}\ {\isacharparenleft}g\ {\isacharequal}\ h{\isacharparenright}{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}rule\ impI{\isacharparenright}\isanewline
+\ \ \ \ \ \ \isacommand{assume}\isamarkupfalse%
+\ {\isadigit{1}}{\isacharcolon}\ {\isachardoublequoteopen}g\ {\isasymcirc}\ f\ {\isacharequal}\ h\ {\isasymcirc}\ f{\isachardoublequoteclose}\isanewline
+\ \ \ \ \ \ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}g\ {\isacharequal}\ h{\isachardoublequoteclose}\isanewline
+\ \ \ \ \ \ \isacommand{proof}\isamarkupfalse%
+\ \ \isanewline
+\ \ \ \ \ \ \ \ \isacommand{fix}\isamarkupfalse%
 \ x\isanewline
-\isanewline
-\ \ \ \ \isacommand{have}\isamarkupfalse%
+\ \ \ \ \ \ \ \ \isacommand{have}\isamarkupfalse%
 \ {\isachardoublequoteopen}\ {\isasymexists}y\ {\isachardot}\ x\ {\isacharequal}\ f{\isacharparenleft}y{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
 \ assms\ \isacommand{by}\isamarkupfalse%
 \ {\isacharparenleft}simp\ add{\isacharcolon}surj{\isacharunderscore}def{\isacharparenright}\isanewline
-\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \ \ \ \ \ \ \ \isacommand{then}\isamarkupfalse%
 \ \isacommand{obtain}\isamarkupfalse%
-\ {\isachardoublequoteopen}y{\isachardoublequoteclose}\ \isakeyword{where}\ {\isadigit{2}}{\isacharcolon}{\isachardoublequoteopen}x\ {\isacharequal}\ f{\isacharparenleft}y{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ \ {\isachardoublequoteopen}y{\isachardoublequoteclose}\ \isakeyword{where}\ {\isadigit{2}}{\isacharcolon}{\isachardoublequoteopen}x\ {\isacharequal}\ f{\isacharparenleft}y{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
 \ {\isacharparenleft}rule\ exE{\isacharparenright}\isanewline
-\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \ \ \ \ \ \ \ \isacommand{then}\isamarkupfalse%
 \ \isacommand{have}\isamarkupfalse%
-\ {\isachardoublequoteopen}g{\isacharparenleft}x{\isacharparenright}\ {\isacharequal}\ g{\isacharparenleft}f{\isacharparenleft}y{\isacharparenright}{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ \ {\isachardoublequoteopen}g{\isacharparenleft}x{\isacharparenright}\ {\isacharequal}\ g{\isacharparenleft}f{\isacharparenleft}y{\isacharparenright}{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
 \ simp\isanewline
-\ \ \ \ \isacommand{also}\isamarkupfalse%
+\ \ \ \ \ \ \ \ \isacommand{also}\isamarkupfalse%
 \ \isacommand{have}\isamarkupfalse%
-\ {\isachardoublequoteopen}{\isachardot}{\isachardot}{\isachardot}\ {\isacharequal}\ {\isacharparenleft}g\ {\isasymcirc}\ f{\isacharparenright}\ {\isacharparenleft}y{\isacharparenright}\ \ {\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ \ {\isachardoublequoteopen}{\isachardot}{\isachardot}{\isachardot}\ {\isacharequal}\ {\isacharparenleft}g\ {\isasymcirc}\ f{\isacharparenright}\ {\isacharparenleft}y{\isacharparenright}\ \ {\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
 \ simp\isanewline
-\ \ \ \ \isacommand{also}\isamarkupfalse%
+\ \ \ \ \ \ \ \ \isacommand{also}\isamarkupfalse%
 \ \isacommand{have}\isamarkupfalse%
-\ {\isachardoublequoteopen}{\isachardot}{\isachardot}{\isachardot}\ {\isacharequal}\ {\isacharparenleft}h\ {\isasymcirc}\ f{\isacharparenright}\ {\isacharparenleft}y{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ \ {\isachardoublequoteopen}{\isachardot}{\isachardot}{\isachardot}\ {\isacharequal}\ {\isacharparenleft}h\ {\isasymcirc}\ f{\isacharparenright}\ {\isacharparenleft}y{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
 \ {\isadigit{1}}\ \isacommand{by}\isamarkupfalse%
 \ simp\isanewline
-\ \ \ \ \isacommand{also}\isamarkupfalse%
+\ \ \ \ \ \ \ \ \isacommand{also}\isamarkupfalse%
 \ \isacommand{have}\isamarkupfalse%
-\ {\isachardoublequoteopen}{\isachardot}{\isachardot}{\isachardot}\ {\isacharequal}\ h{\isacharparenleft}f{\isacharparenleft}y{\isacharparenright}{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ \ {\isachardoublequoteopen}{\isachardot}{\isachardot}{\isachardot}\ {\isacharequal}\ h{\isacharparenleft}f{\isacharparenleft}y{\isacharparenright}{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
 \ simp\isanewline
-\ \ \ \ \isacommand{also}\isamarkupfalse%
+\ \ \ \ \ \ \ \ \isacommand{also}\isamarkupfalse%
 \ \isacommand{have}\isamarkupfalse%
-\ {\isachardoublequoteopen}{\isachardot}{\isachardot}{\isachardot}\ {\isacharequal}\ h{\isacharparenleft}x{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ \ {\isachardoublequoteopen}{\isachardot}{\isachardot}{\isachardot}\ {\isacharequal}\ h{\isacharparenleft}x{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
 \ {\isadigit{2}}\ \ \ \isacommand{by}\isamarkupfalse%
 \ {\isacharparenleft}simp\ add{\isacharcolon}\ {\isacartoucheopen}x\ {\isacharequal}\ f\ y{\isacartoucheclose}{\isacharparenright}\isanewline
-\ \ \ \ \isacommand{finally}\isamarkupfalse%
+\ \ \ \ \ \ \ \ \isacommand{finally}\isamarkupfalse%
 \ \isacommand{show}\isamarkupfalse%
 \ \ {\isachardoublequoteopen}\ g{\isacharparenleft}x{\isacharparenright}\ {\isacharequal}\ h{\isacharparenleft}x{\isacharparenright}\ {\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
 \ simp\isanewline
-\ \ \isacommand{qed}\isamarkupfalse%
+\ \ \ \ \ \ \isacommand{qed}\isamarkupfalse%
 \isanewline
-\isacommand{next}\isamarkupfalse%
+\ \ \ \ \isacommand{qed}\isamarkupfalse%
 \isanewline
-\ \ \isacommand{assume}\isamarkupfalse%
-\ {\isachardoublequoteopen}g\ {\isacharequal}\ h{\isachardoublequoteclose}\ \isanewline
-\ \ \isacommand{show}\isamarkupfalse%
-\ {\isachardoublequoteopen}g\ {\isasymcirc}\ f\ {\isacharequal}\ h\ {\isasymcirc}\ f{\isachardoublequoteclose}\isanewline
-\ \ \isacommand{proof}\isamarkupfalse%
-\isanewline
-\ \ \ \ \isacommand{fix}\isamarkupfalse%
-\ x\isanewline
-\ \ \ \ \isacommand{have}\isamarkupfalse%
-\ {\isachardoublequoteopen}{\isacharparenleft}g\ {\isasymcirc}\ f{\isacharparenright}\ x\ {\isacharequal}\ g{\isacharparenleft}f{\isacharparenleft}x{\isacharparenright}{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
-\ simp\isanewline
-\ \ \ \ \isacommand{also}\isamarkupfalse%
-\ \isacommand{have}\isamarkupfalse%
-\ {\isachardoublequoteopen}{\isasymdots}\ {\isacharequal}\ h{\isacharparenleft}f{\isacharparenleft}x{\isacharparenright}{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
-\ {\isacharbackquoteopen}g\ {\isacharequal}\ h{\isacharbackquoteclose}\ \isacommand{by}\isamarkupfalse%
-\ simp\isanewline
-\ \ \ \ \isacommand{also}\isamarkupfalse%
-\ \isacommand{have}\isamarkupfalse%
-\ {\isachardoublequoteopen}{\isasymdots}\ {\isacharequal}\ {\isacharparenleft}h\ {\isasymcirc}\ f{\isacharparenright}\ x{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
-\ simp\isanewline
-\ \ \ \ \isacommand{finally}\isamarkupfalse%
-\ \isacommand{show}\isamarkupfalse%
-\ {\isachardoublequoteopen}{\isacharparenleft}g\ {\isasymcirc}\ f{\isacharparenright}\ x\ {\isacharequal}\ {\isacharparenleft}h\ {\isasymcirc}\ f{\isacharparenright}\ x{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
-\ simp\isanewline
 \ \ \isacommand{qed}\isamarkupfalse%
 \isanewline
 \isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ sobreyectivadetallada{\isadigit{2}}{\isacharcolon}\isanewline
+\ \ \isakeyword{fixes}\ f\ {\isacharcolon}{\isacharcolon}\ {\isachardoublequoteopen}{\isacharprime}c\ {\isasymRightarrow}\ {\isacharprime}a{\isachardoublequoteclose}\ \isanewline
+\ \ \isakeyword{assumes}\ {\isachardoublequoteopen}{\isasymforall}{\isacharparenleft}g\ {\isacharcolon}{\isacharcolon}\ {\isacharprime}a\ {\isasymRightarrow}\ {\isacharprime}b{\isacharparenright}\ {\isacharparenleft}h\ {\isacharcolon}{\isacharcolon}\ {\isacharprime}a\ {\isasymRightarrow}\ {\isacharprime}b{\isacharparenright}{\isachardot}\ {\isacharparenleft}\ g\ {\isasymcirc}\ f\ {\isacharequal}\ h\ {\isasymcirc}\ f\ {\isacharparenright}\ {\isasymlongrightarrow}\ {\isacharparenleft}g\ {\isacharequal}\ h{\isacharparenright}{\isachardoublequoteclose}\isanewline
+\ \ \isakeyword{shows}\ {\isachardoublequoteopen}surj\ f{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}rule\ surjI{\isacharparenright}\isanewline
+\ \ \isacommand{assume}\isamarkupfalse%
+\ {\isadigit{1}}{\isacharcolon}{\isachardoublequoteopen}\ {\isasymnot}\ surj\ f{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}\ {\isasymnot}{\isacharparenleft}{\isasymforall}y{\isachardot}\ {\isasymexists}x{\isachardot}\ y\ {\isacharequal}\ f\ x{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{1}}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}\ surj{\isacharunderscore}def{\isacharparenright}\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isasymexists}y{\isachardot}\ {\isasymnexists}x{\isachardot}\ y\ {\isacharequal}\ f\ x{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{obtain}\isamarkupfalse%
+\ y{\isadigit{1}}\ \isakeyword{where}\ {\isachardoublequoteopen}{\isasymnexists}x{\isachardot}\ y{\isadigit{1}}\ {\isacharequal}\ f\ x{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ exE{\isacharparenright}\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isasymforall}x{\isachardot}\ y{\isadigit{1}}\ {\isasymnoteq}\ f\ x{\isachardoublequoteclose}\ \ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{let}\isamarkupfalse%
+\ {\isacharquery}g\ {\isacharequal}\ {\isachardoublequoteopen}{\isasymlambda}x\ {\isacharcolon}{\isacharcolon}\ {\isacharprime}a{\isachardot}\ a\ {\isacharcolon}{\isacharcolon}\ {\isacharprime}b{\isachardoublequoteclose}\ \isanewline
+\ \ \isacommand{let}\isamarkupfalse%
+\ {\isacharquery}h\ {\isacharequal}{\isachardoublequoteopen}\ fun{\isacharunderscore}upd\ {\isacharquery}g\ y{\isadigit{1}}\ {\isacharparenleft}b\ {\isacharcolon}{\isacharcolon}\ {\isacharprime}b{\isacharparenright}{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{2}}{\isacharcolon}{\isachardoublequoteopen}{\isacharquery}g\ {\isasymcirc}\ f\ {\isacharequal}\ {\isacharquery}h\ {\isasymcirc}\ f\ {\isasymlongrightarrow}\ {\isacharquery}g\ {\isacharequal}\ {\isacharquery}h{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ assms\ \isacommand{by}\isamarkupfalse%
+\ blast\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{3}}{\isacharcolon}{\isachardoublequoteopen}{\isacharquery}g\ {\isasymcirc}\ f\ {\isacharequal}\ {\isacharquery}h\ {\isasymcirc}\ f{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}metis\ {\isacharparenleft}mono{\isacharunderscore}tags{\isacharcomma}\ lifting{\isacharparenright}\ fun{\isacharunderscore}upd{\isacharunderscore}def\ {\isacartoucheopen}{\isasymnexists}x\ {\isacharcolon}{\isacharcolon}\ {\isacharprime}c{\isachardot}\ {\isacharparenleft}y{\isadigit{1}}\ {\isacharcolon}{\isacharcolon}\ {\isacharprime}a{\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}f\ {\isacharcolon}{\isacharcolon}\ {\isacharprime}c\ {\isasymRightarrow}\ {\isacharprime}a{\isacharparenright}\ x{\isacartoucheclose}\ f{\isacharunderscore}inv{\isacharunderscore}into{\isacharunderscore}f\ fun{\isachardot}map{\isacharunderscore}cong{\isadigit{0}}{\isacharparenright}\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isacharquery}g\ {\isacharequal}\ {\isacharquery}h{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{2}}\ {\isadigit{3}}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ mp{\isacharparenright}\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isacharquery}g\ {\isasymnoteq}\ {\isacharquery}h{\isachardoublequoteclose}\ \isanewline
+\ \ \isacommand{proof}\isamarkupfalse%
+\ \isanewline
+\ \ \ \ \isacommand{oops}\isamarkupfalse%
 %
 \endisatagproof
 {\isafoldproof}%
@@ -251,11 +322,11 @@ Presentaremos distintas demostraciones del teorema. La primera es la
 \begin{isamarkuptext}%
 En la demostración hemos introducido: 
  \begin{itemize}
-    \item[] \isa{\mbox{}\inferrule{\mbox{{\isasymexists}x{\isachardot}\ P\ x}\\\ \mbox{{\isasymAnd}x{\isachardot}\ \mbox{}\inferrule{\mbox{P\ x}}{\mbox{Q}}}}{\mbox{Q}}} 
+    \item[] \isa{\mbox{}\inferrule{\mbox{{\isasymexists}x\ {\isacharcolon}{\isacharcolon}\ {\isacharprime}a{\isachardot}\ {\isacharparenleft}P\ {\isacharcolon}{\isacharcolon}\ {\isacharprime}a\ {\isasymRightarrow}\ bool{\isacharparenright}\ x}\\\ \mbox{{\isasymAnd}x\ {\isacharcolon}{\isacharcolon}\ {\isacharprime}a{\isachardot}\ \mbox{}\inferrule{\mbox{P\ x}}{\mbox{Q\ {\isacharcolon}{\isacharcolon}\ bool}}}}{\mbox{Q}}} 
       \hfill (\isa{rule\ exE}) 
   \end{itemize} 
  \begin{itemize}
-    \item[] \isa{{\isasymlbrakk}P\ {\isasymLongrightarrow}\ Q{\isacharsemicolon}\ Q\ {\isasymLongrightarrow}\ P{\isasymrbrakk}\ {\isasymLongrightarrow}\ P\ {\isacharequal}\ Q} 
+    \item[] \isa{{\isasymlbrakk}P\ {\isacharcolon}{\isacharcolon}\ bool\ {\isasymLongrightarrow}\ Q\ {\isacharcolon}{\isacharcolon}\ bool{\isacharsemicolon}\ Q\ {\isasymLongrightarrow}\ P{\isasymrbrakk}\ {\isasymLongrightarrow}\ P\ {\isacharequal}\ Q} 
       \hfill (\isa{iffI})
   \end{itemize} 
 
@@ -313,7 +384,7 @@ La demostración aplicativa es:%
 \begin{isamarkuptext}%
 En esta demostración hemos introducido:
  \begin{itemize}
-    \item[] \isa{{\isacharparenleft}f\ {\isacharequal}\ g{\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}{\isasymforall}x{\isachardot}\ f\ x\ {\isacharequal}\ g\ x{\isacharparenright}} 
+    \item[] \isa{{\isacharparenleft}{\isacharparenleft}f\ {\isacharcolon}{\isacharcolon}\ {\isacharprime}a\ {\isasymRightarrow}\ {\isacharprime}b{\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}g\ {\isacharcolon}{\isacharcolon}\ {\isacharprime}a\ {\isasymRightarrow}\ {\isacharprime}b{\isacharparenright}{\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}{\isasymforall}x\ {\isacharcolon}{\isacharcolon}\ {\isacharprime}a{\isachardot}\ f\ x\ {\isacharequal}\ g\ x{\isacharparenright}} 
       \hfill (\isa{fun{\isacharunderscore}eq{\isacharunderscore}iff})
   \end{itemize}%
 \end{isamarkuptext}\isamarkuptrue%
@@ -376,164 +447,222 @@ En esta demostración hemos introducido:
 %:%74=48%:%
 %:%75=49%:%
 %:%76=50%:%
-%:%78=53%:%
+%:%77=51%:%
+%:%78=52%:%
 %:%79=53%:%
 %:%80=54%:%
-%:%83=55%:%
-%:%87=55%:%
-%:%93=55%:%
-%:%96=56%:%
-%:%97=57%:%
-%:%98=57%:%
-%:%99=58%:%
-%:%102=59%:%
-%:%106=59%:%
-%:%112=59%:%
-%:%115=60%:%
-%:%116=61%:%
-%:%117=61%:%
-%:%118=62%:%
-%:%121=63%:%
-%:%125=63%:%
-%:%135=67%:%
-%:%136=68%:%
-%:%137=69%:%
-%:%138=70%:%
-%:%139=71%:%
-%:%140=72%:%
-%:%141=73%:%
-%:%142=74%:%
-%:%143=75%:%
-%:%144=76%:%
-%:%145=77%:%
-%:%146=78%:%
-%:%147=79%:%
-%:%148=80%:%
-%:%149=81%:%
-%:%150=82%:%
-%:%151=83%:%
-%:%152=84%:%
-%:%153=85%:%
-%:%154=86%:%
+%:%81=55%:%
+%:%82=56%:%
+%:%83=57%:%
+%:%84=58%:%
+%:%85=59%:%
+%:%86=60%:%
+%:%87=61%:%
+%:%88=62%:%
+%:%89=63%:%
+%:%90=64%:%
+%:%91=65%:%
+%:%92=66%:%
+%:%93=67%:%
+%:%94=68%:%
+%:%95=69%:%
+%:%96=70%:%
+%:%98=73%:%
+%:%99=73%:%
+%:%100=74%:%
+%:%103=75%:%
+%:%107=75%:%
+%:%113=75%:%
+%:%116=76%:%
+%:%117=77%:%
+%:%118=77%:%
+%:%119=78%:%
+%:%122=79%:%
+%:%126=79%:%
+%:%132=79%:%
+%:%135=80%:%
+%:%136=81%:%
+%:%137=81%:%
+%:%138=82%:%
+%:%141=83%:%
+%:%145=83%:%
 %:%155=87%:%
-%:%157=90%:%
+%:%156=88%:%
+%:%157=89%:%
 %:%158=90%:%
 %:%159=91%:%
 %:%160=92%:%
-%:%167=93%:%
-%:%168=93%:%
-%:%169=94%:%
-%:%170=94%:%
-%:%171=95%:%
-%:%172=95%:%
-%:%173=96%:%
-%:%174=96%:%
-%:%175=97%:%
-%:%176=97%:%
-%:%177=98%:%
-%:%178=99%:%
-%:%179=99%:%
-%:%180=99%:%
-%:%181=99%:%
-%:%182=100%:%
-%:%183=100%:%
-%:%184=100%:%
-%:%185=100%:%
-%:%186=101%:%
-%:%187=101%:%
-%:%188=101%:%
-%:%189=101%:%
-%:%190=102%:%
-%:%191=102%:%
-%:%192=102%:%
-%:%193=102%:%
-%:%194=103%:%
-%:%195=103%:%
-%:%196=103%:%
-%:%197=103%:%
-%:%198=103%:%
-%:%199=104%:%
-%:%200=104%:%
-%:%201=104%:%
-%:%202=104%:%
-%:%203=105%:%
-%:%204=105%:%
-%:%205=105%:%
-%:%206=105%:%
-%:%207=105%:%
-%:%208=106%:%
-%:%209=106%:%
-%:%210=106%:%
-%:%211=106%:%
-%:%212=107%:%
-%:%213=107%:%
-%:%214=108%:%
-%:%215=108%:%
-%:%216=109%:%
-%:%217=109%:%
-%:%218=110%:%
-%:%219=110%:%
-%:%220=111%:%
-%:%221=111%:%
-%:%222=112%:%
-%:%223=112%:%
-%:%224=113%:%
-%:%225=113%:%
-%:%226=113%:%
-%:%227=114%:%
-%:%228=114%:%
-%:%229=114%:%
-%:%230=114%:%
-%:%231=114%:%
-%:%232=115%:%
-%:%233=115%:%
-%:%234=115%:%
-%:%235=115%:%
-%:%236=116%:%
-%:%237=116%:%
-%:%238=116%:%
-%:%239=116%:%
-%:%240=117%:%
-%:%241=117%:%
-%:%242=118%:%
-%:%252=121%:%
-%:%253=122%:%
-%:%254=123%:%
-%:%255=124%:%
-%:%256=125%:%
-%:%257=126%:%
-%:%258=127%:%
-%:%259=128%:%
-%:%260=129%:%
-%:%261=130%:%
-%:%262=131%:%
-%:%264=133%:%
-%:%265=133%:%
-%:%268=134%:%
-%:%272=134%:%
-%:%273=134%:%
-%:%274=135%:%
-%:%275=135%:%
-%:%276=136%:%
-%:%277=136%:%
-%:%278=137%:%
-%:%279=137%:%
-%:%280=138%:%
-%:%281=139%:%
-%:%282=139%:%
-%:%283=140%:%
-%:%284=141%:%
-%:%290=141%:%
-%:%293=142%:%
-%:%294=143%:%
-%:%295=143%:%
-%:%298=144%:%
-%:%302=144%:%
-%:%303=144%:%
-%:%304=145%:%
-%:%305=145%:%
-%:%314=148%:%
-%:%315=149%:%
-%:%316=150%:%
-%:%317=151%:%
-%:%318=152%:%
+%:%161=93%:%
+%:%162=94%:%
+%:%163=95%:%
+%:%164=96%:%
+%:%165=97%:%
+%:%166=98%:%
+%:%167=99%:%
+%:%168=100%:%
+%:%169=101%:%
+%:%170=102%:%
+%:%171=103%:%
+%:%172=104%:%
+%:%173=105%:%
+%:%174=106%:%
+%:%175=107%:%
+%:%176=108%:%
+%:%178=112%:%
+%:%179=113%:%
+%:%180=113%:%
+%:%181=114%:%
+%:%182=115%:%
+%:%189=116%:%
+%:%190=116%:%
+%:%191=117%:%
+%:%192=117%:%
+%:%193=118%:%
+%:%194=118%:%
+%:%195=119%:%
+%:%196=119%:%
+%:%197=120%:%
+%:%198=120%:%
+%:%199=121%:%
+%:%200=121%:%
+%:%201=122%:%
+%:%202=122%:%
+%:%203=123%:%
+%:%204=123%:%
+%:%205=124%:%
+%:%206=124%:%
+%:%207=125%:%
+%:%208=125%:%
+%:%209=126%:%
+%:%210=126%:%
+%:%211=127%:%
+%:%212=127%:%
+%:%213=127%:%
+%:%214=127%:%
+%:%215=128%:%
+%:%216=128%:%
+%:%217=128%:%
+%:%218=128%:%
+%:%219=129%:%
+%:%220=129%:%
+%:%221=129%:%
+%:%222=129%:%
+%:%223=130%:%
+%:%224=130%:%
+%:%225=130%:%
+%:%226=130%:%
+%:%227=131%:%
+%:%228=131%:%
+%:%229=131%:%
+%:%230=131%:%
+%:%231=131%:%
+%:%232=132%:%
+%:%233=132%:%
+%:%234=132%:%
+%:%235=132%:%
+%:%236=133%:%
+%:%237=133%:%
+%:%238=133%:%
+%:%239=133%:%
+%:%240=133%:%
+%:%241=134%:%
+%:%242=134%:%
+%:%243=134%:%
+%:%244=134%:%
+%:%245=135%:%
+%:%246=135%:%
+%:%247=136%:%
+%:%248=136%:%
+%:%249=137%:%
+%:%250=137%:%
+%:%251=138%:%
+%:%257=138%:%
+%:%260=139%:%
+%:%261=140%:%
+%:%262=141%:%
+%:%263=141%:%
+%:%264=142%:%
+%:%265=143%:%
+%:%266=144%:%
+%:%273=145%:%
+%:%274=145%:%
+%:%275=146%:%
+%:%276=146%:%
+%:%277=147%:%
+%:%278=147%:%
+%:%279=147%:%
+%:%280=147%:%
+%:%281=148%:%
+%:%282=148%:%
+%:%283=148%:%
+%:%284=148%:%
+%:%285=149%:%
+%:%286=149%:%
+%:%287=149%:%
+%:%288=149%:%
+%:%289=150%:%
+%:%290=150%:%
+%:%291=150%:%
+%:%292=150%:%
+%:%293=151%:%
+%:%294=151%:%
+%:%295=152%:%
+%:%296=152%:%
+%:%297=153%:%
+%:%298=153%:%
+%:%299=153%:%
+%:%300=153%:%
+%:%301=154%:%
+%:%302=154%:%
+%:%303=155%:%
+%:%304=155%:%
+%:%305=156%:%
+%:%306=156%:%
+%:%307=156%:%
+%:%308=156%:%
+%:%309=157%:%
+%:%310=157%:%
+%:%311=158%:%
+%:%312=158%:%
+%:%313=159%:%
+%:%323=161%:%
+%:%324=162%:%
+%:%325=163%:%
+%:%326=164%:%
+%:%327=165%:%
+%:%328=166%:%
+%:%329=167%:%
+%:%330=168%:%
+%:%331=169%:%
+%:%332=170%:%
+%:%333=171%:%
+%:%335=173%:%
+%:%336=173%:%
+%:%339=174%:%
+%:%343=174%:%
+%:%344=174%:%
+%:%345=175%:%
+%:%346=175%:%
+%:%347=176%:%
+%:%348=176%:%
+%:%349=177%:%
+%:%350=177%:%
+%:%351=178%:%
+%:%352=179%:%
+%:%353=179%:%
+%:%354=180%:%
+%:%355=181%:%
+%:%361=181%:%
+%:%364=182%:%
+%:%365=183%:%
+%:%366=183%:%
+%:%369=184%:%
+%:%373=184%:%
+%:%374=184%:%
+%:%375=185%:%
+%:%376=185%:%
+%:%385=188%:%
+%:%386=189%:%
+%:%387=190%:%
+%:%388=191%:%
+%:%389=192%:%

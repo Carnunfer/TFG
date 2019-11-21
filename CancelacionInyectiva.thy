@@ -164,7 +164,7 @@ lemma inyectivaut2:
 
   text \<open>La demostración declarativa\<close>
 
-declare [[show_types]]
+
 
 lemma inyectdeclarada:
   assumes "inj f"
