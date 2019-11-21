@@ -64,7 +64,19 @@ lemma "suma_impares n = n * n"
   apply (simp only: mult_Suc mult_Suc_right)
   done
 
-text \<open>Pendiente: Comentar la demostración anterior.\<close>
+text \<open>En la demostración anterior hemos usado dentro del método 
+@{term "simp"} únicamente la definición de @{term "suma_impares"},
+ para ello lo  hemos indicado con @{term "simp only"}. A parte hemos
+ usado lo siguiente :
+  \begin{itemize}
+  \item[] @{thm[mode=Rule] mult_Suc[no_vars]} 
+          \hfill (@{text mult_Suc})
+  \end{itemize}
+  \begin{itemize}
+  \item[] @{thm[mode=Rule] mult_Suc_right[no_vars]} 
+          \hfill (@{text mult_Suc_right})
+  \end{itemize}
+\<close>
 
 text \<open>Se puede eliminar los detalles de la demostración anterior.\<close>
 

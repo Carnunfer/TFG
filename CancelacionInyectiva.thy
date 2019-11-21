@@ -14,8 +14,8 @@ text \<open>El siguiente teorema prueba una caracterización de las funciones
  cuyos objetos son los conjuntos.
   
   \begin{teorema}
-    $f$ es una función inyectiva, si y solo si, para todas $g$ y $h$
-    tales que @{text "f \<circ> g = f \<circ> h"} se tiene que $g = h$. 
+    $f$ es una función inyectiva, si y solo si, para todas funciones 
+ $g$ y $h$  tales que  $f \circ g = f \circ h$ se tiene que $g = h$. 
   \end{teorema}
 
 Vamos a hacer dos lemas de nuestro teorema, ya que podemos la doble 
@@ -23,8 +23,8 @@ implicación en dos implicaciones y demostrar cada una de ellas por
  separado.
 
 \begin {lema}
-$f$ es una función inyectiva si para todas $g$ y $h$ tales que $f \circ
- g = f \circ h$ se tiene que $g = h.$
+$f$ es una función inyectiva si para todas funciones $g$ y $h$ tales que
+ $f \circ g = f \circ h$ se tiene que $g = h.$
 \end {lema}
   \begin{demostracion}
     La demostración la haremos por doble implicación: 
@@ -46,11 +46,13 @@ Si para toda $g$ y $h$ tales que $f \circ g =  f \circ h$ se tiene que $g
 \end {lema} 
 
 \begin {demostracion}
+
+
 Supongamos que el dominio de nuestra función $f$ es distinto del vacío.
 Tenemos que demostrar que $\forall a,b$ tales que $f(a) = f(b),$ esto
  implica que $a = b.$ \\
-Sean $a,b$ tales que $f(a) = f(b)$, sean ahora $g(x) = a \forall x$ y
- $h(x) = b \forall x$ entonces 
+Sean $a,b$ tales que $f(a) = f(b)$, y definamos $g(x) = a  \ \forall x$
+ y $h(x) = b \  \forall x$ entonces 
 $$(f \circ g) = (f \circ h) \Longrightarrow  f(g(x)) = f(h(x)) \Longrightarrow f(a) = f(b)$$
 Por hipótesis tenemos entonces que $a = b,$ como queríamos demostrar.
 \end {demostracion}
@@ -60,9 +62,10 @@ Por hipótesis tenemos entonces que $a = b,$ como queríamos demostrar.
 a mano vamos a demostrarlo a través de dos lemas:
 \<close>
 
-theorem 
-  "inj f \<longleftrightarrow> (f \<circ> g = f \<circ> h) = (g = h)"
+theorem caracterizacionineyctiva:
+  "inj f \<longleftrightarrow> (\<forall>g h. (f \<circ> g = f \<circ> h) \<longrightarrow> (g = h))"
   oops
+
 
 
   text \<open>Sus lemas son los siguientes: \<close>
@@ -72,7 +75,7 @@ lemma
   oops
 
 lemma 
-"inj f \<Longrightarrow> (f \<circ> g = f \<circ> h) = (g = h)"
+"inj f \<Longrightarrow> (\<forall>g h.(f \<circ> g = f \<circ> h) \<longrightarrow> (g = h))"
   oops
 
 
@@ -99,9 +102,8 @@ text \<open>En la especificación anterior, @{term "inj f"} es una
   demostración es applicativa:\<close> 
 
 lemma inyectivapli:
-  "inj f \<Longrightarrow> (f \<circ> g = f \<circ> h) = (g = h)"
+  "inj f \<Longrightarrow> (\<forall>g h.(f \<circ> g = f \<circ> h) \<longrightarrow>  (g = h))"
   apply (simp add: inj_on_def fun_eq_iff) 
-  apply auto
   done 
 
 lemma inyectivapli2:
@@ -125,16 +127,19 @@ text \<open>En las demostraciones anteriores se han usado los siguientes
       \hfill (@{text fun_upd_comp})
   \end{itemize} 
 
-  La demostración applicativa sin auto es\<close>
+  La demostración applicativa1 sin auto es\<close>
 
 lemma
-  "inj f \<Longrightarrow> (f \<circ> g = f \<circ> h) = (g = h)"
+  "inj f \<Longrightarrow> \<forall>g h. (f \<circ> g = f \<circ> h) \<longrightarrow>  (g = h)"
   apply (unfold inj_on_def) 
   apply (unfold fun_eq_iff) 
   apply (unfold o_apply)
-  apply (rule iffI)
    apply simp+
   done
+
+lemma 
+"\<forall>g h. (f \<circ> g = f \<circ> h \<longrightarrow> g = h) \<Longrightarrow> inj f"
+  oops
 
 text \<open>En la demostración anterior se ha introducido los siguientes
   hechos
@@ -145,56 +150,118 @@ text \<open>En la demostración anterior se ha introducido los siguientes
 
   La demostración automática es\<close>
 
-lemma
+lemma inyectivaut:
   assumes "inj f"
-  shows "(f \<circ> g = f \<circ> h) = (g = h)"
+  shows "\<forall>g h. (f \<circ> g = f \<circ> h) \<longrightarrow> (g = h)"
   using assms
   by (auto simp add: inj_on_def fun_eq_iff) 
 
-text \<open>La demostración declarativa\<close>
+lemma inyectivaut2: 
+  assumes "\<forall>g h. ((f \<circ> g = f \<circ> h) \<longrightarrow> (g = h))"
+  shows "inj f"
+  using assms
+  oops
 
-lemma
+  text \<open>La demostración declarativa\<close>
+
+declare [[show_types]]
+
+lemma inyectdeclarada:
   assumes "inj f"
-  shows "(f \<circ> g = f \<circ> h) = (g = h)"
-proof 
-  assume "f \<circ> g = f \<circ> h"
-  show "g = h"
-  proof
-    fix x
-    have "(f \<circ> g)(x) = (f \<circ> h)(x)" using `f \<circ> g = f \<circ> h` by simp
-    then have "f(g(x)) = f(h(x))" by simp
-    then show "g(x) = h(x)" using `inj f` by (simp add:inj_on_def)
-  qed
-next
-  assume "g = h"
-  show "f \<circ> g = f \<circ> h"
-  proof
-    fix x
-    have "(f \<circ> g) x = f(g(x))" by simp
-    also have "\<dots> = f(h(x))" using `g = h` by simp
-    also have "\<dots> = (f \<circ> h) x" by simp
-    finally show "(f \<circ> g) x = (f \<circ> h) x" by simp
+  shows "\<forall>g h.(f \<circ> g = f \<circ> h) \<longrightarrow> (g = h)"
+proof
+  fix g:: "'c \<Rightarrow> 'a"
+  show "\<forall>h.(f \<circ> g = f \<circ> h) \<longrightarrow> (g = h)"
+  proof (rule allI)
+    fix h
+    show "f \<circ> g = f \<circ> h \<longrightarrow> (g = h)"
+    proof (rule impI)
+      assume "f \<circ> g = f \<circ> h"
+      show "g = h"
+      proof 
+        fix x
+        have  "(f \<circ> g)(x) = (f \<circ> h)(x)" using `f \<circ> g = f \<circ> h` by simp
+        then have "f(g(x)) = f(h(x))" by simp
+        thus  "g(x) = h(x)" using `inj f` by (simp add:inj_on_def)
+      qed
+    qed
   qed
 qed
+
+
+
+lemma inyectdeclarada2:
+  fixes f :: "'b \<Rightarrow> 'c" 
+  assumes "\<forall>(g :: 'a \<Rightarrow> 'b) (h :: 'a \<Rightarrow> 'b).
+         (f \<circ> g = f \<circ> h \<longrightarrow> g = h)"
+shows " inj f"
+proof (rule injI)
+  fix a b 
+  assume 3: "f a = f b "
+  let ?g = "\<lambda>x :: 'a. a"
+  let ?h = "\<lambda>x :: 'a. b"
+  have "\<forall>(h :: 'a \<Rightarrow> 'b). (f \<circ> ?g = f \<circ> h \<longrightarrow> ?g = h)"
+    using assms by (rule allE)
+  hence 1: " (f \<circ> ?g = f \<circ> ?h \<longrightarrow> ?g = ?h)"  by (rule allE) 
+  have 2: "f \<circ> ?g = f \<circ> ?h" 
+  proof 
+    fix x
+    have " (f \<circ> (\<lambda>x :: 'a. a)) x = f(a) " by simp
+    also have "... = f(b)" using 3 by simp
+    also have "... =  (f \<circ> (\<lambda>x :: 'a. b)) x" by simp
+    finally show " (f \<circ> (\<lambda>x :: 'a. a)) x =  (f \<circ> (\<lambda>x :: 'a. b)) x"
+      by simp
+  qed
+  have "?g = ?h" using 1 2 by (rule mp)
+  then show " a = b" by meson
+qed
+
+
 
 text \<open>Otra demostración declarativa es\<close>
 
-lemma 
+lemma inyectdetalladacorta1:
   assumes "inj f"
-  shows "(f \<circ> g = f \<circ> h) = (g = h)"
+  shows "(f \<circ> g = f \<circ> h) \<longrightarrow>(g = h)"
 proof 
   assume "f \<circ> g = f \<circ> h" 
   then show "g = h" using `inj f` by (simp add: inj_on_def fun_eq_iff) 
-next
-  assume "g = h" 
-  then show "f \<circ> g = f \<circ> h" by simp
 qed
+
+lemma inyectdetalladacorta2:
+  fixes f :: "'b \<Rightarrow> 'c" 
+  assumes "\<forall>(g :: 'a \<Rightarrow> 'b) (h :: 'a \<Rightarrow> 'b).
+         (f \<circ> g = f \<circ> h \<longrightarrow> g = h)"
+  shows " inj f"
+proof (rule injI)
+  fix a b 
+  assume 1: "f a = f b "
+  let ?g = "\<lambda>x :: 'a. a"
+  let ?h = "\<lambda>x :: 'a. b"
+  have 2: " (f \<circ> ?g = f \<circ> ?h \<longrightarrow> ?g = ?h)"  using assms by blast
+  have 3: "f \<circ> ?g = f \<circ> ?h" 
+  proof 
+    fix x
+    have " (f \<circ> (\<lambda>x :: 'a. a)) x = f(a) " by simp
+    also have "... = f(b)" using 1 by simp
+    also have "... =  (f \<circ> (\<lambda>x :: 'a. b)) x" by simp
+    finally show " (f \<circ> (\<lambda>x :: 'a. a)) x =  (f \<circ> (\<lambda>x :: 'a. b)) x"
+      by simp
+  qed
+  show  " a = b" using 2 3 by meson
+qed
+
+
 
 text \<open>En consecuencia, la demostración de nuestro teorema: \<close>
 
-theorem 
-"\<forall>g h. (f \<circ> g = f \<circ> h \<longrightarrow> g = h) \<longleftrightarrow> inj f"
-  oops
+theorem caracterizacioninyectiva:
+  "inj f \<longleftrightarrow> (\<forall>g h. (f \<circ> g = f \<circ> h) \<longrightarrow> (g = h))"
+  using inyectdetalladacorta1 inyectdetalladacorta2 by auto
+
+
+
+
 
 (*<*)
 end
