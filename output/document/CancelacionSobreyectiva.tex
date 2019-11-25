@@ -41,8 +41,8 @@ El siguiente teorema prueba una caracterización de las funciones
 
 
 \begin {teorema}
-  f es sobreyectiva si y solo si  para todas funciones g y h tal que g o f
- = h o f se tiene que g = h.
+  f es sobreyectiva si y solo si  para todas funciones g y h tal que 
+$g \circ f  = h \circ f$ se tiene que g = h.
 \end {teorema}
  
 El teorema lo podemos dividir en dos lemas, ya que el teorema se
@@ -50,25 +50,26 @@ El teorema lo podemos dividir en dos lemas, ya que el teorema se
  en las dos implicaciones.
 
 \begin {lema}
-  f es sobreyectiva entonces  para todas funciones g y h tal que g o f
- = h o f se tiene que g = h.
+  f es sobreyectiva entonces  para todas funciones g y h tal que 
+$g \circ f = h \circ f$ se tiene que $g = h$.
 \end {lema}
 \begin {demostracion}
 \begin {itemize}
-\item Supongamos que tenemos que $g \circ  f = h \circ f$, queremos probar que $g =
- h.$ Usando la definición de sobreyectividad $(\forall y \in Y,
- \exists x | y = f(x))$ y nuestra hipótesis, tenemos que:
-$$g(y) = g(f(x)) = (g o f) (x) = (h o f) (x) = h(f(x)) = h(y)$$
-\item Supongamos que $g = h$, hay que probar que $g o f = h o f.$ Usando
-nuestra hipótesis, tenemos que:
-$$ (g o f)(x) = g(f(x)) = h(f(x)) = (h o f) (x).$$
+\item Supongamos que tenemos que $g \circ  f = h \circ f$, queremos
+ probar que $g = h.$ Usando la definición de sobreyectividad
+ $(\forall y \in Y,  \exists x | y = f(x))$ y nuestra hipótesis,
+ tenemos que: $$g(y) = g(f(x)) = (g \circ f) (x) = (h \circ f) (x) =
+ h(f(x)) = h(y).$$
+\item Supongamos que $g = h$, hay que probar que
+ $g \circ f = h \circ f.$ Usando nuestra hipótesis, tenemos que:
+$$ (g \circ f)(x) = g(f(x)) = h(f(x)) = (h \circ f) (x).$$
 \end {itemize}
 (*<*).(*>*)
 \end {demostracion}
 
 \begin {lema}
- Si  para todas funciones g y h tal que g o f  = h o f se tiene
- que g = h entonces f es sobreyectiva.
+ Si  para todas funciones g y h tal que $g \circ f  = h \circ f$ se 
+tiene que g = h entonces f es sobreyectiva.
 \end {lema}
 
 \begin {demostracion}
@@ -301,7 +302,8 @@ Presentaremos distintas demostraciones de los lemas. Las primeras son
 \ \ \isacommand{have}\isamarkupfalse%
 \ {\isadigit{3}}{\isacharcolon}{\isachardoublequoteopen}{\isacharquery}g\ {\isasymcirc}\ f\ {\isacharequal}\ {\isacharquery}h\ {\isasymcirc}\ f{\isachardoublequoteclose}\ \isanewline
 \ \ \ \ \isacommand{by}\isamarkupfalse%
-\ {\isacharparenleft}metis\ {\isacharparenleft}mono{\isacharunderscore}tags{\isacharcomma}\ lifting{\isacharparenright}\ fun{\isacharunderscore}upd{\isacharunderscore}def\ {\isacartoucheopen}{\isasymnexists}x\ {\isacharcolon}{\isacharcolon}\ {\isacharprime}c{\isachardot}\ {\isacharparenleft}y{\isadigit{1}}\ {\isacharcolon}{\isacharcolon}\ {\isacharprime}a{\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}f\ {\isacharcolon}{\isacharcolon}\ {\isacharprime}c\ {\isasymRightarrow}\ {\isacharprime}a{\isacharparenright}\ x{\isacartoucheclose}\ f{\isacharunderscore}inv{\isacharunderscore}into{\isacharunderscore}f\ fun{\isachardot}map{\isacharunderscore}cong{\isadigit{0}}{\isacharparenright}\isanewline
+\ {\isacharparenleft}metis\ {\isacharparenleft}mono{\isacharunderscore}tags{\isacharcomma}\ lifting{\isacharparenright}\ fun{\isacharunderscore}upd{\isacharunderscore}def\ {\isacartoucheopen}{\isasymnexists}x\ {\isacharcolon}{\isacharcolon}\ {\isacharprime}c{\isachardot}\ {\isacharparenleft}y{\isadigit{1}}\ {\isacharcolon}{\isacharcolon}\ {\isacharprime}a{\isacharparenright}\ {\isacharequal}\isanewline
+\ {\isacharparenleft}f\ {\isacharcolon}{\isacharcolon}\ {\isacharprime}c\ {\isasymRightarrow}\ {\isacharprime}a{\isacharparenright}\ x{\isacartoucheclose}\ f{\isacharunderscore}inv{\isacharunderscore}into{\isacharunderscore}f\ fun{\isachardot}map{\isacharunderscore}cong{\isadigit{0}}{\isacharparenright}\isanewline
 \ \ \isacommand{have}\isamarkupfalse%
 \ {\isachardoublequoteopen}{\isacharquery}g\ {\isacharequal}\ {\isacharquery}h{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
 \ {\isadigit{2}}\ {\isadigit{3}}\ \isacommand{by}\isamarkupfalse%
@@ -310,7 +312,30 @@ Presentaremos distintas demostraciones de los lemas. Las primeras son
 \ {\isachardoublequoteopen}{\isacharquery}g\ {\isasymnoteq}\ {\isacharquery}h{\isachardoublequoteclose}\ \isanewline
 \ \ \isacommand{proof}\isamarkupfalse%
 \ \isanewline
-\ \ \ \ \isacommand{oops}\isamarkupfalse%
+\ \ \ \ \isacommand{assume}\isamarkupfalse%
+\ {\isadigit{4}}{\isacharcolon}\ {\isachardoublequoteopen}{\isacharquery}g\ {\isacharequal}\ {\isacharquery}h{\isachardoublequoteclose}\isanewline
+\ \ \ \ \isacommand{show}\isamarkupfalse%
+\ False\isanewline
+\ \ \ \ \isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isacharquery}g\ {\isacharequal}\ fun{\isacharunderscore}upd\ {\isacharquery}g\ y{\isadigit{1}}\ {\isacharparenleft}b\ {\isacharcolon}{\isacharcolon}\ {\isacharprime}b{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{4}}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \isacommand{also}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isachardot}{\isachardot}{\isachardot}\ {\isacharequal}\ \ {\isacharparenleft}{\isasymlambda}x{\isachardot}\ if\ x\ {\isacharequal}\ y{\isadigit{1}}\ then\ b\ else\ {\isacharquery}g\ x{\isacharparenright}{\isachardoublequoteclose}\ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}\isanewline
+fun{\isacharunderscore}upd{\isacharunderscore}def{\isacharparenright}\isanewline
+\ \ \ \ \ \ \isacommand{finally}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{5}}{\isacharcolon}\ {\isachardoublequoteopen}{\isacharquery}g\ {\isacharequal}\ {\isacharparenleft}{\isasymlambda}x{\isachardot}\ if\ x\ {\isacharequal}\ y{\isadigit{1}}\ then\ b\ else\ {\isacharquery}g\ x{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \isacommand{show}\isamarkupfalse%
+\ False\isanewline
+\ \ \ \ \ \ \isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}cases{\isacharparenright}\isanewline
+\ \ \ \ \ \ \ \ \isacommand{oops}\isamarkupfalse%
 %
 \endisatagproof
 {\isafoldproof}%
@@ -333,7 +358,7 @@ En la demostración hemos introducido:
 La demostración aplicativa es:%
 \end{isamarkuptext}\isamarkuptrue%
 \isacommand{lemma}\isamarkupfalse%
-\ {\isachardoublequoteopen}surj\ f\ {\isasymLongrightarrow}\ {\isacharparenleft}{\isacharparenleft}g\ {\isasymcirc}\ f{\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}h\ {\isasymcirc}\ f{\isacharparenright}\ {\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}g\ {\isacharequal}\ h{\isacharparenright}{\isachardoublequoteclose}\isanewline
+\ {\isachardoublequoteopen}surj\ f\ {\isasymLongrightarrow}\ {\isacharparenleft}{\isacharparenleft}g\ {\isasymcirc}\ f{\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}h\ {\isasymcirc}\ f{\isacharparenright}\ {\isacharparenright}\ {\isasymlongrightarrow}\ {\isacharparenleft}g\ {\isacharequal}\ h{\isacharparenright}{\isachardoublequoteclose}\isanewline
 %
 \isadelimproof
 \ \ %
@@ -343,15 +368,7 @@ La demostración aplicativa es:%
 \isacommand{apply}\isamarkupfalse%
 \ {\isacharparenleft}simp\ add{\isacharcolon}\ surj{\isacharunderscore}def\ fun{\isacharunderscore}eq{\isacharunderscore}iff{\isacharparenright}\isanewline
 \ \ \isacommand{apply}\isamarkupfalse%
-\ {\isacharparenleft}rule\ iffI{\isacharparenright}\isanewline
-\ \ \ \isacommand{prefer}\isamarkupfalse%
-\ {\isadigit{2}}\isanewline
-\ \ \isacommand{apply}\isamarkupfalse%
-\ auto\isanewline
-\ \isanewline
-\ \ \isacommand{apply}\isamarkupfalse%
-\ \ metis\isanewline
-\isanewline
+\ metis\isanewline
 \ \ \isacommand{done}\isamarkupfalse%
 %
 \endisatagproof
@@ -363,7 +380,7 @@ La demostración aplicativa es:%
 \endisadelimproof
 \isanewline
 \isacommand{lemma}\isamarkupfalse%
-\ {\isachardoublequoteopen}surj\ f\ {\isasymLongrightarrow}\ {\isacharparenleft}{\isacharparenleft}g\ {\isasymcirc}\ f{\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}h\ {\isasymcirc}\ f{\isacharparenright}\ {\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}g\ {\isacharequal}\ h{\isacharparenright}{\isachardoublequoteclose}\isanewline
+\ {\isachardoublequoteopen}surj\ f\ {\isasymLongrightarrow}\ {\isacharparenleft}{\isacharparenleft}g\ {\isasymcirc}\ f{\isacharparenright}\ {\isacharequal}\ {\isacharparenleft}h\ {\isasymcirc}\ f{\isacharparenright}\ {\isacharparenright}\ {\isasymlongrightarrow}{\isacharparenleft}g\ {\isacharequal}\ h{\isacharparenright}{\isachardoublequoteclose}\isanewline
 %
 \isadelimproof
 \ \ %
@@ -467,26 +484,26 @@ En esta demostración hemos introducido:
 %:%94=68%:%
 %:%95=69%:%
 %:%96=70%:%
-%:%98=73%:%
-%:%99=73%:%
+%:%97=71%:%
+%:%99=74%:%
 %:%100=74%:%
-%:%103=75%:%
-%:%107=75%:%
-%:%113=75%:%
-%:%116=76%:%
+%:%101=75%:%
+%:%104=76%:%
+%:%108=76%:%
+%:%114=76%:%
 %:%117=77%:%
-%:%118=77%:%
+%:%118=78%:%
 %:%119=78%:%
-%:%122=79%:%
-%:%126=79%:%
-%:%132=79%:%
-%:%135=80%:%
+%:%120=79%:%
+%:%123=80%:%
+%:%127=80%:%
+%:%133=80%:%
 %:%136=81%:%
-%:%137=81%:%
+%:%137=82%:%
 %:%138=82%:%
-%:%141=83%:%
-%:%145=83%:%
-%:%155=87%:%
+%:%139=83%:%
+%:%142=84%:%
+%:%146=84%:%
 %:%156=88%:%
 %:%157=89%:%
 %:%158=90%:%
@@ -508,161 +525,178 @@ En esta demostración hemos introducido:
 %:%174=106%:%
 %:%175=107%:%
 %:%176=108%:%
-%:%178=112%:%
+%:%177=109%:%
 %:%179=113%:%
-%:%180=113%:%
+%:%180=114%:%
 %:%181=114%:%
 %:%182=115%:%
-%:%189=116%:%
-%:%190=116%:%
+%:%183=116%:%
+%:%190=117%:%
 %:%191=117%:%
-%:%192=117%:%
+%:%192=118%:%
 %:%193=118%:%
-%:%194=118%:%
+%:%194=119%:%
 %:%195=119%:%
-%:%196=119%:%
+%:%196=120%:%
 %:%197=120%:%
-%:%198=120%:%
+%:%198=121%:%
 %:%199=121%:%
-%:%200=121%:%
+%:%200=122%:%
 %:%201=122%:%
-%:%202=122%:%
+%:%202=123%:%
 %:%203=123%:%
-%:%204=123%:%
+%:%204=124%:%
 %:%205=124%:%
-%:%206=124%:%
+%:%206=125%:%
 %:%207=125%:%
-%:%208=125%:%
+%:%208=126%:%
 %:%209=126%:%
-%:%210=126%:%
+%:%210=127%:%
 %:%211=127%:%
-%:%212=127%:%
-%:%213=127%:%
-%:%214=127%:%
+%:%212=128%:%
+%:%213=128%:%
+%:%214=128%:%
 %:%215=128%:%
-%:%216=128%:%
-%:%217=128%:%
-%:%218=128%:%
+%:%216=129%:%
+%:%217=129%:%
+%:%218=129%:%
 %:%219=129%:%
-%:%220=129%:%
-%:%221=129%:%
-%:%222=129%:%
+%:%220=130%:%
+%:%221=130%:%
+%:%222=130%:%
 %:%223=130%:%
-%:%224=130%:%
-%:%225=130%:%
-%:%226=130%:%
+%:%224=131%:%
+%:%225=131%:%
+%:%226=131%:%
 %:%227=131%:%
-%:%228=131%:%
-%:%229=131%:%
-%:%230=131%:%
-%:%231=131%:%
+%:%228=132%:%
+%:%229=132%:%
+%:%230=132%:%
+%:%231=132%:%
 %:%232=132%:%
-%:%233=132%:%
-%:%234=132%:%
-%:%235=132%:%
+%:%233=133%:%
+%:%234=133%:%
+%:%235=133%:%
 %:%236=133%:%
-%:%237=133%:%
-%:%238=133%:%
-%:%239=133%:%
-%:%240=133%:%
+%:%237=134%:%
+%:%238=134%:%
+%:%239=134%:%
+%:%240=134%:%
 %:%241=134%:%
-%:%242=134%:%
-%:%243=134%:%
-%:%244=134%:%
+%:%242=135%:%
+%:%243=135%:%
+%:%244=135%:%
 %:%245=135%:%
-%:%246=135%:%
+%:%246=136%:%
 %:%247=136%:%
-%:%248=136%:%
+%:%248=137%:%
 %:%249=137%:%
-%:%250=137%:%
+%:%250=138%:%
 %:%251=138%:%
-%:%257=138%:%
-%:%260=139%:%
+%:%252=139%:%
+%:%258=139%:%
 %:%261=140%:%
 %:%262=141%:%
-%:%263=141%:%
+%:%263=142%:%
 %:%264=142%:%
 %:%265=143%:%
 %:%266=144%:%
-%:%273=145%:%
-%:%274=145%:%
+%:%267=145%:%
+%:%274=146%:%
 %:%275=146%:%
-%:%276=146%:%
+%:%276=147%:%
 %:%277=147%:%
-%:%278=147%:%
-%:%279=147%:%
-%:%280=147%:%
+%:%278=148%:%
+%:%279=148%:%
+%:%280=148%:%
 %:%281=148%:%
-%:%282=148%:%
-%:%283=148%:%
-%:%284=148%:%
+%:%282=149%:%
+%:%283=149%:%
+%:%284=149%:%
 %:%285=149%:%
-%:%286=149%:%
-%:%287=149%:%
-%:%288=149%:%
+%:%286=150%:%
+%:%287=150%:%
+%:%288=150%:%
 %:%289=150%:%
-%:%290=150%:%
-%:%291=150%:%
-%:%292=150%:%
+%:%290=151%:%
+%:%291=151%:%
+%:%292=151%:%
 %:%293=151%:%
-%:%294=151%:%
+%:%294=152%:%
 %:%295=152%:%
-%:%296=152%:%
+%:%296=153%:%
 %:%297=153%:%
-%:%298=153%:%
-%:%299=153%:%
-%:%300=153%:%
+%:%298=154%:%
+%:%299=154%:%
+%:%300=154%:%
 %:%301=154%:%
-%:%302=154%:%
+%:%302=155%:%
 %:%303=155%:%
-%:%304=155%:%
+%:%304=156%:%
 %:%305=156%:%
-%:%306=156%:%
-%:%307=156%:%
-%:%308=156%:%
-%:%309=157%:%
-%:%310=157%:%
-%:%311=158%:%
-%:%312=158%:%
-%:%313=159%:%
-%:%323=161%:%
-%:%324=162%:%
-%:%325=163%:%
-%:%326=164%:%
+%:%306=157%:%
+%:%307=158%:%
+%:%308=158%:%
+%:%309=158%:%
+%:%310=158%:%
+%:%311=159%:%
+%:%312=159%:%
+%:%313=160%:%
+%:%314=160%:%
+%:%315=161%:%
+%:%316=161%:%
+%:%317=162%:%
+%:%318=162%:%
+%:%319=163%:%
+%:%320=163%:%
+%:%321=164%:%
+%:%322=164%:%
+%:%323=164%:%
+%:%324=164%:%
+%:%325=165%:%
+%:%326=165%:%
 %:%327=165%:%
-%:%328=166%:%
-%:%329=167%:%
-%:%330=168%:%
-%:%331=169%:%
-%:%332=170%:%
-%:%333=171%:%
-%:%335=173%:%
-%:%336=173%:%
-%:%339=174%:%
-%:%343=174%:%
-%:%344=174%:%
-%:%345=175%:%
-%:%346=175%:%
-%:%347=176%:%
-%:%348=176%:%
-%:%349=177%:%
-%:%350=177%:%
-%:%351=178%:%
-%:%352=179%:%
+%:%328=165%:%
+%:%329=166%:%
+%:%330=167%:%
+%:%331=167%:%
+%:%332=167%:%
+%:%333=167%:%
+%:%334=168%:%
+%:%335=168%:%
+%:%336=169%:%
+%:%337=169%:%
+%:%338=170%:%
+%:%348=174%:%
+%:%349=175%:%
+%:%350=176%:%
+%:%351=177%:%
+%:%352=178%:%
 %:%353=179%:%
 %:%354=180%:%
 %:%355=181%:%
-%:%361=181%:%
-%:%364=182%:%
-%:%365=183%:%
-%:%366=183%:%
-%:%369=184%:%
-%:%373=184%:%
-%:%374=184%:%
-%:%375=185%:%
-%:%376=185%:%
-%:%385=188%:%
-%:%386=189%:%
-%:%387=190%:%
-%:%388=191%:%
-%:%389=192%:%
+%:%356=182%:%
+%:%357=183%:%
+%:%358=184%:%
+%:%360=186%:%
+%:%361=186%:%
+%:%364=187%:%
+%:%368=187%:%
+%:%369=187%:%
+%:%370=188%:%
+%:%371=188%:%
+%:%372=189%:%
+%:%378=189%:%
+%:%381=190%:%
+%:%382=191%:%
+%:%383=191%:%
+%:%386=192%:%
+%:%390=192%:%
+%:%391=192%:%
+%:%392=193%:%
+%:%393=193%:%
+%:%402=196%:%
+%:%403=197%:%
+%:%404=198%:%
+%:%405=199%:%
+%:%406=200%:%

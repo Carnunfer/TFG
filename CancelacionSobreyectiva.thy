@@ -15,8 +15,8 @@ El siguiente teorema prueba una caracterización de las funciones
 
 
 \begin {teorema}
-  f es sobreyectiva si y solo si  para todas funciones g y h tal que g o f
- = h o f se tiene que g = h.
+  f es sobreyectiva si y solo si  para todas funciones g y h tal que 
+$g \circ f  = h \circ f$ se tiene que g = h.
 \end {teorema}
  
 El teorema lo podemos dividir en dos lemas, ya que el teorema se
@@ -24,25 +24,26 @@ El teorema lo podemos dividir en dos lemas, ya que el teorema se
  en las dos implicaciones.
 
 \begin {lema}
-  f es sobreyectiva entonces  para todas funciones g y h tal que g o f
- = h o f se tiene que g = h.
+  f es sobreyectiva entonces  para todas funciones g y h tal que 
+$g \circ f = h \circ f$ se tiene que $g = h$.
 \end {lema}
 \begin {demostracion}
 \begin {itemize}
-\item Supongamos que tenemos que $g \circ  f = h \circ f$, queremos probar que $g =
- h.$ Usando la definición de sobreyectividad $(\forall y \in Y,
- \exists x | y = f(x))$ y nuestra hipótesis, tenemos que:
-$$g(y) = g(f(x)) = (g o f) (x) = (h o f) (x) = h(f(x)) = h(y)$$
-\item Supongamos que $g = h$, hay que probar que $g o f = h o f.$ Usando
-nuestra hipótesis, tenemos que:
-$$ (g o f)(x) = g(f(x)) = h(f(x)) = (h o f) (x).$$
+\item Supongamos que tenemos que $g \circ  f = h \circ f$, queremos
+ probar que $g = h.$ Usando la definición de sobreyectividad
+ $(\forall y \in Y,  \exists x | y = f(x))$ y nuestra hipótesis,
+ tenemos que: $$g(y) = g(f(x)) = (g \circ f) (x) = (h \circ f) (x) =
+ h(f(x)) = h(y).$$
+\item Supongamos que $g = h$, hay que probar que
+ $g \circ f = h \circ f.$ Usando nuestra hipótesis, tenemos que:
+$$ (g \circ f)(x) = g(f(x)) = h(f(x)) = (h \circ f) (x).$$
 \end {itemize}
 (*<*).(*>*)
 \end {demostracion}
 
 \begin {lema}
- Si  para todas funciones g y h tal que g o f  = h o f se tiene
- que g = h entonces f es sobreyectiva.
+ Si  para todas funciones g y h tal que $g \circ f  = h \circ f$ se 
+tiene que g = h entonces f es sobreyectiva.
 \end {lema}
 
 \begin {demostracion}
@@ -152,12 +153,24 @@ proof (rule surjI)
   let ?h =" fun_upd ?g y1 (b :: 'b)"
   have 2:"?g \<circ> f = ?h \<circ> f \<longrightarrow> ?g = ?h" using assms by blast
   have 3:"?g \<circ> f = ?h \<circ> f" 
-    by (metis (mono_tags, lifting) fun_upd_def \<open>\<nexists>x :: 'c. (y1 :: 'a) = (f :: 'c \<Rightarrow> 'a) x\<close> f_inv_into_f fun.map_cong0)
+    by (metis (mono_tags, lifting) fun_upd_def \<open>\<nexists>x :: 'c. (y1 :: 'a) =
+ (f :: 'c \<Rightarrow> 'a) x\<close> f_inv_into_f fun.map_cong0)
   have "?g = ?h" using 2 3 by (rule mp)
   have "?g \<noteq> ?h" 
   proof 
-    oops
-
+    assume 4: "?g = ?h"
+    show False
+    proof -
+      have "?g = fun_upd ?g y1 (b :: 'b)" using 4 by simp
+      also have "... =  (\<lambda>x. if x = y1 then b else ?g x)"  by (simp add:
+fun_upd_def)
+      finally have 5: "?g = (\<lambda>x. if x = y1 then b else ?g x)" by simp
+      show False
+      proof (cases)
+        oops 
+       
+        
+      
 text \<open>En la demostración hemos introducido: 
  \begin{itemize}
     \item[] @{thm[mode=Rule] exE[no_vars]} 
@@ -170,17 +183,12 @@ text \<open>En la demostración hemos introducido:
 
 La demostración aplicativa es: \<close>
 
-lemma "surj f \<Longrightarrow> ((g \<circ> f) = (h \<circ> f) ) = (g = h)"
+lemma "surj f \<Longrightarrow> ((g \<circ> f) = (h \<circ> f) ) \<longrightarrow> (g = h)"
   apply (simp add: surj_def fun_eq_iff)
-  apply (rule iffI)
-   prefer 2
-  apply auto
- 
-  apply  metis
-
+  apply metis
   done
 
-lemma "surj f \<Longrightarrow> ((g \<circ> f) = (h \<circ> f) ) = (g = h)"
+lemma "surj f \<Longrightarrow> ((g \<circ> f) = (h \<circ> f) ) \<longrightarrow>(g = h)"
   apply (simp add: surj_def fun_eq_iff ) 
   by metis
 

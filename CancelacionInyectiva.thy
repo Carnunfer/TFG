@@ -188,7 +188,7 @@ proof
   qed
 qed
 
-
+declare [[show_types]]
 
 lemma inyectdeclarada2:
   fixes f :: "'b \<Rightarrow> 'c" 
