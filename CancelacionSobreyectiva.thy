@@ -1,10 +1,16 @@
+(* Cancelación de las funciones sobreyectivas *)
+
 (*<*) 
 theory CancelacionSobreyectiva 
 imports Main "HOL-Library.LaTeXsugar" "HOL-Library.OptionalSugar" 
 begin
 (*>*) 
 
-section \<open>Cancelación de las funciones sobreyectivas\<close>
+text \<open>\comentario{Estructurar en secciones.}\<close>
+
+text \<open>\comentario{Hacer demostraciones detalladas.}\<close>
+
+text \<open>\comentario{Añadir lemas usados al Soporte.}\<close>
 
 text \<open>
 El siguiente teorema prueba una caracterización de las funciones

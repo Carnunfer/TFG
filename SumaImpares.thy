@@ -1,11 +1,12 @@
-(*<*) 
+(* Suma de los primeros números impares *)
+
+(*<*)
 theory SumaImpares
 imports Main "HOL-Library.LaTeXsugar" "HOL-Library.OptionalSugar" 
 begin
 (*>*) 
 
-
-section \<open>Suma de los primeros números impares\<close>
+section \<open>Demostración en lenguaje natural\<close>
 
 text \<open>El primer teorema es una propiedad de los números naturales.
 
@@ -33,8 +34,11 @@ text \<open>El primer teorema es una propiedad de los números naturales.
       = (n+1)^2
       \end{array}$$ 
   \end{demostracion}
+\<close>
 
-  Para especificar el teorema en Isabelle, se comienza definiendo 
+section \<open>Especificación en Isabelle/HOL\<close>
+
+text \<open>Para especificar el teorema en Isabelle, se comienza definiendo 
   la función @{term "suma_impares"} tal que @{term "suma_impares n"} es
   la suma de los $n$ primeros números impares\<close>
 
@@ -46,6 +50,8 @@ text \<open>El enunciado del teorema es el siguiente:\<close>
 
 lemma "suma_impares n = n * n"
 oops  
+
+section \<open>Demostración aplicativa\<close>
 
 text \<open>En la demostración se usará la táctica @{text induct} que hace
   uso del esquema de inducción sobre los naturales:
@@ -85,10 +91,14 @@ lemma "suma_impares n = n * n"
    apply simp_all
   done
 
+section \<open>Demostración automática\<close>
+
 text \<open>La correspondiente demostración automática es\<close>
 
 lemma "suma_impares n = n * n"
   by (induct n) simp_all
+
+section \<open>Demostración estructurada\<close>
 
 text \<open>La demostración estructurada y detallada del lema anterior es\<close>
 
@@ -97,7 +107,7 @@ proof (induct n)
   have "suma_impares 0 = 0" 
     by (simp only: suma_impares.simps(1))
   also have "\<dots> = 0 * 0"
-    by (simp only: mult_0)
+    by (simp only:  mult_0)
   finally show "suma_impares 0 = 0 * 0"
     by simp
 next
@@ -132,6 +142,8 @@ next
   finally show "suma_impares (Suc n) = (Suc n) * (Suc n)" 
     by simp
 qed
+
+section \<open>Demostración con patrones\<close>
 
 text \<open>La demostración anterior se puede simplificar usando patrones.\<close>
 

@@ -1,11 +1,16 @@
+(* Cancelación de funciones inyectivas *)
+
 (*<*) 
 theory CancelacionInyectiva
 imports Main "HOL-Library.LaTeXsugar" "HOL-Library.OptionalSugar" 
 begin
 (*>*) 
 
+text \<open>\comentario{Estructurar en secciones.}\<close>
 
-section \<open>Cancelación de funciones inyectivas\<close>
+text \<open>\comentario{Hacer demostraciones detalladas.}\<close>
+
+text \<open>\comentario{Añadir lemas usados al Soporte.}\<close>
 
 text \<open>El siguiente teorema prueba una caracterización de las funciones
  inyectivas, en otras palabras, las funciones inyectivas son

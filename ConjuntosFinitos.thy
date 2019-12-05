@@ -1,10 +1,16 @@
+(* Propiedad de los conjuntos finitos de números naturales *)
+
 (*<*) 
 theory ConjuntosFinitos 
 imports Main "HOL-Library.LaTeXsugar" "HOL-Library.OptionalSugar" 
 begin
 (*>*) 
 
-section \<open>Propiedad de los conjuntos finitos de números naturales\<close> 
+text \<open>\comentario{Estructurar en secciones.}\<close>
+
+text \<open>\comentario{Hacer demostraciones detalladas.}\<close>
+
+text \<open>\comentario{Añadir lemas usados al Soporte.}\<close>
 
 text \<open>El siguiente teorema es una propiedad que verifican todos los conjuntos finitos de números
   naturales  estudiado en el \href{http://bit.ly/2XBW6n2}{tema 10} de la
