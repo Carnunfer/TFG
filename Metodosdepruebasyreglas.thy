@@ -1,10 +1,10 @@
+(* Métodos de pruebas y reglas *)
+
 (*<*) 
 theory Metodosdepruebasyreglas
 imports Main "HOL-Library.LaTeXsugar" "HOL-Library.OptionalSugar" 
 begin
 (*>*) 
-
-section \<open>Métodos de pruebas y reglas \<close>
 
 text \<open> Métodos de pruebas de demostraciones:
 

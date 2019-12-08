@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper]{article}
+\documentclass[12pt,a4paper,twoside]{book}
 \usepackage{isabelle,isabellesym}
 \usepackage{ifthen,mathpartir}
 
@@ -11,12 +11,20 @@
 % \usepackage[T1]{fontenc}           % Codificación T1 con European Computer
 % \usepackage[spanish]{babel}        % Castellanización.
 % \usepackage{ucs}
-% \usepackage{mathpazo}              % Tipo de fuente
-% \usepackage[scaled=.90]{helvet}    % Tipo de fuente
-% \usepackage{a4wide}                % Márgenes
-% \linespread{1.05}                  % Distancia entre líneas
-% \setlength{\parindent}{2em}        % Indentación de comienzo de párrafo
+\usepackage{mathpazo}              % Tipo de fuente
+\usepackage[scaled=.90]{helvet}    % Tipo de fuente
+\usepackage{a4wide}                % Márgenes
+\linespread{1.05}                  % Distancia entre líneas
+\setlength{\parindent}{2em}        % Indentación de comienzo de párrafo
 
+\usepackage[colorinlistoftodos
+           , backgroundcolor = yellow
+           , textwidth = 4cm
+           , shadow
+           , spanish]{todonotes}
+
+\setcounter{secnumdepth}{3}
+           
 \usepackage{amssymb}
   %for \<leadsto>, \<box>, \<diamond>, \<sqsupset>, \<mho>, \<Join>,
   %\<lhd>, \<lesssim>, \<greatersim>, \<lessapprox>, \<greaterapprox>,
@@ -49,6 +57,29 @@
 \input definiciones
 \input castellano
 
+% No ajusta los espacios verticales.
+\raggedbottom
+
+% Espacio entre párrafos
+\parindent 2em\parskip 1ex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Cabeceras                                                              %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{fancyhdr}
+
+\addtolength{\headheight}{\baselineskip}
+
+\pagestyle{fancy}
+
+\cfoot{}
+
+\fancyhead{}
+\fancyhead[RE]{\slshape \nouppercase{\leftmark}}
+\fancyhead[LO]{\slshape \nouppercase{\rightmark}}
+\fancyhead[LE,RO]{\slshape \thepage}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Documento
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -60,10 +91,10 @@
 \date{18 de noviembre de 2019}
 \maketitle
 
-\begin{abstract}
-  En este trabajo vamos a presentar la formalización en Isabelle/HOL de
-  una selección de teoremas de distintos campos de las matemáticas.
-\end{abstract}
+% \begin{abstract}
+%   En este trabajo vamos a presentar la formalización en Isabelle/HOL de
+%   una selección de teoremas de distintos campos de las matemáticas.
+% \end{abstract}
 
 \tableofcontents
 
@@ -72,12 +103,39 @@
 \parindent 2em\parskip 1ex
 
 % generated text of all theories
-\input{session}
+% \input{session}
+
+\chapter{Suma de los primeros números impares}
+\input{SumaImpares}
+
+\chapter{Cancelación de funciones inyectivas}
+\input{CancelacionInyectiva}
+
+\chapter{Cancelación de las funciones sobreyectivas}
+\input{CancelacionSobreyectiva}
+
+\chapter{Propiedad de los conjuntos finitos de números naturales}
+\input{ConjuntosFinitos}
+
+\chapter{Teorema de Cantor}
+\input{TeoremaCantor}
+
+\appendix
+
+\chapter{Métodos de pruebas y reglas}
+\input{Metodosdepruebasyreglas}
+
+\chapter{Lemas de HOL usados}
+\input{Soporte}
 
 % optional bibliography
 \nocite{LMF, tutorial}
 \bibliographystyle{plain}
 \bibliography{root}
+
+% Pendientes
+\todototoc
+\listoftodos
 
 \end{document}
 
