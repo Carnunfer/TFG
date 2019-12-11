@@ -200,10 +200,12 @@ lemma "surj f \<Longrightarrow> ((g \<circ> f) = (h \<circ> f) ) \<longrightarro
 
 
 text \<open>
+\begin{demostracion}
 En esta demostración hemos introducido:
  \begin{itemize}
     \item[] @{thm[mode=Rule] fun_eq_iff[no_vars]} 
       \hfill (@{text fun_eq_iff})
+\end{demostracion}
   \end{itemize} 
 \<close>
   
