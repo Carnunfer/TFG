@@ -12,68 +12,55 @@ text \<open>\comentario{Hacer demostraciones detalladas.}\<close>
 
 text \<open>\comentario{Añadir lemas usados al Soporte.}\<close>
 
-section \<open>Demostración en lenguaje natural \<close>
-
-
-text \<open>El siguiente teorema es una propiedad que verifican todos los 
-conjuntos finitos de números naturales  estudiado en el 
-\href{http://bit.ly/2XBW6n2}{tema 10} de la
-asignatura de LMF de tercer curso del grado en Matemáticas. Su enunciado
- es el siguiente 
+text \<open>El siguiente teorema es una propiedad que verifican todos los conjuntos finitos de números
+  naturales  estudiado en el \href{http://bit.ly/2XBW6n2}{tema 10} de la
+asignatura de LMF. Su enunciado es el siguiente 
 
   \begin{teorema} 
     Sea S un conjunto finito de números naturales.  Entonces todos los
  elementos de S son menores o iguales que la suma de los elementos de
- S, es decir,
-
- $$\forall m \in S \Longrightarrow m \leq \sum S$$ 
-
+ S, es decir, $$\forall m , m \in S \Longrightarrow m \leq \sum S$$ 
+\newline
 donde $\sum S $ denota la suma de todos los elementos de S.
   \end{teorema} 
 
 \begin{demostracion}
 La demostración del teorema la haremos por inducción sobre conjuntos
- finitos.
+ finitos naturales.\\
+Primero veamos el caso base, es decir, supongamos que $S = \emptyset$:
 
-  
- (Base de la inducción) El caso $S = \emptyset$ es trivial.
-
- (Paso de la inducción) Supongamos que se verifica el teorema para un
- conjunto finito de números naturales, que se denotará por $S.$ 
- 
-Sea $a \in \Bbb{N}$ tal que $a \notin S,$ Ya que si $a \in S$ se tendría
-probado el teorema. Luego hay que probar que: 
-
-$$\forall n \in S \cup \{a\} \Longrightarrow n \leq \sum (S \cup
- \{a\})$$
-
-Distingamos dos casos ahora:
-
-Caso 1: $n = a$.
-
-Si $n = a$, se tiene que:
-
-$$n = a \leq a + \sum S = \sum (S \cup \{a\}).$$
-
-Caso 2: $n \neq a.$
-
-Si $n \neq a,$ tenemos que $n \in S,$ luego usando la hipótesis de
- inducción:
-
-$$n \leq \sum S \leq \sum S + a = \sum (S \cup \{a\}).$$
+Tenemos que: $$\forall n, n \in \emptyset \Longrightarrow n \leq \sum
+ \emptyset.$$\\
+Ya hemos probado el caso base, veamos ahora el paso inductivo:
+\newline
+Sea S un conjunto finito para el que se cumple la hipótesis, es decir,
+ todos los elementos de S son menores o iguales que la suma de todos sus
+elementos, sea $a$ un elemento tal que $a \notin S$, ya que si $a \in S$
+entonces la demostración es trivial.\\
+Hay que probar: $$\forall n , n \in S \cup \{ a \} \Longrightarrow n
+ \leq \sum (S \cup \{ a \})$$
+Vamos a distinguir dos casos:\\
+Caso 1: $n = a$ \\
+Si $n = a$ tenemos que $n = a \leq a + \sum S = \sum ( S \cup \{ a
+ \})$\\
+Caso 2: $n \neq a$\\
+Si $n \neq a$ tenemos que $a \notin S$ y que $n \in S \cup \{ a \}$,
+ luego esto implica que $n \in S$ y usando la hipótesis de inducción
+$$n \in S \Longrightarrow n \leq \sum S \leq \sum S + a = \sum (S \cup
+ \{ a \})$$
 \end{demostracion}
 
 En la demostración del teorema hemos usado un resultado, que vamos a
  probar en Isabelle después de la especificación del teorema,
- el resultado es $\sum S + a = \sum (S \cup \{ a\})$.
+ el resultado es $\sum S + a = \sum (S \cup \{ a
+ \})$.
 \<close>
 
-section \<open>Especificación en Isabelle/HOL \<close>
 
-text  \<open>Para la especificación del teorema en Isabelle, primero debemos
- notar que  @{text "finite S "} indica que un conjunto $S$ es 
+text  \<open>Para la especificación del teorema en isabelle, primero debemos
+ notar que  @{text "finite S "} indica que nuestro conjunto $S$ es 
 finito  y definir  la función @{text "sumaConj"} tal que
- @{text "sumaConj n"} es la suma de todos los elementos de S.
+ @{text "sumaConj n"} esla suma de todos los elementos de S.
  \<close>
 
 definition sumaConj :: "nat set \<Rightarrow> nat" where
@@ -82,35 +69,28 @@ definition sumaConj :: "nat set \<Rightarrow> nat" where
 text \<open>El enunciado del teorema es el siguiente : \<close>
 
 
-lemma "finite S \<Longrightarrow> \<forall>x \<in> S. x \<le> sumaConj S"
+lemma "finite S \<Longrightarrow> \<forall>x\<in>S. x \<le> sumaConj S"
 
   oops 
 
   text \<open>Vamos a demostrar primero el lema enunciado anteriormente \<close>
-
-lemma aux_propiedad_conjuntos_finitos:
- " x \<notin> S \<and> finite S \<longrightarrow> sumaConj S + x = sumaConj(insert x S)"
+lemma " x \<notin> S \<and> finite S \<longrightarrow> sumaConj S + x = sumaConj(insert x S)"
   by (simp add: sumaConj_def)
 
 
 text  \<open>La demostración del lema anterior se ha incluido
  @{term"sumConj_def"}, que hace referencia a la definición sumaConj que
- hemos hecho anteriormente.
-
-
+ hemos hecho anteriormente. \\
 En la demostración se usará la táctica @{text induct} que hace
-  uso del esquema de inducción sobre los conjuntos finitos:
+  uso del esquema de inducción sobre los conjuntos finitos naturales:
   \begin{itemize}
-  \item[] @{thm[mode=Def] finite.induct[no_vars]}
- \hfill (@{text finite.induct})
+  \item[] @{thm[mode=Def] finite.induct[no_vars]} \hfill (@{text finite.induct})
   \end{itemize} 
 
-Vamos a presentar diferentes formas de demostración:
-\<close>
+Vamos a ver presentar las diferentes formas de demostración.
 
-section \<open>Demostración aplicativa \<close>
 
-text \<open>La demostración aplicativa del teorema es: \<close> 
+La demostración aplicativa es: \<close>
 
 lemma "finite S \<Longrightarrow> \<forall>x\<in>S. x \<le> sumaConj S"
   apply (induct rule: finite_induct)
@@ -123,17 +103,11 @@ text \<open>En la demostración anterior se ha introducido:
     \item[] @{thm[mode=Rule] add_increasing[no_vars]} 
       \hfill (@{text add_increasing})
   \end{itemize} 
-\<close>
-
-section \<open>Demostración automática \<close>
-
-text \<open> La demostración automática es: \<close>
+ La demostración automática es: \<close>
 
 lemma "finite S \<Longrightarrow> \<forall>x\<in>S. x \<le> sumaConj S"
   by (induct rule: finite_induct)
      (auto simp add:  sumaConj_def)
-
-section \<open>Demostración detallada \<close>
 
   text \<open>La demostración declarativa es: \<close>
 
@@ -154,8 +128,7 @@ next
     proof (cases "y = x")
       assume "y = x"
       then have "y \<le> x + (sumaConj F)" by simp
-      also have "\<dots> = sumaConj (insert x F)" 
-        by (simp add: fF sumaConj_def xF) 
+      also have "\<dots> = sumaConj (insert x F)"   by (simp add: fF sumaConj_def xF) 
       finally show ?thesis .
     next
       assume "y \<noteq> x"
@@ -168,12 +141,16 @@ next
     qed
   qed
 qed
-
-
+(*<*)
 text \<open> En esta última demostración hemos usado el método de prueba por
- casos,el método blast y también el simp("simplificador") añadiéndole 
-@{term "sumaConj_def"}.\<close>
+ casos,el método blast y también el simp("simplificador") añadiendole 
+"sumaConj-def".
+  \begin{itemize}
+  \item[] @{thm[mode=Proof] finite.induct[no_vars]} \hfill (@{text finite.induct})
+  \end{itemize} 
 
+\<close>
+(*>*)
 (*<*)
 end
 (*>*)
