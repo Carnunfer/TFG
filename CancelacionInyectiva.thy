@@ -6,74 +6,84 @@ imports Main "HOL-Library.LaTeXsugar" "HOL-Library.OptionalSugar"
 begin
 (*>*) 
 
+
+section \<open>Demostración en lenguaje natural \<close>
+
+
 text \<open>\comentario{Estructurar en secciones.}\<close>
 
 text \<open>\comentario{Hacer demostraciones detalladas.}\<close>
 
 text \<open>\comentario{Añadir lemas usados al Soporte.}\<close>
 
-text \<open>El siguiente teorema prueba una caracterización de las funciones
- inyectivas, en otras palabras, las funciones inyectivas son
- monomorfismos en la categoría de conjuntos. Un monomorfismo es un
- homomorfismo inyectivo y la categoría de conjuntos es la categoría
- cuyos objetos son los conjuntos.
+text \<open>El siguiente teorema que se va a probar es una caracterización de
+ las funciones inyectivas. Primero se definirá el significado de
+ inyectividad de una función y la propiedad de ser cancelativa por la
+ izquierda. \\
+ Una función $f : B \longrightarrow C$ es inyectiva si 
+$$\forall x,y \in \ B : f(x) = f(y) \Longrightarrow x =
+ y.$$
+Una función $f : B \longrightarrow C$ es cancelativa por la izquierda si 
+$$\forall A: (\forall g,h: X \longrightarrow Y) : f \circ g = f \circ h
+ \Longrightarrow g = h.$$
+
+Luego el teorema es el siguiente:
+
+Luego el teorema es el siguiente:
   
   \begin{teorema}
-    $f$ es una función inyectiva, si y solo si, para todas funciones 
+  $f$ es una función inyectiva, si y solo si, para todas funciones 
  $g$ y $h$  tales que  $f \circ g = f \circ h$ se tiene que $g = h$. 
   \end{teorema}
 
-Vamos a hacer dos lemas de nuestro teorema, ya que podemos la doble 
-implicación en dos implicaciones y demostrar cada una de ellas por
- separado.
+Vamos a hacer dos lemas de nuestro teorema, ya que se  descompone la
+doble implicación en dos implicaciones y se va a  demostrar cada una de
+ ellas por  separado.
 
-\begin {lema}
-$f$ es una función inyectiva si para todas funciones $g$ y $h$ tales que
- $f \circ g = f \circ h$ se tiene que $g = h.$
+\begin{lema}[Condición necesaria]
+ Si $f$ es una función inyectiva entonces para todas funciones $g$ y $h$
+ tales que  $f \circ g = f \circ h$ se tiene que $g = h.$
 \end {lema}
   \begin{demostracion}
-    La demostración la haremos por doble implicación: 
-\begin {enumerate}
-\item Supongamos que tenemos que $f \circ g = f \circ h$, queremos
- demostrar que $g = h$, usando que f es inyectiva tenemos que: \\
+Por hipótesis se tiene que $f \circ g = f \circ h$, hay que probar que
+$g = h$. Usando que f es inyectiva tenemos que: \\
 $$(f \circ g)(x) = (f \circ h)(x) \Longrightarrow f(g(x)) = f(h(x)) = 
 g(x) = h(x)$$
-\item Supongamos ahora que $g = h$, queremos demostrar que  $f \circ g
- = f \circ h$. \\
-$$(f \circ g)(x) = f(g(x)) = f(h(x)) = (f \circ h)(x)$$
-\end {enumerate}
-.
   \end{demostracion}
 
-\begin {lema} 
+\begin {lema}[Condición suficiente] 
 Si para toda $g$ y $h$ tales que $f \circ g =  f \circ h$ se tiene que $g
 = h$ entonces f es inyectiva.
 \end {lema} 
 
 \begin {demostracion}
-
-
-Supongamos que el dominio de nuestra función $f$ es distinto del vacío.
-Tenemos que demostrar que $\forall a,b$ tales que $f(a) = f(b),$ esto
+Si el dominio de la función $f$ fuese vacío, f  es inyectiva.
+Supongamos que el dominio de la función $f$ es distinto del vacío y que 
+f verifica la propiedad de ser cancelativa por la izquierda.
+Hay que demostrar que $\forall a,b$ tales que $f(a) = f(b),$ esto
  implica que $a = b.$ \\
-Sean $a,b$ tales que $f(a) = f(b)$, y definamos $g(x) = a  \ \forall x$
- y $h(x) = b \  \forall x$ entonces 
-$$(f \circ g) = (f \circ h) \Longrightarrow  f(g(x)) = f(h(x)) \Longrightarrow f(a) = f(b)$$
-Por hipótesis tenemos entonces que $a = b,$ como queríamos demostrar.
-\end {demostracion}
+Sean $a,b$ tales que $f(a) = f(b)$. \\
+Definiendo  $g(x) = a  \ \forall x$  y $h(x) = b \  \forall x$ entonces 
+$$(f \circ g) = (f \circ h) \Longrightarrow  f(g(x)) = f(h(x))
+ \Longrightarrow f(a) = f(b)$$
 
+Por hipótesis, entonces $a = b,$ como se quería demostrar.
+\end {demostracion} \<close>
 
-  Su especificación es la siguiente, pero al igual que hemos hecho en la demostración
-a mano vamos a demostrarlo a través de dos lemas:
+section \<open>Especificación en Isabelle/Hol\<close>
+
+text\<open>
+  Su especificación es la siguiente, pero al igual que se ha  hecho en
+ la demostración a mano se va a demostrar a través de dos lemas:
+
 \<close>
-
-theorem caracterizacionineyctiva:
+theorem caracterizacion_funcion_inyecctiva:
   "inj f \<longleftrightarrow> (\<forall>g h. (f \<circ> g = f \<circ> h) \<longrightarrow> (g = h))"
   oops
 
 
 
-  text \<open>Sus lemas son los siguientes: \<close>
+  text \<open>Sus lemas asociados a cada implicación son los siguientes: \<close>
 
 lemma 
 "\<forall>g h. (f \<circ> g = f \<circ> h \<longrightarrow> g = h) \<Longrightarrow> inj f"
@@ -82,7 +92,6 @@ lemma
 lemma 
 "inj f \<Longrightarrow> (\<forall>g h.(f \<circ> g = f \<circ> h) \<longrightarrow> (g = h))"
   oops
-
 
 text \<open>En la especificación anterior, @{term "inj f"} es una 
   abreviatura de @{term "inj_on f UNIV"} definida en la teoría
@@ -103,15 +112,18 @@ text \<open>En la especificación anterior, @{term "inj f"} es una
   En el caso de la teoría de conjuntos, la relación de orden es la
   inclusión de conjuntos.
 
-  Presentaremos distintas demostraciones de los lemas. La primera
-  demostración es applicativa:\<close> 
+  Presentaremos distintas demostraciones de los lemas. \<close>
 
-lemma inyectivapli:
+section \<open>Demostración aplicativa lemas\<close>
+
+text \<open> Las demostraciones aplicativas de los lemas son  :\<close>
+
+lemma condicion_necesaria_aplicativa:
   "inj f \<Longrightarrow> (\<forall>g h.(f \<circ> g = f \<circ> h) \<longrightarrow>  (g = h))"
   apply (simp add: inj_on_def fun_eq_iff) 
   done 
 
-lemma inyectivapli2:
+lemma condicion_suficiente_aplicativa:
 "\<forall>g h. (f \<circ> g = f \<circ> h \<longrightarrow> g = h) \<Longrightarrow> inj f"
   apply (rule injI)
   by (metis fun_upd_apply fun_upd_comp)
@@ -130,48 +142,15 @@ text \<open>En las demostraciones anteriores se han usado los siguientes
   \begin{itemize}
     \item[] @{thm[mode=Rule] fun_eq_iff[no_vars]} 
       \hfill (@{text fun_upd_comp})
-  \end{itemize} 
+  \end{itemize}\<close>
 
-  La demostración applicativa1 sin auto es\<close>
-
-lemma
-  "inj f \<Longrightarrow> \<forall>g h. (f \<circ> g = f \<circ> h) \<longrightarrow>  (g = h)"
-  apply (unfold inj_on_def) 
-  apply (unfold fun_eq_iff) 
-  apply (unfold o_apply)
-   apply simp+
-  done
-
-lemma 
-"\<forall>g h. (f \<circ> g = f \<circ> h \<longrightarrow> g = h) \<Longrightarrow> inj f"
-  oops
-
-text \<open>En la demostración anterior se ha introducido los siguientes
-  hechos
-  \begin{itemize}
-    \item @{thm o_apply[no_vars]} \hfill (@{text o_apply})
-    \item @{thm iffI[no_vars]} \hfill (@{text iffI})
-  \end{itemize} 
-
-  La demostración automática es\<close>
-
-lemma inyectivaut:
-  assumes "inj f"
-  shows "\<forall>g h. (f \<circ> g = f \<circ> h) \<longrightarrow> (g = h)"
-  using assms
-  by (auto simp add: inj_on_def fun_eq_iff) 
-
-lemma inyectivaut2: 
-  assumes "\<forall>g h. ((f \<circ> g = f \<circ> h) \<longrightarrow> (g = h))"
-  shows "inj f"
-  using assms
-  oops
-
-  text \<open>La demostración declarativa\<close>
+section \<open>Demostración estructurada lemas\<close>
+ 
+text \<open>Las demostraciones declarativas son las siguientes: \<close>
 
 
 
-lemma inyectdeclarada:
+lemma condicion_necesaria_detallada:
   assumes "inj f"
   shows "\<forall>g h.(f \<circ> g = f \<circ> h) \<longrightarrow> (g = h)"
 proof
@@ -193,9 +172,9 @@ proof
   qed
 qed
 
-declare [[show_types]]
+(*<*)declare [[show_types]](*>*)
 
-lemma inyectdeclarada2:
+lemma condicion_suficiente_detallada:
   fixes f :: "'b \<Rightarrow> 'c" 
   assumes "\<forall>(g :: 'a \<Rightarrow> 'b) (h :: 'a \<Rightarrow> 'b).
          (f \<circ> g = f \<circ> h \<longrightarrow> g = h)"
@@ -218,14 +197,21 @@ proof (rule injI)
       by simp
   qed
   have "?g = ?h" using 1 2 by (rule mp)
-  then show " a = b" by meson
+  then show " a = b" by (rule fun_cong)
 qed
 
 
 
-text \<open>Otra demostración declarativa es\<close>
 
-lemma inyectdetalladacorta1:
+text \<open>
+En la anterior demostración se ha introducito la regla: 
+  \begin{itemize}
+    \item[] @{thm[mode=Rule] fun_cong[no_vars]} 
+      \hfill (@{text fun_cong})
+  \end{itemize}
+Otras demostraciones declarativas usando auto y blast son:\<close>
+
+lemma condicion_necesaria_detallada1:
   assumes "inj f"
   shows "(f \<circ> g = f \<circ> h) \<longrightarrow>(g = h)"
 proof 
@@ -233,7 +219,7 @@ proof
   then show "g = h" using `inj f` by (simp add: inj_on_def fun_eq_iff) 
 qed
 
-lemma inyectdetalladacorta2:
+lemma condicion_suficiente_detallada1:
   fixes f :: "'b \<Rightarrow> 'c" 
   assumes "\<forall>(g :: 'a \<Rightarrow> 'b) (h :: 'a \<Rightarrow> 'b).
          (f \<circ> g = f \<circ> h \<longrightarrow> g = h)"
@@ -257,12 +243,13 @@ proof (rule injI)
 qed
 
 
-
+section \<open>Demostración teorema en Isabelle/Hol\<close>
 text \<open>En consecuencia, la demostración de nuestro teorema: \<close>
 
-theorem caracterizacioninyectiva:
+theorem caracterizacion_inyectividad:
   "inj f \<longleftrightarrow> (\<forall>g h. (f \<circ> g = f \<circ> h) \<longrightarrow> (g = h))"
-  using inyectdetalladacorta1 inyectdetalladacorta2 by auto
+  using condicion_necesaria_detallada condicion_suficiente_detallada
+  by auto
 
 
 

@@ -1,4 +1,0 @@
-Para compilar la teoría, ejecutar
-   isabelle build -c -D .
-
-Genera el documento en output/document.pdf

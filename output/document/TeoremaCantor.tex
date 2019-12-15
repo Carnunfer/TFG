@@ -28,6 +28,23 @@
 \comentario{Añadir lemas usados al Soporte.}%
 \end{isamarkuptext}\isamarkuptrue%
 %
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\isatagdocument
+%
+\isamarkupsection{Demostración en lenguaje natural%
+}
+\isamarkuptrue%
+%
+\endisatagdocument
+{\isafolddocument}%
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
 \begin{isamarkuptext}%
 El siguiente, denominado  teorema de Cantor por el matemático
  Georg Cantor, es un resultado importante de la teoría
@@ -39,15 +56,15 @@ lógico nacido en Rusia en el siglo XIX. Fue inventor junto con Dedekind
  modernas.
 
 
-
 Para la comprensión del teorema vamos a definir una serie de conceptos:
 
 \begin {itemize}
 
 \item Conjunto de potencia $A$  $(\mathcal{P}(A))$: conjunto formado por
 todos los subconjuntos de $A$.
-\item Cardinal del conjunto $A$ (Denotado $\# A$): número de elementos del propio
- conjunto.
+
+\item Cardinal del conjunto $A$ (Denotado $\# A$): número de elementos 
+del propio  conjunto.
 
 \end {itemize}
 El enunciado original del teorema es el siguiente : 
@@ -62,51 +79,70 @@ $\# \mathcal{P}(A) > \# A.$
 \end {teorema}
 Pero el enunciado del teorema lo podemos reformular como: 
 \begin{teorema}
-Dado un conjunto A, $\nexists  f : A \longrightarrow \mathcal{P}(A)$ que
-sea sobreyectiva.
+Dado un conjunto $A$, $\nexists  f : A \longrightarrow \mathcal{P}(A)$ 
+que sea sobreyectiva.
 
 \end{teorema}
 
-El teorema lo hemos podido reescribir de la anterior forma, ya que si
- suponemos que $\exists f$ tal que $f: A \longrightarrow \mathcal{P}(A)$
+El teorema se puede reescribir de la anterior forma, ya que si
+ se supone que $\exists f$ tal que $f: A \longrightarrow \mathcal{P}(A)$
 es sobreyectiva, entonces tenemos que $f(A) = \mathcal{P}(A)$ y por lo
  tanto, $\# f(A) \geq \# \mathcal{P}(A)$, de lo que se deduce esta
- reformulación. Reciprocamente, es trivial ver que esta reformulación
- implica la primera.
- con el teorema. \\
-El teorema de Cantor es trivial para conjuntos finitos, ya que el
- conjunto potencia, de conjuntos finitos de n elementos tiene
- $2^n$ elementos.
-
-Por ello,  vamos a realizar la prueba para conjuntos infinitos. 
+ reformulación. Recíprocamente, es trivial ver que esta reformulación
+ implica la primera del teorema. 
 
 
 \begin{demostracion}
- 
-Vamos a realizar la prueba por reducción al absurdo.\\
-Supongamos que $\exists f : A \longrightarrow \mathcal{P}(A)$ sobreyectiva, es
- decir, $\forall C \in \rho(A) ,  \exists x \in A$ tal que $C = f(x)$.
-En particular, tomemos el conjunto $$B = \{ x \in A : x \notin f(x) \}$$
+
+La prueba se va a realizar por reducción al absurdo.
+
+Supongamos que $\exists f : A \longrightarrow \mathcal{P}(A)$
+ sobreyectiva, es decir, $\forall B \in \mathcal{P}(A) ,  \exists x \in
+ A$ tal que $B = f(x)$.
+
+En particular, tomemos el conjunto
+ $$B = \{ x \in A : x \notin f(x) \}$$
+
  y  supongamos que $\exists a \in A : B = f(a)$, ya que $B$ es un
- subconjunto de A, luego podemos distinguir dos casos $:$ \\
-$1.$ Si $a \in B$, entonces por definición del conjunto $B$ tenemos que
-$a \notin B$, luego llegamos a una contradicción. \\
-$2.$ Si $a \notin B$, entonces por definición de B tenemos que $a \in 
-B$, luego hemos llegado a otra contradicción. 
+ subconjunto de A. Luego podemos distinguir dos casos :
 
-En las dos hipótesis hemos llegado a una contradicción,
-por lo que no existe $a$ y $f$ no es sobreyectiva.
-\end{demostracion}
+$1.$ Si $a \in B.$
 
+ Entonces por definición del conjunto $B$ se tiene que
+$a \notin B$, luego se llega a una contradicción. 
 
+$2.$ Si $a \notin B.$
+ Entonces por definición de B se tiene que $a \in 
+B$, luego se ha llegado a otra contradicción. 
+
+En los dos casos se ha llegado a una contradicción,por lo que no existe
+ $a$ y $f$ no es sobreyectiva.
+\end{demostracion}%
+\end{isamarkuptext}\isamarkuptrue%
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\isatagdocument
+%
+\isamarkupsection{Especificación en Isabelle/HOL%
+}
+\isamarkuptrue%
+%
+\endisatagdocument
+{\isafolddocument}%
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\begin{isamarkuptext}%
 Para la especificación del teorema en Isabelle, primero debemos notar
- que $$f :: \, 'a \Rightarrow \,'a \: set$$
- significa que es una función 
+ que $$f :: \, 'a \Rightarrow \,'a \: set$$ significa que es una función 
 de tipos, donde $'a$ significa un tipo y para poder denotar
 el conjunto potencia tenemos que poner $'a \ set$ que significa que es
  de un tipo formado por conjuntos del tipo $'a$.
-
-
 
 
 El enunciado del teorema es el siguiente :%
@@ -139,7 +175,30 @@ reducción al absurdo, cuyo esquema mostramos a continuación:
   \end{itemize}
 
 
-Esta es la demostración detallada del teorema:%
+
+A continuación presentaremos diferentes formas de demostración del
+ teorema.%
+\end{isamarkuptext}\isamarkuptrue%
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\isatagdocument
+%
+\isamarkupsection{Demostración detallada%
+}
+\isamarkuptrue%
+%
+\endisatagdocument
+{\isafolddocument}%
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\begin{isamarkuptext}%
+La primera es la demostración detallada del teorema:%
 \end{isamarkuptext}\isamarkuptrue%
 \isacommand{theorem}\isamarkupfalse%
 \ CantorDetallada{\isacharcolon}\ {\isachardoublequoteopen}{\isasymnexists}f\ {\isacharcolon}{\isacharcolon}\ {\isacharprime}a\ {\isasymRightarrow}\ {\isacharprime}a\ set{\isachardot}\ {\isasymforall}B{\isachardot}\ {\isasymexists}x{\isachardot}\ B\ {\isacharequal}\ f\ x{\isachardoublequoteclose}\isanewline
@@ -198,8 +257,25 @@ Esta es la demostración detallada del teorema:%
 %
 \endisadelimproof
 %
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\isatagdocument
+%
+\isamarkupsection{Demostración aplicativa%
+}
+\isamarkuptrue%
+%
+\endisatagdocument
+{\isafolddocument}%
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
 \begin{isamarkuptext}%
-Esta es la demostración aplicativa del teorema:%
+La demostración aplicativa del teorema es:%
 \end{isamarkuptext}\isamarkuptrue%
 \isacommand{theorem}\isamarkupfalse%
 \ CantorAplicativa\ {\isacharcolon}\isanewline
@@ -229,8 +305,25 @@ Esta es la demostración aplicativa del teorema:%
 %
 \endisadelimproof
 %
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\isatagdocument
+%
+\isamarkupsection{Demostración autmática%
+}
+\isamarkuptrue%
+%
+\endisatagdocument
+{\isafolddocument}%
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
 \begin{isamarkuptext}%
-Esta es la demostración automática del teorema:%
+La demostración automática del teorema es:%
 \end{isamarkuptext}\isamarkuptrue%
 \isacommand{theorem}\isamarkupfalse%
 \ CantorAutomatic{\isacharcolon}\ {\isachardoublequoteopen}{\isasymnexists}f\ {\isacharcolon}{\isacharcolon}\ {\isacharprime}a\ {\isasymRightarrow}\ {\isacharprime}a\ set{\isachardot}\ {\isasymforall}B{\isachardot}\ {\isasymexists}x{\isachardot}\ B\ {\isacharequal}\ f\ x{\isachardoublequoteclose}\isanewline
@@ -281,183 +374,190 @@ También hacemos uso de blast, que es un conjunto de reglas lógicas y
 %
 \end{isabellebody}%
 \endinput
-%:%file=~/ownCloud/alonso/curso-TFG/Carlos/TFG_de_Carlos/TeoremaCantor.thy%:%
+%:%file=~/Escritorio/TFG/TeoremaCantor.thy%:%
 %:%6=1%:%
 %:%20=9%:%
 %:%24=11%:%
 %:%28=13%:%
-%:%32=15%:%
-%:%33=16%:%
-%:%34=17%:%
-%:%35=18%:%
-%:%36=19%:%
-%:%37=20%:%
-%:%38=21%:%
-%:%39=22%:%
-%:%40=23%:%
-%:%41=24%:%
-%:%42=25%:%
-%:%43=26%:%
-%:%44=27%:%
-%:%45=28%:%
-%:%46=29%:%
-%:%47=30%:%
-%:%48=31%:%
-%:%49=32%:%
-%:%50=33%:%
-%:%51=34%:%
-%:%52=35%:%
-%:%53=36%:%
-%:%54=37%:%
-%:%55=38%:%
-%:%56=39%:%
-%:%57=40%:%
-%:%58=41%:%
-%:%59=42%:%
-%:%60=43%:%
-%:%61=44%:%
-%:%62=45%:%
-%:%63=46%:%
-%:%64=47%:%
-%:%65=48%:%
-%:%66=49%:%
-%:%67=50%:%
-%:%68=51%:%
-%:%69=52%:%
-%:%70=53%:%
-%:%71=54%:%
-%:%72=55%:%
-%:%73=56%:%
-%:%74=57%:%
-%:%75=58%:%
-%:%76=59%:%
-%:%77=60%:%
-%:%78=61%:%
-%:%79=62%:%
-%:%80=63%:%
-%:%81=64%:%
-%:%82=65%:%
-%:%83=66%:%
-%:%84=67%:%
-%:%85=68%:%
-%:%86=69%:%
-%:%87=70%:%
-%:%88=71%:%
-%:%89=72%:%
-%:%90=73%:%
-%:%91=74%:%
-%:%92=75%:%
-%:%93=76%:%
-%:%94=77%:%
-%:%95=78%:%
-%:%96=79%:%
-%:%97=80%:%
-%:%98=81%:%
-%:%99=82%:%
-%:%100=83%:%
-%:%101=84%:%
-%:%102=85%:%
-%:%103=86%:%
-%:%104=87%:%
-%:%105=88%:%
-%:%106=89%:%
-%:%107=90%:%
-%:%108=91%:%
-%:%109=92%:%
-%:%110=93%:%
-%:%111=94%:%
-%:%112=95%:%
-%:%114=97%:%
-%:%115=97%:%
-%:%116=98%:%
-%:%119=99%:%
-%:%120=100%:%
-%:%124=100%:%
-%:%134=102%:%
-%:%135=103%:%
-%:%136=104%:%
-%:%137=105%:%
-%:%138=106%:%
-%:%139=107%:%
-%:%140=108%:%
-%:%141=109%:%
-%:%142=110%:%
-%:%144=112%:%
-%:%145=112%:%
-%:%152=113%:%
-%:%153=113%:%
-%:%154=114%:%
-%:%155=114%:%
-%:%156=115%:%
-%:%157=115%:%
-%:%158=115%:%
-%:%159=115%:%
-%:%160=116%:%
-%:%161=117%:%
-%:%162=117%:%
-%:%163=118%:%
-%:%164=118%:%
-%:%165=118%:%
-%:%166=118%:%
-%:%167=119%:%
-%:%168=119%:%
-%:%169=119%:%
-%:%170=119%:%
-%:%171=120%:%
-%:%172=120%:%
-%:%173=121%:%
-%:%174=121%:%
-%:%175=122%:%
-%:%176=122%:%
-%:%177=123%:%
-%:%178=123%:%
-%:%179=123%:%
-%:%180=123%:%
-%:%181=123%:%
-%:%182=124%:%
-%:%183=124%:%
-%:%184=125%:%
-%:%185=125%:%
-%:%186=126%:%
-%:%187=126%:%
-%:%188=126%:%
-%:%189=126%:%
-%:%190=127%:%
-%:%191=127%:%
-%:%192=128%:%
-%:%202=130%:%
-%:%204=133%:%
-%:%205=133%:%
-%:%206=134%:%
-%:%209=135%:%
-%:%213=135%:%
-%:%214=135%:%
-%:%215=136%:%
-%:%216=136%:%
-%:%217=137%:%
-%:%218=137%:%
-%:%219=138%:%
-%:%220=138%:%
-%:%221=139%:%
-%:%222=139%:%
-%:%223=140%:%
-%:%233=142%:%
-%:%235=143%:%
-%:%236=143%:%
-%:%239=144%:%
-%:%243=144%:%
-%:%244=144%:%
-%:%253=146%:%
-%:%254=147%:%
-%:%255=148%:%
-%:%256=149%:%
-%:%257=150%:%
-%:%258=151%:%
-%:%259=152%:%
-%:%260=153%:%
-%:%261=154%:%
-%:%262=155%:%
-%:%263=156%:%
-%:%264=157%:%
-%:%265=158%:%
-%:%266=159%:%
+%:%37=15%:%
+%:%49=17%:%
+%:%50=18%:%
+%:%51=19%:%
+%:%52=20%:%
+%:%53=21%:%
+%:%54=22%:%
+%:%55=23%:%
+%:%56=24%:%
+%:%57=25%:%
+%:%58=26%:%
+%:%59=27%:%
+%:%60=28%:%
+%:%61=29%:%
+%:%62=30%:%
+%:%63=31%:%
+%:%64=32%:%
+%:%65=33%:%
+%:%66=34%:%
+%:%67=35%:%
+%:%68=36%:%
+%:%69=37%:%
+%:%70=38%:%
+%:%71=39%:%
+%:%72=40%:%
+%:%73=41%:%
+%:%74=42%:%
+%:%75=43%:%
+%:%76=44%:%
+%:%77=45%:%
+%:%78=46%:%
+%:%79=47%:%
+%:%80=48%:%
+%:%81=49%:%
+%:%82=50%:%
+%:%83=51%:%
+%:%84=52%:%
+%:%85=53%:%
+%:%86=54%:%
+%:%87=55%:%
+%:%88=56%:%
+%:%89=57%:%
+%:%90=58%:%
+%:%91=59%:%
+%:%92=60%:%
+%:%93=61%:%
+%:%94=62%:%
+%:%95=63%:%
+%:%96=64%:%
+%:%97=65%:%
+%:%98=66%:%
+%:%99=67%:%
+%:%100=68%:%
+%:%101=69%:%
+%:%102=70%:%
+%:%103=71%:%
+%:%104=72%:%
+%:%105=73%:%
+%:%106=74%:%
+%:%107=75%:%
+%:%108=76%:%
+%:%109=77%:%
+%:%110=78%:%
+%:%111=79%:%
+%:%112=80%:%
+%:%113=81%:%
+%:%114=82%:%
+%:%115=83%:%
+%:%116=84%:%
+%:%117=85%:%
+%:%118=86%:%
+%:%119=87%:%
+%:%120=88%:%
+%:%129=92%:%
+%:%141=95%:%
+%:%142=96%:%
+%:%143=97%:%
+%:%144=98%:%
+%:%145=99%:%
+%:%146=100%:%
+%:%147=101%:%
+%:%148=102%:%
+%:%150=104%:%
+%:%151=104%:%
+%:%152=105%:%
+%:%155=106%:%
+%:%156=107%:%
+%:%160=107%:%
+%:%170=109%:%
+%:%171=110%:%
+%:%172=111%:%
+%:%173=112%:%
+%:%174=113%:%
+%:%175=114%:%
+%:%176=115%:%
+%:%177=116%:%
+%:%178=117%:%
+%:%179=118%:%
+%:%180=119%:%
+%:%189=121%:%
+%:%201=124%:%
+%:%203=127%:%
+%:%204=127%:%
+%:%211=128%:%
+%:%212=128%:%
+%:%213=129%:%
+%:%214=129%:%
+%:%215=130%:%
+%:%216=130%:%
+%:%217=130%:%
+%:%218=130%:%
+%:%219=131%:%
+%:%220=132%:%
+%:%221=132%:%
+%:%222=133%:%
+%:%223=133%:%
+%:%224=133%:%
+%:%225=133%:%
+%:%226=134%:%
+%:%227=134%:%
+%:%228=134%:%
+%:%229=134%:%
+%:%230=135%:%
+%:%231=135%:%
+%:%232=136%:%
+%:%233=136%:%
+%:%234=137%:%
+%:%235=137%:%
+%:%236=138%:%
+%:%237=138%:%
+%:%238=138%:%
+%:%239=138%:%
+%:%240=138%:%
+%:%241=139%:%
+%:%242=139%:%
+%:%243=140%:%
+%:%244=140%:%
+%:%245=141%:%
+%:%246=141%:%
+%:%247=141%:%
+%:%248=141%:%
+%:%249=142%:%
+%:%250=142%:%
+%:%251=143%:%
+%:%266=145%:%
+%:%278=148%:%
+%:%280=151%:%
+%:%281=151%:%
+%:%282=152%:%
+%:%285=153%:%
+%:%289=153%:%
+%:%290=153%:%
+%:%291=154%:%
+%:%292=154%:%
+%:%293=155%:%
+%:%294=155%:%
+%:%295=156%:%
+%:%296=156%:%
+%:%297=157%:%
+%:%298=157%:%
+%:%299=158%:%
+%:%314=160%:%
+%:%326=162%:%
+%:%328=165%:%
+%:%329=165%:%
+%:%332=166%:%
+%:%336=166%:%
+%:%337=166%:%
+%:%346=168%:%
+%:%347=169%:%
+%:%348=170%:%
+%:%349=171%:%
+%:%350=172%:%
+%:%351=173%:%
+%:%352=174%:%
+%:%353=175%:%
+%:%354=176%:%
+%:%355=177%:%
+%:%356=178%:%
+%:%357=179%:%
+%:%358=180%:%
+%:%359=181%:%
