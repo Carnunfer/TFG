@@ -102,11 +102,9 @@ el conjunto potencia tenemos que poner $'a \ set$ que significa que es
 El enunciado del teorema es el siguiente : 
 \<close>
 theorem Cantor: "\<nexists>f :: 'a \<Rightarrow> 'a set. \<forall>A. \<exists>x. A = f x"
-
-
   oops 
 
-  text \<open> La demostración la haremos por la regla la introducción a la
+text \<open>La demostración la haremos por la regla la introducción a la
 negación, la cual es una simplificación de la regla de 
 reducción al absurdo, cuyo esquema mostramos a continuación:   
  \begin{itemize}

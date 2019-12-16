@@ -11,6 +11,7 @@
 *.cb
 *.cb2
 .*.lb
+*.thy~
 
 ## Intermediate documents:
 *.dvi
@@ -240,3 +241,7 @@ TSWLatexianTemp*
 
 # generated if using elsarticle.cls
 *.spl
+
+# Salida de Isabelle
+output/
+
