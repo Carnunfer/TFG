@@ -96,7 +96,8 @@ text \<open>En la especificación anterior, @{term "inj f"} es una
   \href{http://bit.ly/2XuPQx5}{Fun.thy}. Además, contiene la definición
   de @{term "inj_on"}
   \begin{itemize}
-    \item[] @{thm[mode=Rule] inj_on_def[no_vars]} \hfill (@{text inj_on_def})
+    \item[] @{thm[mode=Rule] inj_on_def[no_vars]}
+ \hfill (@{text inj_on_def})
   \end{itemize} 
   Por su parte, @{term UNIV} es el conjunto universal definido en la 
   teoría \href{http://bit.ly/2XtHCW6}{Set.thy} como una abreviatura de 

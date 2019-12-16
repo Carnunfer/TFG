@@ -155,12 +155,12 @@ theorem CantorAplicativa :
   apply  blast 
   done
 
-section \<open>Demostración autmática \<close>
+section \<open>Demostración automática \<close>
 
 text \<open> La demostración automática del teorema es: \<close>
 
 
-theorem CantorAutomatic: "\<nexists>f :: 'a \<Rightarrow> 'a set. \<forall>B. \<exists>x. B = f x"
+theorem CantorAutomatica: "\<nexists>f :: 'a \<Rightarrow> 'a set. \<forall>B. \<exists>x. B = f x"
   by best
 
 text \<open>En la demostración de isabelle hemos utilizado el método de prueba
