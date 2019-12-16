@@ -28,8 +28,6 @@ $$\forall A: (\forall g,h: X \longrightarrow Y) : f \circ g = f \circ h
  \Longrightarrow g = h.$$
 
 Luego el teorema es el siguiente:
-
-Luego el teorema es el siguiente:
   
   \begin{teorema}
   $f$ es una función inyectiva, si y solo si, para todas funciones 
