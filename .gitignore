@@ -11,7 +11,6 @@
 *.cb
 *.cb2
 .*.lb
-*.thy~
 
 ## Intermediate documents:
 *.dvi
@@ -243,5 +242,8 @@ TSWLatexianTemp*
 *.spl
 
 # Salida de Isabelle
+*.thy~
 output/
 
+# Borrador
+borrador/
