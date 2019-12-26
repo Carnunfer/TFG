@@ -6,13 +6,11 @@ imports Main "HOL-Library.LaTeXsugar" "HOL-Library.OptionalSugar"
 begin
 (*>*) 
 
-text \<open>\comentario{Estructurar en secciones.}\<close>
-
-text \<open>\comentario{Hacer demostraciones detalladas.}\<close>
 
 text \<open>\comentario{Añadir lemas usados al Soporte.}\<close>
 
-section \<open>Demostración en Lenguaje natural \<close>
+section \<open>Cancelación de las funciones sobreyectivas \<close>
+subsection \<open>Demostración en Lenguaje natural \<close>
 text \<open>
 El siguiente teorema prueba una caracterización de las funciones
  sobreyectivas. Primero se definirá el significado de la sobreyectividad
@@ -78,7 +76,7 @@ Entonces $g(y) \neq h(y).$ Sin embargo,
  contradicción, por lo tanto, $f$ es sobreyectiva.
 \end {demostracion} 
 \<close>
-section \<open>Especificación en Isabelle/Hol \<close>
+subsection \<open>Especificación en Isabelle/Hol \<close>
 
 text \<open>
 Su especificación es la siguiente, que se dividira en dos al igual que 
@@ -119,7 +117,7 @@ Además queda añadir que la teoría donde se encuentra definido
 
 \<close>
 
-section \<open>Demostración estructurada \<close>
+subsection \<open>Demostración estructurada \<close>
 
 text \<open>
 Presentaremos distintas demostraciones de los lemas. Las primeras son
@@ -143,12 +141,12 @@ proof (rule allI)
         fix x
         have " \<exists>y . x = f(y)" using assms by (simp add:surj_def)
         then obtain  "y" where 2:"x = f(y)" by (rule exE)
-        then have  "g(x) = g(f(y))" by simp
-        also have  "... = (g \<circ> f) (y)  " by simp
-        also have  "... = (h \<circ> f) (y)" using 1 by simp
-        also have  "... = h(f(y))" by simp
+        then have  "g(x) = g(f(y))"  by (simp only: 2)
+        also have  "... = (g \<circ> f) (y)  " by (simp only: comp_apply)
+        also have  "... = (h \<circ> f) (y)" using 1 by (simp only: 1)
+        also have  "... = h(f(y))" by (simp only: comp_apply)
         also have  "... = h(x)" using 2   by (simp add: \<open>x = f y\<close>)
-        finally show  " g(x) = h(x) " by simp
+        finally show  " g(x) = h(x) " by this
       qed
     qed
   qed
@@ -162,7 +160,7 @@ text \<open> En la siguiente demostración nos hará falta la introducción de
 lemma auxiliar_1:
   assumes "\<not>(\<forall>x. P(x))"
   shows   "\<exists>x. \<not>P(x)"
-using assms
+  using assms
   by auto
 
 lemma auxiliar_2:
@@ -211,44 +209,23 @@ text \<open>En la demostración hemos introducido:
   \end{itemize} 
 \<close>
 
-section \<open>Demostración aplicativa \<close>
-
-text \<open>Las demostraciones aplicativas son: \<close>
-
-lemma demostracion_suficiente_aplicativa:
-"surj f \<Longrightarrow> ((g \<circ> f) = (h \<circ> f) ) \<longrightarrow> (g = h)"
-  apply (simp add: surj_def fun_eq_iff)
-  apply metis
-  done
-
-lemma demostracion_necesaria_aplicativa:
-  "\<lbrakk>\<forall>(g :: 'b \<Rightarrow> 'c) h .(g \<circ> (f :: 'a \<Rightarrow> 'b) = h \<circ> f) \<longrightarrow> (g = h);
-          \<exists> (x0::'c) (x1::'c). x0 \<noteq> x1\<rbrakk>\<Longrightarrow> surj f"
-  apply (rule surjI)
-  apply (drule condicion_necesaria_detallada)
-   apply simp
-  apply (erule allE)
-  apply (erule exE)+
-  apply (erule Hilbert_Choice.someI)
-  done
-
-text \<open>
-En estas hemos introducido:
- \begin{itemize}
-    \item[] @{thm[mode=Rule] fun_eq_iff[no_vars]} 
-      \hfill (@{text fun_eq_iff})
-     \item[] @{thm[mode=Rule] Hilbert_Choice.someI[no_vars]} 
-      \hfill (@{text Hilbert_Choice.someI})
-\end{itemize}
-\<close>
-section \<open>Demostración teorema \<close>
+subsection \<open>Demostración teorema \<close>
 text \<open>En consecuencia, la demostración del teorema es \<close>
 
-theorem caracterizacion_funciones_sobreyectivas:
- "surj f \<longleftrightarrow>  (\<forall>g h.(g \<circ> f = h \<circ> f) \<longrightarrow> (g = h))"
-  oops
-  
 
+theorem caracterizacion_funciones_sobreyectivas:
+  fixes  g :: "'b \<Rightarrow> 'c" and 
+         h :: "'b \<Rightarrow> 'c" and
+         f :: "'a \<Rightarrow> 'b"
+       shows "\<lbrakk> \<exists> (x0::'c) (x1::'c). x0 \<noteq> x1 \<rbrakk> \<Longrightarrow>
+        surj f \<longleftrightarrow>  (\<forall>g h.(g \<circ> f = h \<circ> f) \<longrightarrow> (g = h))"
+  apply (rule iffI)
+   apply (rule condicion_suficiente_detallada)
+   apply simp
+  apply (drule condicion_necesaria_detallada)
+  prefer 2
+   apply (rule condicion_necesaria_detallada_2)
+  oops
 (*<*)
 end 
 (*>*)

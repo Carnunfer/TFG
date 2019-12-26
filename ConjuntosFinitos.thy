@@ -6,13 +6,11 @@ imports Main "HOL-Library.LaTeXsugar" "HOL-Library.OptionalSugar"
 begin
 (*>*) 
 
-text \<open>\comentario{Estructurar en secciones.}\<close>
-
-text \<open>\comentario{Hacer demostraciones detalladas.}\<close>
+section \<open>Propiedad de los conjuntos finitos de número naturales \<close>
 
 text \<open>\comentario{Añadir lemas usados al Soporte.}\<close>
 
-section \<open>Demostración en lenguaje natural \<close>
+subsection \<open>Demostración en lenguaje natural \<close>
 
 
 text \<open>El siguiente teorema es una propiedad que verifican todos los 
@@ -68,7 +66,7 @@ En la demostración del teorema hemos usado un resultado, que vamos a
  el resultado es $\sum S + a = \sum (S \cup \{ a\})$.
 \<close>
 
-section \<open>Especificación en Isabelle/HOL \<close>
+subsection \<open>Especificación en Isabelle/HOL \<close>
 
 text  \<open>Para la especificación del teorema en Isabelle, primero debemos
  notar que  @{text "finite S "} indica que un conjunto $S$ es 
@@ -108,24 +106,8 @@ En la demostración se usará la táctica @{text induct} que hace
 Vamos a presentar diferentes formas de demostración:
 \<close>
 
-section \<open>Demostración aplicativa \<close>
 
-text \<open>La demostración aplicativa del teorema es: \<close> 
-
-lemma "finite S \<Longrightarrow> \<forall>x\<in>S. x \<le> sumaConj S"
-  apply (induct rule: finite_induct)
-   apply simp
-  apply (simp add: add_increasing sumaConj_def)
-  done
-
-text \<open>En la demostración anterior se ha introducido:
- \begin{itemize}
-    \item[] @{thm[mode=Rule] add_increasing[no_vars]} 
-      \hfill (@{text add_increasing})
-  \end{itemize} 
-\<close>
-
-section \<open>Demostración automática \<close>
+subsection \<open>Demostración automática \<close>
 
 text \<open> La demostración automática es: \<close>
 
@@ -133,14 +115,14 @@ lemma "finite S \<Longrightarrow> \<forall>x\<in>S. x \<le> sumaConj S"
   by (induct rule: finite_induct)
      (auto simp add:  sumaConj_def)
 
-section \<open>Demostración detallada \<close>
+subsection \<open>Demostración detallada \<close>
 
   text \<open>La demostración declarativa es: \<close>
 
 lemma sumaConj_acota: 
   "finite S \<Longrightarrow> \<forall>x\<in>S. x \<le> sumaConj S"
 proof (induct rule: finite_induct)
-  show "\<forall>x \<in> {}. x \<le> sumaConj {}" by simp
+  show "\<forall>x \<in> {}. x \<le> sumaConj {}"  by (simp only:  ball_empty)
 next
   fix x and F
   assume fF: "finite F" 
@@ -149,19 +131,28 @@ next
   show "\<forall>y \<in> insert x F. y \<le> sumaConj (insert x F)"
   proof 
     fix y 
-    assume "y \<in> insert x F"
+    assume 1:"y \<in> insert x F"
     show "y \<le> sumaConj (insert x F)"
     proof (cases "y = x")
       assume "y = x"
-      then have "y \<le> x + (sumaConj F)" by simp
-      also have "\<dots> = sumaConj (insert x F)" 
-        by (simp add: fF sumaConj_def xF) 
+      then have "y \<le> x + (sumaConj F)" 
+        by (simp only: le_add_same_cancel1)
+      also have "\<dots> = sumaConj (insert x F)"  
+        using fF xF aux_propiedad_conjuntos_finitos
+        by (simp add: add.commute)  
       finally show ?thesis .
     next
-      assume "y \<noteq> x"
-      then have "y \<in> F" using `y \<in> insert x F` by simp
-      then have "y \<le> sumaConj F" using HI by simp
-      also have "\<dots> \<le> x + (sumaConj F)" by simp
+      assume 2: "y \<noteq> x"
+      then have "y \<in> F" 
+      proof - 
+        have " y \<in> insert x F" using 1 by (simp only: 1)
+        then have " y \<in> {x. x = x \<or> x \<in> F}"
+          by  (simp add: insert_compr)
+        then show "y \<in> F" using 2  by (smt "1" insert_iff)
+      qed
+      then have "y \<le> sumaConj F" using HI by (simp only: HI)
+      also have "\<dots> \<le> x + (sumaConj F)"
+        by (simp only:le_add_same_cancel2)
       also have "\<dots> = sumaConj (insert x F)" using fF xF
         by (simp add: sumaConj_def)
       finally show ?thesis .
@@ -172,7 +163,23 @@ qed
 
 text \<open> En esta última demostración hemos usado el método de prueba por
  casos,el método blast y también el simp("simplificador") añadiéndole 
-@{term "sumaConj_def"}.\<close>
+@{term "sumaConj_def"} y las reglas: 
+   \begin{itemize}
+  \item[] @{thm[mode=rule] ball_empty[no_vars]}
+ \hfill (@{text ball_empty})
+  \end{itemize} 
+  \begin{itemize}
+  \item[] @{thm[mode=rule] le_add_same_cancel1[no_vars]}
+ \hfill (@{text le_add_same_cancel1 })
+  \end{itemize} 
+ \begin{itemize}
+  \item[] @{thm[mode=rule] le_add_same_cancel2[no_vars]}
+ \hfill (@{text le_add_same_cancel2 })
+  \end{itemize}
+ \begin{itemize}
+  \item[] @{thm[mode=rule] insert_iff[no_vars]}
+ \hfill (@{text insert_iff })
+  \end{itemize}\<close>
 
 (*<*)
 end

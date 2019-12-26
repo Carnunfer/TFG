@@ -6,13 +6,10 @@ imports Main "HOL-Library.LaTeXsugar" "HOL-Library.OptionalSugar"
 begin
 (*>*) 
 
+section \<open>Cancelación de funciones inyectivas\<close>
+subsection \<open>Demostración en lenguaje natural \<close>
 
-section \<open>Demostración en lenguaje natural \<close>
 
-
-text \<open>\comentario{Estructurar en secciones.}\<close>
-
-text \<open>\comentario{Hacer demostraciones detalladas.}\<close>
 
 text \<open>\comentario{Añadir lemas usados al Soporte.}\<close>
 
@@ -68,7 +65,7 @@ $$(f \circ g) = (f \circ h) \Longrightarrow  f(g(x)) = f(h(x))
 Por hipótesis, entonces $a = b,$ como se quería demostrar.
 \end {demostracion} \<close>
 
-section \<open>Especificación en Isabelle/Hol\<close>
+subsection \<open>Especificación en Isabelle/Hol\<close>
 
 text\<open>
   Su especificación es la siguiente, pero al igual que se ha  hecho en
@@ -113,40 +110,9 @@ text \<open>En la especificación anterior, @{term "inj f"} es una
 
   Presentaremos distintas demostraciones de los lemas. \<close>
 
-section \<open>Demostración aplicativa lemas\<close>
-
-text \<open> Las demostraciones aplicativas de los lemas son  :\<close>
-
-lemma condicion_necesaria_aplicativa:
-  "inj f \<Longrightarrow> (\<forall>g h.(f \<circ> g = f \<circ> h) \<longrightarrow>  (g = h))"
-  apply (simp add: inj_on_def fun_eq_iff) 
-  done 
-
-lemma condicion_suficiente_aplicativa:
-"\<forall>g h. (f \<circ> g = f \<circ> h \<longrightarrow> g = h) \<Longrightarrow> inj f"
-  apply (rule injI)
-  by (metis fun_upd_apply fun_upd_comp)
-
-
-text \<open>En las demostraciones anteriores se han usado los siguientes
- lemas:
-  \begin{itemize}
-    \item[] @{thm[mode=Rule] fun_eq_iff[no_vars]} 
-      \hfill (@{text fun_eq_iff})
-  \end{itemize} 
-  \begin{itemize}
-    \item[] @{thm[mode=Rule] fun_upd_apply[no_vars]} 
-      \hfill (@{text fun_upd_apply})
-  \end{itemize} 
-  \begin{itemize}
-    \item[] @{thm[mode=Rule] fun_eq_iff[no_vars]} 
-      \hfill (@{text fun_upd_comp})
-  \end{itemize}\<close>
-
-section \<open>Demostración estructurada lemas\<close>
+subsection \<open>Demostración estructurada de los lemas\<close>
  
 text \<open>Las demostraciones declarativas son las siguientes: \<close>
-
 
 
 lemma condicion_necesaria_detallada:
@@ -159,12 +125,12 @@ proof
     fix h
     show "f \<circ> g = f \<circ> h \<longrightarrow> (g = h)"
     proof (rule impI)
-      assume "f \<circ> g = f \<circ> h"
+      assume 1:"f \<circ> g = f \<circ> h"
       show "g = h"
       proof 
         fix x
-        have  "(f \<circ> g)(x) = (f \<circ> h)(x)" using `f \<circ> g = f \<circ> h` by simp
-        then have "f(g(x)) = f(h(x))" by simp
+        have  "(f \<circ> g)(x) = (f \<circ> h)(x)" using 1 by (simp only: 1)
+        then have "f(g(x)) = f(h(x))" by (simp only: comp_apply) 
         thus  "g(x) = h(x)" using `inj f` by (simp add:inj_on_def)
       qed
     qed
@@ -189,11 +155,11 @@ proof (rule injI)
   have 2: "f \<circ> ?g = f \<circ> ?h" 
   proof 
     fix x
-    have " (f \<circ> (\<lambda>x :: 'a. a)) x = f(a) " by simp
-    also have "... = f(b)" using 3 by simp
-    also have "... =  (f \<circ> (\<lambda>x :: 'a. b)) x" by simp
+    have " (f \<circ> (\<lambda>x :: 'a. a)) x = f(a) " by (simp only: comp_apply)
+    also have "... = f(b)" using 3 by (simp only: 3)
+    also have "... =  (f \<circ> (\<lambda>x :: 'a. b)) x" by (simp only: comp_apply)
     finally show " (f \<circ> (\<lambda>x :: 'a. a)) x =  (f \<circ> (\<lambda>x :: 'a. b)) x"
-      by simp
+      by this
   qed
   have "?g = ?h" using 1 2 by (rule mp)
   then show " a = b" by (rule fun_cong)
@@ -203,12 +169,17 @@ qed
 
 
 text \<open>
-En la anterior demostración se ha introducito la regla: 
+En las anteriores demostraciones se han introducido las reglas: 
   \begin{itemize}
     \item[] @{thm[mode=Rule] fun_cong[no_vars]} 
       \hfill (@{text fun_cong})
   \end{itemize}
-Otras demostraciones declarativas usando auto y blast son:\<close>
+ \begin{itemize}
+    \item[] @{thm[mode=Rule] comp_apply[no_vars]} 
+      \hfill (@{text comp_apply})
+  \end{itemize}
+Otras demostraciones declarativas usando demostradores automáticos 
+meson,auto y blast son:\<close>
 
 lemma condicion_necesaria_detallada1:
   assumes "inj f"
@@ -217,6 +188,7 @@ proof
   assume "f \<circ> g = f \<circ> h" 
   then show "g = h" using `inj f` by (simp add: inj_on_def fun_eq_iff) 
 qed
+
 
 lemma condicion_suficiente_detallada1:
   fixes f :: "'b \<Rightarrow> 'c" 
@@ -238,11 +210,12 @@ proof (rule injI)
     finally show " (f \<circ> (\<lambda>x :: 'a. a)) x =  (f \<circ> (\<lambda>x :: 'a. b)) x"
       by simp
   qed
-  show  " a = b" using 2 3 by meson
+  have " (\<lambda>x :: 'a. a) = (\<lambda>x :: 'a. b)" using 2 3 by blast
+  then show  " a = b" by meson
 qed
 
 
-section \<open>Demostración teorema en Isabelle/Hol\<close>
+subsection \<open>Demostración del teorema en Isabelle/Hol\<close>
 text \<open>En consecuencia, la demostración de nuestro teorema: \<close>
 
 theorem caracterizacion_inyectividad:

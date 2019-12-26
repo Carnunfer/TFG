@@ -6,20 +6,12 @@ imports Main "HOL-Library.LaTeXsugar" "HOL-Library.OptionalSugar"
 begin
 (*>*) 
 
-section \<open>Demostración en lenguaje natural \<close>
+section \<open>Teorema de Cantor\<close>
+subsection \<open>Demostración en lenguaje natural \<close>
 
-text \<open> El siguiente, denominado  teorema de Cantor por el matemático
-  Georg Cantor, es un resultado importante de la teoría
-  de conjuntos. 
+text \<open> El siguiente teorema, denominado  teorema de Cantor por el matemático
+  Georg Cantor, es un resultado importante de la teoría de conjuntos. 
  
-  \comentario{Reescribir el párrafo anterior.}
-
-  El matemático Georg Ferdinand Ludwig Philipp Cantor fue un matemático
-  y lógico nacido en Rusia en el siglo XIX. Fue inventor junto con 
-  Dedekind y Frege de la teoría de conjuntos, que es la base de las 
-  matemáticas modernas.
-
-  \comentario{Eliminar el párrafo anterior.}
 
   Para la exposición del teorema vamos a definir una serie de conceptos:
 
@@ -44,14 +36,6 @@ text \<open> El siguiente, denominado  teorema de Cantor por el matemático
     que sea sobreyectiva.
   \end{teorema}
 
-  El teorema se puede reescribir de la anterior forma, ya que si
-  se supone que $\exists f$ tal que $f: A \longrightarrow \mathcal{P}(A)$
-  es sobreyectiva, entonces tenemos que $f(A) = \mathcal{P}(A)$ y por lo
-  tanto, $\# f(A) \geq \# \mathcal{P}(A)$, de lo que se deduce esta
-  reformulación. Recíprocamente, es trivial ver que esta reformulación
-  implica la primera del teorema. 
-
-  \comentario{Suprimir el párrafo anterior.}
 
   \begin{demostracion}
   La prueba se va a realizar por reducción al absurdo.
@@ -79,7 +63,7 @@ text \<open> El siguiente, denominado  teorema de Cantor por el matemático
   \end{demostracion} 
 \<close>
 
-section \<open>Especificación en Isabelle/HOL\<close>
+subsection \<open>Especificación en Isabelle/HOL\<close>
 
 text \<open>Para la especificación del teorema en Isabelle, primero debemos 
   notar que 
@@ -97,7 +81,7 @@ theorem Cantor: "\<nexists>f :: 'a \<Rightarrow> 'a set. \<forall>A. \<exists>x.
 text \<open>A continuación presentaremos diferentes formas de demostración del
   teorema. \<close>
 
-section \<open>Demostración detallada \<close>
+subsection \<open>Demostración detallada \<close>
 
 text \<open>La primera es la demostración detallada del teorema: \<close>
 
@@ -144,7 +128,7 @@ qed
 text \<open>\comentario{Añadir los lemas usados en la prueba anterior al
   apéndice.}\<close> 
 
-section \<open>Demostración automática \<close>
+subsection \<open>Demostración automática \<close>
 
 text \<open> La demostración automática del teorema es: \<close>
 

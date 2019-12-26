@@ -6,7 +6,8 @@ imports Main "HOL-Library.LaTeXsugar" "HOL-Library.OptionalSugar"
 begin
 (*>*) 
 
-section \<open>Demostración en lenguaje natural\<close>
+section \<open>Suma de los primeros números impares \<close>
+subsection \<open>Demostración en lenguaje natural\<close>
 
 text \<open>El primer teorema es una propiedad de los números naturales.
 
@@ -36,7 +37,7 @@ text \<open>El primer teorema es una propiedad de los números naturales.
   \end{demostracion}
 \<close>
 
-section \<open>Especificación en Isabelle/HOL\<close>
+subsection \<open>Especificación en Isabelle/HOL\<close>
 
 text \<open>Para especificar el teorema en Isabelle, se comienza definiendo 
   la función @{term "suma_impares"} tal que @{term "suma_impares n"} es
@@ -51,7 +52,6 @@ text \<open>El enunciado del teorema es el siguiente:\<close>
 lemma "suma_impares n = n * n"
 oops  
 
-section \<open>Demostración aplicativa\<close>
 
 text \<open>En la demostración se usará la táctica @{text induct} que hace
   uso del esquema de inducción sobre los naturales:
@@ -61,46 +61,19 @@ text \<open>En la demostración se usará la táctica @{text induct} que hace
   \end{itemize}
 
   Vamos a presentar distintas demostraciones del teorema. La 
-  primera es la demostración aplicativa detallada.\<close>
+  primera es la demostración automática.\<close>
 
-lemma "suma_impares n = n * n"
-  apply (induct n) 
-   apply (simp only: suma_impares.simps(1))
-  apply (simp only: suma_impares.simps(2))
-  apply (simp only: mult_Suc mult_Suc_right)
-  done
 
-text \<open>En la demostración anterior hemos usado dentro del método 
-@{term "simp"} únicamente la definición de @{term "suma_impares"},
- para ello lo  hemos indicado con @{term "simp only"}. A parte hemos
- usado lo siguiente :
-  \begin{itemize}
-  \item[] @{thm[mode=Rule] mult_Suc[no_vars]} 
-          \hfill (@{text mult_Suc})
-  \end{itemize}
-  \begin{itemize}
-  \item[] @{thm[mode=Rule] mult_Suc_right[no_vars]} 
-          \hfill (@{text mult_Suc_right})
-  \end{itemize}
-\<close>
-
-text \<open>Se puede eliminar los detalles de la demostración anterior.\<close>
-
-lemma "suma_impares n = n * n"
-  apply (induct n) 
-   apply simp_all
-  done
-
-section \<open>Demostración automática\<close>
+subsection \<open>Demostración automática\<close>
 
 text \<open>La correspondiente demostración automática es\<close>
 
 lemma "suma_impares n = n * n"
   by (induct n) simp_all
 
-section \<open>Demostración estructurada\<close>
+subsection \<open>Demostración estructurada\<close>
 
-text \<open>La demostración estructurada y detallada del lema anterior es\<close>
+text \<open>La demostración estructurada y detallada del lema anterior es:\<close>
 
 lemma "suma_impares n = n * n"
 proof (induct n)
@@ -109,7 +82,7 @@ proof (induct n)
   also have "\<dots> = 0 * 0"
     by (simp only:  mult_0)
   finally show "suma_impares 0 = 0 * 0"
-    by simp
+   by (simp only: mult_0_right)
 next
   fix n 
   assume HI: "suma_impares n = n * n"
@@ -122,7 +95,7 @@ next
   also have "\<dots> = (Suc n) * (Suc n)"
     by (simp only: mult_Suc mult_Suc_right)
   finally show "suma_impares (Suc n) = (Suc n) * (Suc n)" 
-    by simp
+   by this
 qed
 
 text \<open>En la demostración anterior se pueden ocultar detalles.\<close>
@@ -143,7 +116,7 @@ next
     by simp
 qed
 
-section \<open>Demostración con patrones\<close>
+subsection \<open>Demostración con patrones\<close>
 
 text \<open>La demostración anterior se puede simplificar usando patrones.\<close>
 
