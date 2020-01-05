@@ -92,7 +92,7 @@ proof -
     by this
 qed
 
-text \<open>\comentario{Completar la demostración anterior.}\<close>
+text \<open>\comentario{Añadir sum.insert al glosario.}\<close>
 
 text \<open>La demostración del lema anterior se ha incluido
   @{term"sumConj_def"}, que hace referencia a la definición sumaConj que
