@@ -78,14 +78,23 @@ text \<open>Vamos a demostrar primero el lema enunciado anteriormente \<close>
 
 lemma aux_propiedad_conjuntos_finitos:
   assumes "finite S"
-          "x \<notin> S" 
-  shows   "x + sumaConj S = sumaConj (insert x S)"
-  using assms
-  by (simp add: sumaConj_def)
+    "x \<notin> S" 
+  shows "x + sumaConj S = sumaConj (insert x S)"
+proof -
+  have "x + sumaConj S = x + \<Sum>S"
+    by (simp only: sumaConj_def)
+  also have "\<dots> = sum (\<lambda>x. x) (insert x S)"
+    using assms
+    by (rule sum.insert[THEN sym])
+  also have "\<dots> = sumaConj (insert x S)"
+    by (simp only: sumaConj_def )
+  finally show ?thesis
+    by this
+qed
 
 text \<open>\comentario{Completar la demostración anterior.}\<close>
 
-text  \<open>La demostración del lema anterior se ha incluido
+text \<open>La demostración del lema anterior se ha incluido
   @{term"sumConj_def"}, que hace referencia a la definición sumaConj que
   hemos hecho anteriormente.
 
@@ -151,24 +160,16 @@ next
   qed
 qed
 
-text \<open> En esta última demostración hemos usado el método de prueba por
- casos,el método blast y también el simp("simplificador") añadiéndole 
-@{term "sumaConj_def"} y las reglas: 
-   \begin{itemize}
-  \item[] @{thm[mode=rule] ball_empty[no_vars]}
- \hfill (@{text ball_empty})
-  \end{itemize} 
+text \<open>En la demostración se han usado las reglas: 
   \begin{itemize}
-  \item[] @{thm[mode=rule] le_add_same_cancel1[no_vars]}
- \hfill (@{text le_add_same_cancel1 })
-  \end{itemize} 
- \begin{itemize}
-  \item[] @{thm[mode=rule] le_add_same_cancel2[no_vars]}
- \hfill (@{text le_add_same_cancel2 })
-  \end{itemize}
- \begin{itemize}
-  \item[] @{thm[mode=rule] insert_iff[no_vars]}
- \hfill (@{text insert_iff })
+    \item[] @{thm[mode=rule] ball_empty} 
+      \hfill (@{text ball_empty})
+    \item[] @{thm[mode=rule] le_add_same_cancel1}
+      \hfill (@{text le_add_same_cancel1 })
+    \item[] @{thm[mode=rule] le_add_same_cancel2}
+      \hfill (@{text le_add_same_cancel2 })
+    \item[] @{thm[mode=rule] insert_iff}
+      \hfill (@{text insert_iff })
   \end{itemize}\<close>
 
 (*<*)
