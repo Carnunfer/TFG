@@ -134,32 +134,36 @@ text \<open>\comentario{Añadir al glosario injD.}\<close>
 
 lemma condicion_suficiente_detallada:
   fixes f :: "'b \<Rightarrow> 'c" 
-  assumes "\<forall>(g :: 'a \<Rightarrow> 'b) (h :: 'a \<Rightarrow> 'b).
-         (f \<circ> g = f \<circ> h \<longrightarrow> g = h)"
-  shows " inj f"
+  assumes "\<forall>(g :: 'a \<Rightarrow> 'b) (h :: 'a \<Rightarrow> 'b). (f \<circ> g = f \<circ> h \<longrightarrow> g = h)"
+  shows "inj f"
 proof (rule injI)
   fix a b 
-  assume 3: "f a = f b "
+  assume "f a = f b"
   let ?g = "\<lambda>x :: 'a. a"
   let ?h = "\<lambda>x :: 'a. b"
   have "\<forall>(h :: 'a \<Rightarrow> 'b). (f \<circ> ?g = f \<circ> h \<longrightarrow> ?g = h)"
-    using assms by (rule allE)
-  hence 1: " (f \<circ> ?g = f \<circ> ?h \<longrightarrow> ?g = ?h)"  by (rule allE) 
-  have 2: "f \<circ> ?g = f \<circ> ?h" 
-  proof 
+    using assms 
+    by (rule allE) 
+  then have "(f \<circ> ?g = f \<circ> ?h \<longrightarrow> ?g = ?h)"  
+    by (rule allE)
+  moreover
+  have "f \<circ> ?g = f \<circ> ?h" 
+  proof (rule ext)
     fix x
-    have " (f \<circ> (\<lambda>x :: 'a. a)) x = f(a) " by (simp only: comp_apply)
-    also have "... = f(b)" using 3 by (simp only: 3)
-    also have "... =  (f \<circ> (\<lambda>x :: 'a. b)) x" by (simp only: comp_apply)
+    have "(f \<circ> (\<lambda>x :: 'a. a)) x = f(a) " 
+      by (simp only: comp_apply)
+    also have "... = f(b)" 
+      by (simp only: \<open>f a = f b\<close>)
+    also have "... =  (f \<circ> (\<lambda>x :: 'a. b)) x" 
+      by (simp only: comp_apply)
     finally show " (f \<circ> (\<lambda>x :: 'a. a)) x =  (f \<circ> (\<lambda>x :: 'a. b)) x"
       by this
   qed
-  have "?g = ?h" using 1 2 by (rule mp)
-  then show " a = b" by (rule fun_cong)
+  ultimately have "?g = ?h" 
+    by (rule mp)
+  then show " a = b" 
+    by (rule fun_cong)
 qed
-
-
-
 
 text \<open>
 En las anteriores demostraciones se han introducido las reglas: 
