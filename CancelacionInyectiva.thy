@@ -172,8 +172,8 @@ text \<open>En las anteriores demostraciones se han introducido las reglas:
     \item[] @{thm[mode=Rule] comp_apply[no_vars]} 
       \hfill (@{text comp_apply})
   \end{itemize}
-  Otras demostraciones declarativas usando demostradores automáticos 
-  meson,auto y blast son:\<close>
+  Otras demostraciones declarativas no detalladas usando demostradores 
+  automáticos metis, auto y blast son:\<close>
 
 lemma condicion_necesaria_1:
   assumes "inj f"
@@ -185,28 +185,27 @@ proof
     by (simp add: inj_on_def fun_eq_iff) 
 qed
 
-lemma condicion_suficiente_detallada1:
+lemma condicion_suficiente_1:
   fixes f :: "'b \<Rightarrow> 'c" 
-  assumes "\<forall>(g :: 'a \<Rightarrow> 'b) (h :: 'a \<Rightarrow> 'b).
-         (f \<circ> g = f \<circ> h \<longrightarrow> g = h)"
-  shows " inj f"
+  assumes "\<forall>(g :: 'a \<Rightarrow> 'b) (h :: 'a \<Rightarrow> 'b). (f \<circ> g = f \<circ> h \<longrightarrow> g = h)"
+  shows "inj f"
 proof (rule injI)
   fix a b 
-  assume 1: "f a = f b "
+  assume "f a = f b"
   let ?g = "\<lambda>x :: 'a. a"
   let ?h = "\<lambda>x :: 'a. b"
-  have 2: " (f \<circ> ?g = f \<circ> ?h \<longrightarrow> ?g = ?h)"  using assms by blast
-  have 3: "f \<circ> ?g = f \<circ> ?h" 
+  have "(f \<circ> ?g = f \<circ> ?h \<longrightarrow> ?g = ?h)" using assms by blast
+  moreover  
+  have "f \<circ> ?g = f \<circ> ?h" 
   proof 
     fix x
     have " (f \<circ> (\<lambda>x :: 'a. a)) x = f(a) " by simp
-    also have "... = f(b)" using 1 by simp
+    also have "... = f(b)" using \<open>f a = f b\<close> by simp
     also have "... =  (f \<circ> (\<lambda>x :: 'a. b)) x" by simp
-    finally show " (f \<circ> (\<lambda>x :: 'a. a)) x =  (f \<circ> (\<lambda>x :: 'a. b)) x"
-      by simp
+    finally show "(f \<circ> (\<lambda>x :: 'a. a)) x =  (f \<circ> (\<lambda>x :: 'a. b)) x" by simp
   qed
-  have " (\<lambda>x :: 'a. a) = (\<lambda>x :: 'a. b)" using 2 3 by blast
-  then show  " a = b" by meson
+  ultimately have "(\<lambda>x :: 'a. a) = (\<lambda>x :: 'a. b)" by blast
+  then show "a = b" by metis 
 qed
 
 
