@@ -208,18 +208,32 @@ proof (rule injI)
   then show "a = b" by metis 
 qed
 
-
 subsection \<open>Demostración del teorema en Isabelle/Hol\<close>
+
 text \<open>En consecuencia, la demostración de nuestro teorema: \<close>
 
 theorem caracterizacion_inyectividad:
   "inj f \<longleftrightarrow> (\<forall>g h. (f \<circ> g = f \<circ> h) \<longrightarrow> (g = h))"
-  using condicion_necesaria_detallada condicion_suficiente_detallada
+proof
+  assume "inj f"
+  show "\<forall>g h. f \<circ> g = f \<circ> h \<longrightarrow> g = h"
+  proof (intro allI)
+    fix g h
+    show "f \<circ> g = f \<circ> h \<longrightarrow> g = h"
+      using \<open>inj f\<close>
+      by (rule condicion_necesaria_detallada)
+  qed
+next 
+  assume "\<forall>g h. f \<circ> g = f \<circ> h \<longrightarrow> g = h"
+  then show "inj f"
+    by (simp only: condicion_suficiente_detallada)
+qed
+
+text \<open>Su demostración automática es\<close>
+
+theorem "inj f \<longleftrightarrow> (\<forall>g h. (f \<circ> g = f \<circ> h) \<longrightarrow> (g = h))"
+  using condicion_necesaria_detallada condicion_suficiente_detallada 
   by auto
-
-
-
-
 
 (*<*)
 end
