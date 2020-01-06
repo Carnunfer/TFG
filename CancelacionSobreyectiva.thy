@@ -173,6 +173,21 @@ proof (rule ext)
   qed
 qed
 
+thm fun_upd_same
+
+lemma condicion_necesaria_detallada_l2:
+  assumes "(\<lambda>x. a) = (\<lambda>x. a)(y := b)"
+  shows "a = b"
+proof -
+  have "a = ((\<lambda>x. a)(y := b)) y"
+    using assms
+    by (rule fun_cong)
+  also have "\<dots> = b"
+    by (rule fun_upd_same)
+  finally show "a = b"
+    by this
+qed
+
 lemma condicion_necesaria_detallada:
   fixes f :: "'a \<Rightarrow>'b"
   assumes "\<forall>(g :: 'b \<Rightarrow> 'c) h .(g \<circ> (f :: 'a \<Rightarrow> 'b) = h \<circ> f) \<longrightarrow> (g = h)"
@@ -199,9 +214,12 @@ proof (rule ccontr)
   have 2: "(?g \<circ> (f :: 'a \<Rightarrow> 'b) = ?h \<circ> f)"
     using \<open>\<nexists>x :: 'a. (f :: 'a \<Rightarrow> 'b) x = (y0 :: 'b)\<close> 
     by (rule condicion_necesaria_detallada_l1)
-  have "(?g = ?h)" using 1 2 by (rule mp)
-  then have "a0 = a1" by (metis fun_upd_idem_iff)
-  with `a0 \<noteq> a1` show False by (rule notE)
+  have "(?g = ?h)" 
+    using 1 2 by (rule mp)
+  then have "a0 = a1" 
+    by (metis fun_upd_idem_iff)
+  with \<open>a0 \<noteq> a1\<close> show False 
+    by (rule notE)
 qed
 
 lemma condicion_necesaria_detallada:
