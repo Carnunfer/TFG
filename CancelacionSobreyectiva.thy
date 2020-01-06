@@ -117,8 +117,8 @@ text \<open>En la especificación anterior, @{term "surj f"} es una abreviatura 
 
 subsection \<open>Demostración estructurada \<close>
 
-text \<open>Presentaremos distintas demostraciones de los lemas. Las primeras son
- las detalladas:\<close>
+text \<open>Presentaremos distintas demostraciones de los lemas. Las primeras
+ son las detalladas:\<close>
 
 lemma condicion_suficiente_detallada:
   assumes "surj f" 
@@ -149,27 +149,82 @@ proof (intro allI impI)
   qed
 qed
 
+lemma condicion_necesaria_detallada_l1: 
+  assumes "\<nexists>x. f x = y"
+  shows "g \<circ> f = g(y := z) \<circ> f"
+proof (rule ext)
+  fix a
+  show "(g \<circ> f) a = (g(y := z) \<circ> f) a"
+  proof -
+    have "\<forall>x. f x \<noteq> y"
+      using assms
+      by (rule Meson.not_exD)
+    then have "f a \<noteq> y"  
+      by (rule allE)
+    have "(g \<circ> f) a = g (f a)"
+      by (simp only: o_apply)
+    also have "\<dots> = (g(y := z)) (f a)"
+      using \<open>f a \<noteq> y\<close> 
+      by (rule fun_upd_other [THEN sym])
+    also have "\<dots> = (g(y := z) \<circ> f) a"
+      by (simp only: o_apply)
+    finally show ?thesis
+      by this
+  qed
+qed
+
+lemma condicion_necesaria_detallada:
+  fixes f :: "'a \<Rightarrow>'b"
+  assumes "\<forall>(g :: 'b \<Rightarrow> 'c) h .(g \<circ> (f :: 'a \<Rightarrow> 'b) = h \<circ> f) \<longrightarrow> (g = h)"
+    "\<exists>(x0 :: 'c) x1. x0 \<noteq> x1"
+  shows "\<forall>y. \<exists>x. f x = y"
+proof (rule ccontr)
+  assume "\<not> (\<forall>y. \<exists>x. f x = y)"
+  then have "\<exists>y. \<nexists>x. f x = y" 
+    by (rule Meson.not_allD)
+  then obtain y0 where "\<nexists>x. f x = y0" 
+    by (rule exE)
+  then have "\<forall>x. f x \<noteq> y0" 
+    by (rule Meson.not_exD)
+  obtain a0 where "\<exists>(x1::'c). a0 \<noteq> x1" 
+    using assms(2) by (rule exE)
+  then obtain a1 where "a0 \<noteq> a1" 
+    by (rule exE)
+  let ?g = "(\<lambda>x. a0) :: 'b \<Rightarrow> 'c"
+  let ?h = "?g(y0 := a1)"
+  have "\<forall>h .(?g \<circ> (f :: 'a \<Rightarrow> 'b) = h \<circ> f) \<longrightarrow> (?g = h)"
+    using assms(1) by (rule allE)
+  then have 1: "(?g \<circ> (f :: 'a \<Rightarrow> 'b) = ?h \<circ> f) \<longrightarrow> (?g = ?h)" 
+    by (rule allE)
+  have 2: "(?g \<circ> (f :: 'a \<Rightarrow> 'b) = ?h \<circ> f)"
+    using \<open>\<nexists>x :: 'a. (f :: 'a \<Rightarrow> 'b) x = (y0 :: 'b)\<close> 
+    by (rule condicion_necesaria_detallada_l1)
+  have "(?g = ?h)" using 1 2 by (rule mp)
+  then have "a0 = a1" by (metis fun_upd_idem_iff)
+  with `a0 \<noteq> a1` show False by (rule notE)
+qed
+
 lemma condicion_necesaria_detallada:
   assumes "\<forall>(g :: 'b \<Rightarrow> 'c) h .(g \<circ> (f :: 'a \<Rightarrow> 'b) = h \<circ> f) \<longrightarrow> (g = h)"
-           "\<exists> (x0::'c) (x1::'c). x0 \<noteq> x1"
-         shows " \<forall> (y::'b). (\<exists> (x:: 'a). f x = y)"
+    "\<exists>(x0 :: 'c) (x1 :: 'c). x0 \<noteq> x1"
+  shows "\<forall>(y :: 'b). (\<exists> (x :: 'a). f x = y)"
 proof (rule ccontr)
   assume "\<not> (\<forall>y :: 'b. \<exists>x :: 'a. f x = y)"
-  hence "\<exists>y :: 'b . \<not> (\<exists>x :: 'a. f x = y)" by (rule Meson.not_allD)
+  then have "\<exists>y :: 'b . \<not> (\<exists>x :: 'a. f x = y)" by (rule Meson.not_allD)
   then obtain y0 where  "\<not> (\<exists>x :: 'a. f x = y0)" by (rule exE)
-  hence "\<forall>x :: 'a. (\<not> (f x = y0))" by (rule Meson.not_exD)
+  then have "\<forall>x :: 'a. (\<not> (f x = y0))" by (rule Meson.not_exD)
   obtain a0 where " \<exists>(x1::'c). a0 \<noteq> x1" using assms(2) by (rule exE)
   then obtain a1 where "a0 \<noteq> a1" by (rule exE)
   let ?g = "(\<lambda>x. a0)  :: 'b \<Rightarrow> 'c"
   let ?h = "?g(y0:=a1)"
   have "\<forall>h .(?g \<circ> (f :: 'a \<Rightarrow> 'b) = h \<circ> f) \<longrightarrow> (?g = h)"
     using assms(1) by (rule allE)
-  hence 1:"(?g \<circ> (f :: 'a \<Rightarrow> 'b) = ?h \<circ> f) \<longrightarrow> (?g = ?h)" by (rule allE)
+  then have 1:"(?g \<circ> (f :: 'a \<Rightarrow> 'b) = ?h \<circ> f) \<longrightarrow> (?g = ?h)" by (rule allE)
   have 2: "(?g \<circ> (f :: 'a \<Rightarrow> 'b) = ?h \<circ> f)"
     using [[simp_trace]]
     using \<open>\<nexists>x :: 'a. (f :: 'a \<Rightarrow> 'b) x = (y0 :: 'b)\<close> by auto
   have "(?g = ?h)" using 1 2 by (rule mp)
-  hence "a0 = a1" by (metis fun_upd_idem_iff)
+  then have "a0 = a1" by (metis fun_upd_idem_iff)
   with `a0 \<noteq> a1` show False by (rule notE)
 qed
 
