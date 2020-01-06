@@ -150,17 +150,19 @@ proof (intro allI impI)
 qed
 
 lemma condicion_necesaria_detallada_l1: 
-  assumes "\<nexists>x. f x = y"
+  assumes "\<nexists>x. y = f x"
   shows "g \<circ> f = g(y := z) \<circ> f"
 proof (rule ext)
   fix a
   show "(g \<circ> f) a = (g(y := z) \<circ> f) a"
   proof -
-    have "\<forall>x. f x \<noteq> y"
+    have "\<forall>x. y \<noteq> f x"
       using assms
       by (rule Meson.not_exD)
-    then have "f a \<noteq> y"  
+    then have "y \<noteq> f a"  
       by (rule allE)
+    then have "f a \<noteq> y"  
+      by (rule not_sym)
     have "(g \<circ> f) a = g (f a)"
       by (simp only: o_apply)
     also have "\<dots> = (g(y := z)) (f a)"
@@ -172,8 +174,6 @@ proof (rule ext)
       by this
   qed
 qed
-
-thm fun_upd_same
 
 lemma condicion_necesaria_detallada_l2:
   assumes "(\<lambda>x. a) = (\<lambda>x. a)(y := b)"
@@ -190,41 +190,49 @@ qed
 
 lemma condicion_necesaria_detallada:
   fixes f :: "'a \<Rightarrow>'b"
-  assumes "\<forall>(g :: 'b \<Rightarrow> 'c) h .(g \<circ> (f :: 'a \<Rightarrow> 'b) = h \<circ> f) \<longrightarrow> (g = h)"
+  assumes "\<forall>(g :: 'b \<Rightarrow> 'c) h .(g \<circ> f = h \<circ> f) \<longrightarrow> (g = h)"
     "\<exists>(x0 :: 'c) x1. x0 \<noteq> x1"
-  shows "\<forall>y. \<exists>x. f x = y"
-proof (rule ccontr)
-  assume "\<not> (\<forall>y. \<exists>x. f x = y)"
-  then have "\<exists>y. \<nexists>x. f x = y" 
-    by (rule Meson.not_allD)
-  then obtain y0 where "\<nexists>x. f x = y0" 
-    by (rule exE)
-  then have "\<forall>x. f x \<noteq> y0" 
-    by (rule Meson.not_exD)
-  obtain a0 where "\<exists>(x1::'c). a0 \<noteq> x1" 
-    using assms(2) by (rule exE)
-  then obtain a1 where "a0 \<noteq> a1" 
-    by (rule exE)
-  let ?g = "(\<lambda>x. a0) :: 'b \<Rightarrow> 'c"
-  let ?h = "?g(y0 := a1)"
-  have "\<forall>h .(?g \<circ> (f :: 'a \<Rightarrow> 'b) = h \<circ> f) \<longrightarrow> (?g = h)"
-    using assms(1) by (rule allE)
-  then have "(?g \<circ> (f :: 'a \<Rightarrow> 'b) = ?h \<circ> f) \<longrightarrow> (?g = ?h)" 
-    by (rule allE)
-  moreover
-  have "(?g \<circ> (f :: 'a \<Rightarrow> 'b) = ?h \<circ> f)"
-    using \<open>\<nexists>x :: 'a. (f :: 'a \<Rightarrow> 'b) x = (y0 :: 'b)\<close> 
-    by (rule condicion_necesaria_detallada_l1)
-  ultimately have "(?g = ?h)" 
-    by (rule mp)
-  then have "a0 = a1" 
-    by (rule condicion_necesaria_detallada_l2)
-  with \<open>a0 \<noteq> a1\<close> show False 
-    by (rule notE)
+  shows "surj f"
+proof -
+  have "\<forall>y. \<exists>x. y = f x"
+  proof (rule ccontr)
+    assume "\<not> (\<forall>y. \<exists>x. y = f x)"
+    then have "\<exists>y. \<nexists>x. y = f x" 
+      by (rule Meson.not_allD)
+    then obtain y0 where "\<nexists>x. y0 = f x" 
+      by (rule exE)
+    then have "\<forall>x. y0 \<noteq> f x" 
+      by (rule Meson.not_exD)
+    obtain a0 where "\<exists>(x1::'c). a0 \<noteq> x1" 
+      using assms(2) by (rule exE)
+    then obtain a1 where "a0 \<noteq> a1" 
+      by (rule exE)
+    let ?g = "(\<lambda>x. a0) :: 'b \<Rightarrow> 'c"
+    let ?h = "?g(y0 := a1)"
+    have "\<forall>h .(?g \<circ> f = h \<circ> f) \<longrightarrow> (?g = h)"
+      using assms(1) by (rule allE)
+    then have "(?g \<circ> f = ?h \<circ> f) \<longrightarrow> (?g = ?h)" 
+      by (rule allE)
+    moreover
+    have "(?g \<circ> f = ?h \<circ> f)"
+      using \<open>\<nexists>x. y0 = f x\<close> 
+      by (rule condicion_necesaria_detallada_l1)
+    ultimately have "(?g = ?h)" 
+      by (rule mp)
+    then have "a0 = a1" 
+      by (rule condicion_necesaria_detallada_l2)
+    with \<open>a0 \<noteq> a1\<close> show False 
+      by (rule notE)
+  qed
+  then show "surj f" 
+    using surj_def 
+    by (rule rev_iffD2)
 qed
 
-lemma condicion_necesaria_detallada_2:
-  assumes " \<forall> (y::'b). (\<exists> (x:: 'a). f x = y)"
+text \<open>La demostración automática del lema anterior es\<close>
+
+lemma condicion_necesaria_auto:
+  assumes " \<forall>(y::'b). (\<exists>(x:: 'a). f x = y)"
   shows "surj f"
   by (metis assms surj_def)
     
@@ -232,30 +240,30 @@ text \<open>En la demostración hemos introducido:
  \begin{itemize}
     \item[] @{thm[mode=Rule] exE[no_vars]} 
       \hfill (@{text "rule exE"}) 
-  \end{itemize} 
- \begin{itemize}
     \item[] @{thm[mode=Proof] iffI[no_vars]} 
       \hfill (@{text iffI})
   \end{itemize} 
 \<close>
 
 subsection \<open>Demostración teorema \<close>
+
 text \<open>En consecuencia, la demostración del teorema es \<close>
 
-
 theorem caracterizacion_funciones_sobreyectivas:
-  fixes  g :: "'b \<Rightarrow> 'c" and 
-         h :: "'b \<Rightarrow> 'c" and
-         f :: "'a \<Rightarrow> 'b"
-       shows "\<lbrakk> \<exists> (x0::'c) (x1::'c). x0 \<noteq> x1 \<rbrakk> \<Longrightarrow>
-        surj f \<longleftrightarrow>  (\<forall>g h.(g \<circ> f = h \<circ> f) \<longrightarrow> (g = h))"
-  apply (rule iffI)
-   apply (rule condicion_suficiente_detallada)
-   apply simp
-  apply (drule condicion_necesaria_detallada)
-  prefer 2
-   apply (rule condicion_necesaria_detallada_2)
-  oops
+  fixes  f :: "'a \<Rightarrow> 'b"
+  assumes "\<exists> (x0 :: 'c) x1. x0 \<noteq> x1"
+  shows "surj f \<longleftrightarrow> (\<forall>(g :: 'b \<Rightarrow> 'c) h.(g \<circ> f = h \<circ> f) \<longrightarrow> (g = h))"
+proof (rule iffI)
+  assume "surj f"
+  then show "\<forall>g h. g \<circ> f = h \<circ> f \<longrightarrow> g = h"
+    by (rule condicion_suficiente_detallada)
+next
+  assume "\<forall>(g :: 'b \<Rightarrow> 'c) h. g \<circ> f = h \<circ> f \<longrightarrow> g = h" 
+  then show "surj f"
+    using assms
+    by (rule condicion_necesaria_detallada)
+qed
+
 (*<*)
 end 
 (*>*)
