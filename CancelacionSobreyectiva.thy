@@ -149,17 +149,6 @@ proof (intro allI impI)
   qed
 qed
 
-text \<open>En la siguiente demostración nos hará falta la introducción de
-  los pequeños lemas que demostraremos a continuación:\<close>
-
-thm Meson.not_allD
-
-lemma auxiliar_2:
-  assumes "\<not>(\<exists>x. P(x))"
-  shows   "\<forall>x. \<not>P(x)"
-using assms
-by auto
-
 lemma condicion_necesaria_detallada:
   assumes "\<forall>(g :: 'b \<Rightarrow> 'c) h .(g \<circ> (f :: 'a \<Rightarrow> 'b) = h \<circ> f) \<longrightarrow> (g = h)"
            "\<exists> (x0::'c) (x1::'c). x0 \<noteq> x1"
@@ -168,7 +157,7 @@ proof (rule ccontr)
   assume "\<not> (\<forall>y :: 'b. \<exists>x :: 'a. f x = y)"
   hence "\<exists>y :: 'b . \<not> (\<exists>x :: 'a. f x = y)" by (rule Meson.not_allD)
   then obtain y0 where  "\<not> (\<exists>x :: 'a. f x = y0)" by (rule exE)
-  hence "\<forall>x :: 'a. (\<not> (f x = y0))" by (rule auxiliar_2)
+  hence "\<forall>x :: 'a. (\<not> (f x = y0))" by (rule Meson.not_exD)
   obtain a0 where " \<exists>(x1::'c). a0 \<noteq> x1" using assms(2) by (rule exE)
   then obtain a1 where "a0 \<noteq> a1" by (rule exE)
   let ?g = "(\<lambda>x. a0)  :: 'b \<Rightarrow> 'c"
