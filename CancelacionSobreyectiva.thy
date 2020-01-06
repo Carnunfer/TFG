@@ -209,41 +209,18 @@ proof (rule ccontr)
   let ?h = "?g(y0 := a1)"
   have "\<forall>h .(?g \<circ> (f :: 'a \<Rightarrow> 'b) = h \<circ> f) \<longrightarrow> (?g = h)"
     using assms(1) by (rule allE)
-  then have 1: "(?g \<circ> (f :: 'a \<Rightarrow> 'b) = ?h \<circ> f) \<longrightarrow> (?g = ?h)" 
+  then have "(?g \<circ> (f :: 'a \<Rightarrow> 'b) = ?h \<circ> f) \<longrightarrow> (?g = ?h)" 
     by (rule allE)
-  have 2: "(?g \<circ> (f :: 'a \<Rightarrow> 'b) = ?h \<circ> f)"
+  moreover
+  have "(?g \<circ> (f :: 'a \<Rightarrow> 'b) = ?h \<circ> f)"
     using \<open>\<nexists>x :: 'a. (f :: 'a \<Rightarrow> 'b) x = (y0 :: 'b)\<close> 
     by (rule condicion_necesaria_detallada_l1)
-  have "(?g = ?h)" 
-    using 1 2 by (rule mp)
+  ultimately have "(?g = ?h)" 
+    by (rule mp)
   then have "a0 = a1" 
-    by (metis fun_upd_idem_iff)
+    by (rule condicion_necesaria_detallada_l2)
   with \<open>a0 \<noteq> a1\<close> show False 
     by (rule notE)
-qed
-
-lemma condicion_necesaria_detallada:
-  assumes "\<forall>(g :: 'b \<Rightarrow> 'c) h .(g \<circ> (f :: 'a \<Rightarrow> 'b) = h \<circ> f) \<longrightarrow> (g = h)"
-    "\<exists>(x0 :: 'c) (x1 :: 'c). x0 \<noteq> x1"
-  shows "\<forall>(y :: 'b). (\<exists> (x :: 'a). f x = y)"
-proof (rule ccontr)
-  assume "\<not> (\<forall>y :: 'b. \<exists>x :: 'a. f x = y)"
-  then have "\<exists>y :: 'b . \<not> (\<exists>x :: 'a. f x = y)" by (rule Meson.not_allD)
-  then obtain y0 where  "\<not> (\<exists>x :: 'a. f x = y0)" by (rule exE)
-  then have "\<forall>x :: 'a. (\<not> (f x = y0))" by (rule Meson.not_exD)
-  obtain a0 where " \<exists>(x1::'c). a0 \<noteq> x1" using assms(2) by (rule exE)
-  then obtain a1 where "a0 \<noteq> a1" by (rule exE)
-  let ?g = "(\<lambda>x. a0)  :: 'b \<Rightarrow> 'c"
-  let ?h = "?g(y0:=a1)"
-  have "\<forall>h .(?g \<circ> (f :: 'a \<Rightarrow> 'b) = h \<circ> f) \<longrightarrow> (?g = h)"
-    using assms(1) by (rule allE)
-  then have 1:"(?g \<circ> (f :: 'a \<Rightarrow> 'b) = ?h \<circ> f) \<longrightarrow> (?g = ?h)" by (rule allE)
-  have 2: "(?g \<circ> (f :: 'a \<Rightarrow> 'b) = ?h \<circ> f)"
-    using [[simp_trace]]
-    using \<open>\<nexists>x :: 'a. (f :: 'a \<Rightarrow> 'b) x = (y0 :: 'b)\<close> by auto
-  have "(?g = ?h)" using 1 2 by (rule mp)
-  then have "a0 = a1" by (metis fun_upd_idem_iff)
-  with `a0 \<noteq> a1` show False by (rule notE)
 qed
 
 lemma condicion_necesaria_detallada_2:
