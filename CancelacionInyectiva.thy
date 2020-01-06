@@ -112,39 +112,31 @@ text \<open>Las demostraciones declarativas son las siguientes:\<close>
 
 lemma condicion_necesaria_detallada:
   assumes "inj f"
-  shows "\<forall>g h. (f \<circ> g = f \<circ> h) \<longrightarrow> (g = h)"
-proof
-  fix g :: "'c \<Rightarrow> 'a"
-  show "\<forall>h. (f \<circ> g = f \<circ> h) \<longrightarrow> (g = h)"
-  proof (rule allI)
-    fix h
-    show "f \<circ> g = f \<circ> h \<longrightarrow> (g = h)"
-    proof (rule impI)
-      assume 1: "f \<circ> g = f \<circ> h"
-      show "g = h"
-      proof (rule ext)
-        fix x
-        have  "(f \<circ> g)(x) = (f \<circ> h)(x)" 
-          by (simp only: \<open>f \<circ> g = f \<circ> h\<close>)
-        then have "f(g(x)) = f(h(x))" 
-          by (simp only: comp_apply) 
-        then show "g(x) = h(x)"
-          using \<open>inj f\<close> 
-          by (simp only: injD)
-      qed
-    qed
+  shows "(f \<circ> g = f \<circ> h) \<longrightarrow> (g = h)"
+proof (rule impI)
+  assume "f \<circ> g = f \<circ> h"
+  show "g = h"
+  proof (rule ext)
+    fix x
+    have "(f \<circ> g)(x) = (f \<circ> h)(x)" 
+      by (simp only: \<open>f \<circ> g = f \<circ> h\<close>)
+    then have "f(g(x)) = f(h(x))" 
+      by (simp only: comp_apply) 
+    then show "g(x) = h(x)"
+      using \<open>inj f\<close> 
+      by (simp only: injD)
   qed
 qed
 
 text \<open>\comentario{Añadir al glosario injD.}\<close>
 
-(*<*)declare [[show_types]](*>*)
+(* declare [[show_types]] *)
 
 lemma condicion_suficiente_detallada:
   fixes f :: "'b \<Rightarrow> 'c" 
   assumes "\<forall>(g :: 'a \<Rightarrow> 'b) (h :: 'a \<Rightarrow> 'b).
          (f \<circ> g = f \<circ> h \<longrightarrow> g = h)"
-shows " inj f"
+  shows " inj f"
 proof (rule injI)
   fix a b 
   assume 3: "f a = f b "
