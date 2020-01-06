@@ -154,13 +154,6 @@ text \<open>En la siguiente demostración nos hará falta la introducción de
 
 thm Meson.not_allD
 
-lemma auxiliar_1:
-  assumes "\<not>(\<forall>x. P(x))"
-  shows   "\<exists>x. \<not>P(x)"
-  using assms
-  find_theorems solves
-  by auto
-
 lemma auxiliar_2:
   assumes "\<not>(\<exists>x. P(x))"
   shows   "\<forall>x. \<not>P(x)"
