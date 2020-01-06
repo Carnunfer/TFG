@@ -165,27 +165,25 @@ proof (rule injI)
     by (rule fun_cong)
 qed
 
-text \<open>
-En las anteriores demostraciones se han introducido las reglas: 
+text \<open>En las anteriores demostraciones se han introducido las reglas: 
   \begin{itemize}
     \item[] @{thm[mode=Rule] fun_cong[no_vars]} 
       \hfill (@{text fun_cong})
-  \end{itemize}
- \begin{itemize}
     \item[] @{thm[mode=Rule] comp_apply[no_vars]} 
       \hfill (@{text comp_apply})
   \end{itemize}
-Otras demostraciones declarativas usando demostradores automáticos 
-meson,auto y blast son:\<close>
+  Otras demostraciones declarativas usando demostradores automáticos 
+  meson,auto y blast son:\<close>
 
-lemma condicion_necesaria_detallada1:
+lemma condicion_necesaria_1:
   assumes "inj f"
   shows "(f \<circ> g = f \<circ> h) \<longrightarrow>(g = h)"
 proof 
   assume "f \<circ> g = f \<circ> h" 
-  then show "g = h" using `inj f` by (simp add: inj_on_def fun_eq_iff) 
+  then show "g = h" 
+    using `inj f` 
+    by (simp add: inj_on_def fun_eq_iff) 
 qed
-
 
 lemma condicion_suficiente_detallada1:
   fixes f :: "'b \<Rightarrow> 'c" 
