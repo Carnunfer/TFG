@@ -149,14 +149,16 @@ proof (intro allI impI)
   qed
 qed
 
-text \<open> En la siguiente demostración nos hará falta la introducción de
- los pequeños lemas que demostraremos a continuación: \<close>
+text \<open>En la siguiente demostración nos hará falta la introducción de
+  los pequeños lemas que demostraremos a continuación:\<close>
 
+thm Meson.not_allD
 
 lemma auxiliar_1:
   assumes "\<not>(\<forall>x. P(x))"
   shows   "\<exists>x. \<not>P(x)"
   using assms
+  find_theorems solves
   by auto
 
 lemma auxiliar_2:
@@ -171,7 +173,7 @@ lemma condicion_necesaria_detallada:
          shows " \<forall> (y::'b). (\<exists> (x:: 'a). f x = y)"
 proof (rule ccontr)
   assume "\<not> (\<forall>y :: 'b. \<exists>x :: 'a. f x = y)"
-  hence "\<exists>y :: 'b . \<not> (\<exists>x :: 'a. f x = y)" by (rule auxiliar_1)
+  hence "\<exists>y :: 'b . \<not> (\<exists>x :: 'a. f x = y)" by (rule Meson.not_allD)
   then obtain y0 where  "\<not> (\<exists>x :: 'a. f x = y0)" by (rule exE)
   hence "\<forall>x :: 'a. (\<not> (f x = y0))" by (rule auxiliar_2)
   obtain a0 where " \<exists>(x1::'c). a0 \<noteq> x1" using assms(2) by (rule exE)
