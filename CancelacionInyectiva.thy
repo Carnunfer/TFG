@@ -9,83 +9,79 @@ begin
 section \<open>Cancelación de funciones inyectivas\<close>
 subsection \<open>Demostración en lenguaje natural \<close>
 
-
-
 text \<open>\comentario{Añadir lemas usados al Soporte.}\<close>
 
 text \<open>El siguiente teorema que se va a probar es una caracterización de
- las funciones inyectivas. Primero se definirá el significado de
- inyectividad de una función y la propiedad de ser cancelativa por la
- izquierda. \\
- Una función $f : B \longrightarrow C$ es inyectiva si 
-$$\forall x,y \in \ B : f(x) = f(y) \Longrightarrow x =
- y.$$
-Una función $f : B \longrightarrow C$ es cancelativa por la izquierda si 
-$$\forall A: (\forall g,h: X \longrightarrow Y) : f \circ g = f \circ h
- \Longrightarrow g = h.$$
+  las funciones inyectivas. Primero se definirá el significado de
+  inyectividad de una función y la propiedad de ser cancelativa por la
+  izquierda. 
 
-Luego el teorema es el siguiente:
-  
+  Una función $f : B \longrightarrow C$ es inyectiva si 
+  $$\forall x,y \in \ B : f(x) = f(y) \Longrightarrow x = y.$$
+
+  Una función $f : B \longrightarrow C$ es cancelativa por la izquierda si
+  $$\forall A: (\forall g,h: X \longrightarrow Y) : 
+    f \circ g = f \circ h \Longrightarrow g = h.$$
+
+  El teorema es el siguiente:
   \begin{teorema}
-  $f$ es una función inyectiva, si y solo si, para todas funciones 
- $g$ y $h$  tales que  $f \circ g = f \circ h$ se tiene que $g = h$. 
+    La función $f$ es inyectiva, si y solo si, para todas funciones 
+    $g$ y $h$  tales que  $f \circ g = f \circ h$ se tiene que $g = h$. 
   \end{teorema}
 
-Vamos a hacer dos lemas de nuestro teorema, ya que se  descompone la
-doble implicación en dos implicaciones y se va a  demostrar cada una de
- ellas por  separado.
+  Vamos a hacer dos lemas de nuestro teorema, ya que se  descompone la
+  doble implicación en dos implicaciones y se va a  demostrar cada una
+  de ellas por separado.
 
-\begin{lema}[Condición necesaria]
- Si $f$ es una función inyectiva entonces para todas funciones $g$ y $h$
- tales que  $f \circ g = f \circ h$ se tiene que $g = h.$
-\end {lema}
+  \begin{lema}[Condición necesaria]
+    Si $f$ es una función inyectiva, entonces para todas funciones $g$ y
+    $h$ tales que $f \circ g = f \circ h$ se tiene que $g = h.$
+  \end {lema}
+
   \begin{demostracion}
-Por hipótesis se tiene que $f \circ g = f \circ h$, hay que probar que
-$g = h$. Usando que f es inyectiva tenemos que: \\
-$$(f \circ g)(x) = (f \circ h)(x) \Longrightarrow f(g(x)) = f(h(x)) = 
-g(x) = h(x)$$
+    Por hipótesis se tiene que $f \circ g = f \circ h$, hay que probar
+    que $g = h$. Usando que f es inyectiva tenemos que: 
+    $$(f \circ g)(x) = (f \circ h)(x) \Longrightarrow 
+      f(g(x)) = f(h(x)) = g(x) = h(x)$$
   \end{demostracion}
 
-\begin {lema}[Condición suficiente] 
-Si para toda $g$ y $h$ tales que $f \circ g =  f \circ h$ se tiene que $g
-= h$ entonces f es inyectiva.
-\end {lema} 
+  \begin {lema}[Condición suficiente] 
+    Si para toda $g$ y $h$ tales que $f \circ g =  f \circ h$ se tiene
+    que $g = h$ entonces f es inyectiva.
+  \end {lema} 
 
-\begin {demostracion}
-Si el dominio de la función $f$ fuese vacío, f  es inyectiva.
-Supongamos que el dominio de la función $f$ es distinto del vacío y que 
-f verifica la propiedad de ser cancelativa por la izquierda.
-Hay que demostrar que $\forall a,b$ tales que $f(a) = f(b),$ esto
- implica que $a = b.$ \\
-Sean $a,b$ tales que $f(a) = f(b)$. \\
-Definiendo  $g(x) = a  \ \forall x$  y $h(x) = b \  \forall x$ entonces 
-$$(f \circ g) = (f \circ h) \Longrightarrow  f(g(x)) = f(h(x))
- \Longrightarrow f(a) = f(b)$$
+  \begin {demostracion}
+    Si el dominio de la función $f$ fuese vacío, f  es inyectiva.
+    Supongamos que el dominio de la función $f$ es distinto del vacío y
+    que f verifica la propiedad de ser cancelativa por la izquierda.
+    Hay que demostrar que $\forall a,b$ tales que $f(a) = f(b)$, esto
+    implica que $a = b$. 
 
-Por hipótesis, entonces $a = b,$ como se quería demostrar.
-\end {demostracion} \<close>
+    Sean $a,b$ tales que $f(a) = f(b)$. 
+
+    Definiendo $g(x) = a  \ \forall x$  y $h(x) = b \  \forall x$
+    entonces 
+    $$(f \circ g) = (f \circ h) \Longrightarrow  f(g(x)) = f(h(x))
+      \Longrightarrow f(a) = f(b)$$
+
+    Por hipótesis, entonces $a = b,$ como se quería demostrar.
+  \end {demostracion}\<close>
 
 subsection \<open>Especificación en Isabelle/Hol\<close>
 
-text\<open>
-  Su especificación es la siguiente, pero al igual que se ha  hecho en
- la demostración a mano se va a demostrar a través de dos lemas:
+text \<open>Su especificación es la siguiente, pero al igual que se ha  hecho
+ en la demostración a mano se va a demostrar a través de dos lemas:\<close>
 
-\<close>
 theorem caracterizacion_funcion_inyecctiva:
   "inj f \<longleftrightarrow> (\<forall>g h. (f \<circ> g = f \<circ> h) \<longrightarrow> (g = h))"
   oops
 
+text \<open>Sus lemas asociados a cada implicación son los siguientes:\<close>
 
-
-  text \<open>Sus lemas asociados a cada implicación son los siguientes: \<close>
-
-lemma 
-"\<forall>g h. (f \<circ> g = f \<circ> h \<longrightarrow> g = h) \<Longrightarrow> inj f"
+lemma "\<forall>g h. (f \<circ> g = f \<circ> h \<longrightarrow> g = h) \<Longrightarrow> inj f"
   oops
 
-lemma 
-"inj f \<Longrightarrow> (\<forall>g h.(f \<circ> g = f \<circ> h) \<longrightarrow> (g = h))"
+lemma "inj f \<Longrightarrow> (\<forall>g h.(f \<circ> g = f \<circ> h) \<longrightarrow> (g = h))"
   oops
 
 text \<open>En la especificación anterior, @{term "inj f"} es una 
@@ -94,7 +90,7 @@ text \<open>En la especificación anterior, @{term "inj f"} es una
   de @{term "inj_on"}
   \begin{itemize}
     \item[] @{thm[mode=Rule] inj_on_def[no_vars]}
- \hfill (@{text inj_on_def})
+      \hfill (@{text inj_on_def})
   \end{itemize} 
   Por su parte, @{term UNIV} es el conjunto universal definido en la 
   teoría \href{http://bit.ly/2XtHCW6}{Set.thy} como una abreviatura de 
@@ -108,34 +104,39 @@ text \<open>En la especificación anterior, @{term "inj f"} es una
   En el caso de la teoría de conjuntos, la relación de orden es la
   inclusión de conjuntos.
 
-  Presentaremos distintas demostraciones de los lemas. \<close>
+  Presentaremos distintas demostraciones de los lemas.\<close>
 
 subsection \<open>Demostración estructurada de los lemas\<close>
  
-text \<open>Las demostraciones declarativas son las siguientes: \<close>
-
+text \<open>Las demostraciones declarativas son las siguientes:\<close>
 
 lemma condicion_necesaria_detallada:
   assumes "inj f"
-  shows "\<forall>g h.(f \<circ> g = f \<circ> h) \<longrightarrow> (g = h)"
+  shows "\<forall>g h. (f \<circ> g = f \<circ> h) \<longrightarrow> (g = h)"
 proof
-  fix g:: "'c \<Rightarrow> 'a"
-  show "\<forall>h.(f \<circ> g = f \<circ> h) \<longrightarrow> (g = h)"
+  fix g :: "'c \<Rightarrow> 'a"
+  show "\<forall>h. (f \<circ> g = f \<circ> h) \<longrightarrow> (g = h)"
   proof (rule allI)
     fix h
     show "f \<circ> g = f \<circ> h \<longrightarrow> (g = h)"
     proof (rule impI)
-      assume 1:"f \<circ> g = f \<circ> h"
+      assume 1: "f \<circ> g = f \<circ> h"
       show "g = h"
-      proof 
+      proof (rule ext)
         fix x
-        have  "(f \<circ> g)(x) = (f \<circ> h)(x)" using 1 by (simp only: 1)
-        then have "f(g(x)) = f(h(x))" by (simp only: comp_apply) 
-        thus  "g(x) = h(x)" using `inj f` by (simp add:inj_on_def)
+        have  "(f \<circ> g)(x) = (f \<circ> h)(x)" 
+          by (simp only: \<open>f \<circ> g = f \<circ> h\<close>)
+        then have "f(g(x)) = f(h(x))" 
+          by (simp only: comp_apply) 
+        then show "g(x) = h(x)"
+          using \<open>inj f\<close> 
+          by (simp only: injD)
       qed
     qed
   qed
 qed
+
+text \<open>\comentario{Añadir al glosario injD.}\<close>
 
 (*<*)declare [[show_types]](*>*)
 
