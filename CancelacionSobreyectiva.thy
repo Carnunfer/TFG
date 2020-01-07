@@ -229,13 +229,6 @@ proof -
     by (rule rev_iffD2)
 qed
 
-text \<open>La demostración automática del lema anterior es\<close>
-
-lemma condicion_necesaria_auto:
-  assumes " \<forall>(y::'b). (\<exists>(x:: 'a). f x = y)"
-  shows "surj f"
-  by (metis assms surj_def)
-    
 text \<open>En la demostración hemos introducido: 
  \begin{itemize}
     \item[] @{thm[mode=Rule] exE[no_vars]} 
