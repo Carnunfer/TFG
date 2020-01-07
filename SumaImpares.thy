@@ -52,7 +52,6 @@ text \<open>El enunciado del teorema es el siguiente:\<close>
 lemma "suma_impares n = n * n"
 oops  
 
-
 text \<open>En la demostración se usará la táctica @{text induct} que hace
   uso del esquema de inducción sobre los naturales:
   \begin{itemize}
@@ -62,7 +61,6 @@ text \<open>En la demostración se usará la táctica @{text induct} que hace
 
   Vamos a presentar distintas demostraciones del teorema. La 
   primera es la demostración automática.\<close>
-
 
 subsection \<open>Demostración automática\<close>
 

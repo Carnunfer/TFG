@@ -1,4 +1,4 @@
-session EjerciciosDeLMF = HOL +
+session TFG = HOL +
   options [document = pdf,
            document_output = "output",
            show_question_marks = false]
@@ -6,9 +6,9 @@ session EjerciciosDeLMF = HOL +
     "HOL-Library"    
   theories
     SumaImpares
+    ConjuntosFinitos
     CancelacionInyectiva
     CancelacionSobreyectiva 
-    ConjuntosFinitos
     TeoremaCantor 
     Metodosdepruebasyreglas
     Soporte
