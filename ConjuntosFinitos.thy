@@ -25,6 +25,29 @@ text \<open>El siguiente teorema es una propiedad que verifican todos los
     donde $\sum S $ denota la suma de todos los elementos de S.
   \end{teorema} 
 
+Primero se debe notar la definición de conjunto finito y el esquema de
+ inducción que induce su propia definición.
+
+\begin{definicion}
+Un conjunto finito es un conjunto con un número finito de elementos.
+\end{definicion}
+
+La construcción de un conjunto finito viene dada por:
+\begin{itemize}
+\item $\emptyset$ es finito.
+\item Si $A$ es un conjunto finito y sea $x$ un elementos entonces $A
+ \cup \{x\}$ es un conjunto finito.
+\end{itemize}
+
+De esta construcción se obtiene un esquema de inducción. Para ello sea
+ por ejemplo $\varphi$ una propiedad sobre conjuntos finitos. El esquema
+de inducción viene dado por:
+
+\begin{itemize}
+\item $\varphi(\emptyset).$
+\item Sea $A$ un conjunto finito tal que $\varphi(A)$ y sea $x$ un
+ elemento entonces $\varphi(A \cup \{x\}).$ 
+\end{itemize}
   \begin{demostracion}
   La demostración del teorema la haremos por inducción sobre conjuntos
   finitos.
@@ -32,12 +55,14 @@ text \<open>El siguiente teorema es una propiedad que verifican todos los
   (Base de la inducción) El caso $S = \emptyset$ es trivial.
 
   (Paso de la inducción) Supongamos que se verifica el teorema para un
-  conjunto finito de números naturales, que se denotará por $S.$ 
+  conjunto finito de números naturales, que se denotará por $S$ y sea 
+  $a$ un elemento. Vamos a demostrarlo para $S \cup {a}.$
  
   Sea $a \in \Bbb{N}$ tal que $a \notin S,$ Ya que si $a \in S$ se 
   tendría probado el teorema. Luego hay que probar que: 
   $$\forall n \in S \cup \{a\} \Longrightarrow 
     n \leq \sum (S \cup \{a\})$$
+
 
   Distingamos dos casos ahora:
 
@@ -61,9 +86,19 @@ text \<open>El siguiente teorema es una propiedad que verifican todos los
 subsection \<open>Especificación en Isabelle/HOL \<close>
 
 text  \<open>Para la especificación del teorema en Isabelle, primero debemos
-  notar que  @{text "finite S "} indica que un conjunto $S$ es 
-  finito  y definir la función @{text "sumaConj"} tal que
-  @{text "sumaConj n"} es la suma de todos los elementos de S.\<close>
+  definir un conjunto finito en Isabelle. \<close>
+
+text \<open>\comentario{Añadir definición de conjunto en Isabelle, que no encuentro}\<close>
+
+
+text \<open> También se debe notar que  @{text "finite S "} indica que un 
+conjunto $S$ es finito  y definir la función @{text "sumaConj"} tal que
+  @{text "sumaConj n"} es la suma de todos los elementos de S.
+  Se usará la táctica induct que hace uso del esquema de inducción sobre
+conjuntos finitos que induce su propia definición.
+ \begin{itemize}
+  \item[] @{thm[mode=Def] finite.induct} \hfill (@{text finite.induct})
+  \end{itemize} \<close>                 
 
 definition sumaConj :: "nat set \<Rightarrow> nat" where
   "sumaConj S \<equiv> \<Sum>S"
@@ -98,11 +133,6 @@ text \<open>La demostración del lema anterior se ha incluido
   @{term"sumConj_def"}, que hace referencia a la definición sumaConj que
   hemos hecho anteriormente.
 
-  En la demostración se usará la táctica @{text induct} que hace
-  uso del esquema de inducción sobre los conjuntos finitos:
-  \begin{itemize}
-  \item[] @{thm[mode=Def] finite.induct} \hfill (@{text finite.induct})
-  \end{itemize} 
 
 Vamos a presentar diferentes formas de demostración:\<close>
 
