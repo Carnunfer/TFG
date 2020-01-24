@@ -16,7 +16,7 @@ text \<open>El primer teorema es una propiedad de los números naturales.
   \end{teorema}
 
   \begin{demostracion}
-    La demostración la haremos en inducción sobre $n$.
+    La demostración la haremos por inducción sobre $n$.
     
     (Base de la inducción) El caso $n = 0$ es trivial.
     
@@ -27,12 +27,12 @@ text \<open>El primer teorema es una propiedad de los números naturales.
     $k_j$ el j--ésimo impar; es decir, $k_j = 2j - 1$.
 
     $$\begin{array}{l}
-      \sum_{j = 1}^{n+1} k_j \\
-      = k_{n+1} + \sum^{n}_{j=1} k_j \\ 
-      = k_{n+1} + n^2 \\
+      \sum_{j = 1}^{n+1} k_j    \\
+      = k_{n+1} + \sum^{n}_{j=1} k_j   \\ 
+      = k_{n+1} + n^2  \quad @{text " (Hipótesis inducción) "} \\
       = 2(n+1) - 1 + n^2 \\
-      = n^2 + 2n + 1 \\ 
-      = (n+1)^2
+      = n^2 + 2n + 1   \\ 
+      = (n+1)^2 
       \end{array}$$ 
   \end{demostracion}
 \<close>
