@@ -19,35 +19,35 @@ text \<open>El siguiente teorema que se va a probar es una caracterización de
   Una función $f : B \longrightarrow C$ es inyectiva si 
   $$\forall x,y \in \ B : f(x) = f(y) \Longrightarrow x = y.$$
 
-  Una función $f : B \longrightarrow C$ es cancelativa por la izquierda si
-  $$\forall A: (\forall g,h: X \longrightarrow Y) : 
+  Una función $f : B \longrightarrow C$ es cancelativa por la izquierda
+ si $$\forall A: (\forall g,h: A \longrightarrow B) : 
     f \circ g = f \circ h \Longrightarrow g = h.$$
 
   El teorema es el siguiente:
   \begin{teorema}
-    La función $f$ es inyectiva, si y solo si, para todas funciones 
-    $g$ y $h$  tales que  $f \circ g = f \circ h$ se tiene que $g = h$. 
+    La función $f$ es inyectiva, si y solo si, es cancelativa por la
+ izquierda. 
   \end{teorema}
 
-  Vamos a hacer dos lemas de nuestro teorema, ya que se  descompone la
+  Vamos a hacer dos lemas previos, ya que se  descompone la
   doble implicación en dos implicaciones y se va a  demostrar cada una
-  de ellas por separado.
+  de ellos por separado.
 
   \begin{lema}[Condición necesaria]
-    Si $f$ es una función inyectiva, entonces para todas funciones $g$ y
-    $h$ tales que $f \circ g = f \circ h$ se tiene que $g = h.$
+    Si $f$ es una función inyectiva, entonces f es cancelativa por la
+ izquierda.
   \end {lema}
 
   \begin{demostracion}
-    Por hipótesis se tiene que $f \circ g = f \circ h$, hay que probar
-    que $g = h$. Usando que f es inyectiva tenemos que: 
-    $$(f \circ g)(x) = (f \circ h)(x) \Longrightarrow 
-      f(g(x)) = f(h(x)) = g(x) = h(x)$$
+  Vamos a probar  que $\forall x. \, g(x) = h(x).$
+  Por hipótesis se tiene que 
+$$f \circ g = f \circ h \Longrightarrow (f \circ g)(x) = (f
+ \circ h)(x) \stackrel{def.}{\Longrightarrow} f(g(x)) = f(h(x))
+ \stackrel{f \,  inyect.}{\Longrightarrow} g(x)=h(x)$$
   \end{demostracion}
 
   \begin {lema}[Condición suficiente] 
-    Si para toda $g$ y $h$ tales que $f \circ g =  f \circ h$ se tiene
-    que $g = h$ entonces f es inyectiva.
+   Si f es cancelativa por la izquierda entonces f es inyectiva.
   \end {lema} 
 
   \begin {demostracion}
@@ -59,13 +59,18 @@ text \<open>El siguiente teorema que se va a probar es una caracterización de
 
     Sean $a,b$ tales que $f(a) = f(b)$. 
 
-    Definiendo $g(x) = a  \ \forall x$  y $h(x) = b \  \forall x$
-    entonces 
-    $$(f \circ g) = (f \circ h) \Longrightarrow  f(g(x)) = f(h(x))
-      \Longrightarrow f(a) = f(b)$$
-
-    Por hipótesis, entonces $a = b,$ como se quería demostrar.
-  \end {demostracion}\<close>
+    Consideremos las funciones constantes $g(x) = a  \ \forall x$  y
+    $h(x) = b \  \forall x.$
+    Veamos que $f \circ g = f \circ h.$ En efecto, $\forall x$
+    $$(f \circ g)(x) = f(g(x)) = f(a)$$
+    $$(f \circ h)(x) = f(h(x)) = f(b)$$
+    Por hipótesis se tiene que $f(a) = f(b)$ luego $f \circ g = f \circ
+ h.$ Por hipótesis se tiene que $f$ es cancelativa por la izquierda, por
+lo tanto, esto implica que
+$$g = h \Longrightarrow g(x) = h(x) \, \forall x \Longrightarrow a =
+ b.$$
+\end{demostracion}
+\<close>
 
 subsection \<open>Especificación en Isabelle/Hol\<close>
 
@@ -76,7 +81,7 @@ theorem caracterizacion_funcion_inyecctiva:
   "inj f \<longleftrightarrow> (\<forall>g h. (f \<circ> g = f \<circ> h) \<longrightarrow> (g = h))"
   oops
 
-text \<open>Sus lemas asociados a cada implicación son los siguientes:\<close>
+text \<open>Los lemas asociados a cada implicación son los siguientes:\<close>
 
 lemma "\<forall>g h. (f \<circ> g = f \<circ> h \<longrightarrow> g = h) \<Longrightarrow> inj f"
   oops
@@ -85,7 +90,7 @@ lemma "inj f \<Longrightarrow> (\<forall>g h.(f \<circ> g = f \<circ> h) \<longr
   oops
 
 text \<open>En la especificación anterior, @{term "inj f"} es una 
-  abreviatura de @{term "inj_on f UNIV"} definida en la teoría
+  abreviatura de @{term "inj_on f "} definida en la teoría
   \href{http://bit.ly/2XuPQx5}{Fun.thy}. Además, contiene la definición
   de @{term "inj_on"}
   \begin{itemize}
@@ -165,7 +170,14 @@ proof (rule injI)
     by (rule fun_cong)
 qed
 
-text \<open>En las anteriores demostraciones se han introducido las reglas: 
+text \<open>
+\begin{nota}
+En la demostración de condición suficiente detallada, es necesario
+ especificar los tipos tanto de las funciones como de los elementos. Ya
+ que en caso de no especificarlo toma el tipo más general
+ posible y no se puede demostrar.
+\end {nota}
+En las anteriores demostraciones se han introducido las reglas: 
   \begin{itemize}
     \item[] @{thm[mode=Rule] fun_cong[no_vars]} 
       \hfill (@{text fun_cong})
