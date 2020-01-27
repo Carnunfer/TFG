@@ -30,10 +30,10 @@ text \<open> El siguiente teorema, denominado  teorema de Cantor por el matemát
     $\# \mathcal{P}(A) > \# A.$
   \end {teorema}
 
-  Pero el enunciado del teorema lo podemos reformular como:
+   El enunciado del teorema lo podemos reformular como sigue:
   \begin{teorema}
     Dado un conjunto $A$, $\nexists  f : A \longrightarrow \mathcal{P}(A)$ 
-    que sea sobreyectiva.
+    sobreyectiva.
   \end{teorema}
 
 
