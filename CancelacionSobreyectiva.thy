@@ -10,7 +10,7 @@ text \<open>\comentario{Añadir lemas usados al Soporte.}\<close>
 
 section \<open>Cancelación de las funciones sobreyectivas \<close>
 
-subsection \<open>Demostración en Lenguaje natural \<close>
+subsection \<open>Demostración en lenguaje natural \<close>
 
 text \<open>El siguiente teorema prueba una caracterización de las funciones
   sobreyectivas. Primero se definirá el significado de la sobreyectividad 
@@ -20,44 +20,40 @@ text \<open>El siguiente teorema prueba una caracterización de las funciones
   $$\forall y \in B : \exists x \in A : f(x) = y$$
 
   Una función $f : A \longrightarrow B$ tiene la propiedad de ser
-  cancelativa por la izquierda si: 
+  cancelativa por la derecha si: 
   $$\forall C : (\forall g,h: B \longrightarrow C) : g \circ f = h \circ f
     \Longrightarrow g = h$$
 
   El teorema es el siguiente: 
 
   \begin {teorema}
-    La función f es sobreyectiva si y solo si para todas funciones g y h 
-    tales que $g \circ f = h \circ f$ se tiene que $g = h$.
+    La función f es sobreyectiva si y solo si $\#C \geq 2$ y f es
+ cancelativa por la derecha.
   \end {teorema}
  
   El teorema se puede dividir en dos lemas, ya que se demuestra por una
   doble implicación. 
 
   \begin {lema}[Condición necesaria]
-    Si $f$ es sobreyectiva, entonces para todas funciones g y h tal que 
-    $g \circ f = h \circ f$ se tiene que $g = h$.
+    Si $f$ es sobreyectiva, entonces f es cancelativa por la derecha.
   \end {lema}
 
   \begin {demostracion}
-  Supongamos que tenemos que $g \circ  f = h \circ f$, queremos
-  probar que $g = h.$ Usando la definición de sobreyectividad
-  $(\forall y \in Y,  \exists x \| y = f(x))$ y nuestra hipótesis,
+  Sean $g,h: B \longrightarrow C$ tales que $g \circ  f = h \circ f$, 
+  se quiere probar que $g = h.$ Usando la definición de sobreyectividad
+  $(\forall y \in Y,  \exists x | y = f(x))$ y la hipótesis,
   tenemos que: 
   $$g(y) = g(f(x)) = (g \circ f) (x) = (h \circ f) (x) = h(f(x)) = h(y).$$
   \end {demostracion}
 
-  \begin {lema}[Condición necesaria] 
-  Si  para todas funciones g y h tales que $g \circ f  = h \circ f$ se 
-  tiene que g = h, entonces f es sobreyectiva.
+  \begin {lema}[Condición suficiente] 
+  Si f es cancelativa por la derecha y $\# C \geq 2$ entonces f es sobreyectiva.
   \end {lema}
 
   \begin {demostracion}
   Para la demostración del lema, primero se debe señalar los
   dominios y codominios de las funciones que se van a usar.
-  $f : C \longrightarrow A,$ $g,h: A \longrightarrow B.$ También se debe
-  notar que el conjunto $B$ tiene que tener almenos dos elementos
-  diferentes,luego supongamos que $B = \{a,b\}.$ 
+  $f : C \longrightarrow A,$ $g,h: A \longrightarrow B.$
 
   La prueba se va a realizar por reducción al absurdo. Luego supongamos
   que nuestra función $f$ no es sobreyectiva, es decir, 
@@ -77,6 +73,11 @@ text \<open>El siguiente teorema prueba una caracterización de las funciones
   que hemos llegado a una contradicción, por lo tanto, $f$ es
   sobreyectiva. 
   \end {demostracion} 
+\begin{nota}
+En la condición necesaria, no es necesario que $\# C \geq 2$ a la hora
+ de su demostración pero en la suficiente sí, luego el teorema lo debe
+ de incluir.
+\end{nota}
 \<close>
 subsection \<open>Especificación en Isabelle/Hol \<close>
 
@@ -84,7 +85,8 @@ text \<open>Su especificación es la siguiente, que se dividirá en dos al igual
   que en la demostración a mano: \<close>
 
 theorem caracterizacion_funciones_sobreyectivas:
- "surj f \<longleftrightarrow> (\<forall>g h.(g \<circ> f = h \<circ> f) \<longrightarrow> (g = h))"
+ "surj f \<longleftrightarrow> 
+(\<forall>(g :: 'b \<Rightarrow> 'c)h.(g \<circ> f = h \<circ> f)\<longrightarrow>(g = h))\<and>(\<exists>(x0 :: 'c) x1. x0 \<noteq> x1)"
   oops
 
 lemma condicion_suficiente:
@@ -92,7 +94,8 @@ lemma condicion_suficiente:
   oops
 
 lemma condicion_necesaria:
-"\<forall>g h. (g \<circ> f = h \<circ> f \<longrightarrow> g = h) \<longrightarrow> surj f"
+"(\<forall>(g:: 'b \<Rightarrow>'c) h. (g \<circ> f = h \<circ> f \<longrightarrow> g = h))\<and>(\<exists>(x0 :: 'c) x1. x0 \<noteq> x1)
+  \<longrightarrow> surj f"
   oops
 
 text \<open>En la especificación anterior, @{term "surj f"} es una abreviatura de 
@@ -148,6 +151,7 @@ proof (intro allI impI)
       by this
   qed
 qed
+
 
 lemma condicion_necesaria_detallada_l1: 
   assumes "\<nexists>x. y = f x"
