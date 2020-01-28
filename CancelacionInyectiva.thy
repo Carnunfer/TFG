@@ -196,29 +196,6 @@ proof
     by (simp add: inj_on_def fun_eq_iff) 
 qed
 
-lemma condicion_suficiente_1:
-  fixes f :: "'b \<Rightarrow> 'c" 
-  assumes "\<forall>(g :: 'a \<Rightarrow> 'b) (h :: 'a \<Rightarrow> 'b). (f \<circ> g = f \<circ> h \<longrightarrow> g = h)"
-  shows "inj f"
-proof (rule injI)
-  fix a b 
-  assume "f a = f b"
-  let ?g = "\<lambda>x :: 'a. a"
-  let ?h = "\<lambda>x :: 'a. b"
-  have "(f \<circ> ?g = f \<circ> ?h \<longrightarrow> ?g = ?h)" using assms by blast
-  moreover  
-  have "f \<circ> ?g = f \<circ> ?h" 
-  proof 
-    fix x
-    have " (f \<circ> (\<lambda>x :: 'a. a)) x = f(a) " by simp
-    also have "... = f(b)" using \<open>f a = f b\<close> by simp
-    also have "... =  (f \<circ> (\<lambda>x :: 'a. b)) x" by simp
-    finally show "(f \<circ> (\<lambda>x :: 'a. a)) x =  (f \<circ> (\<lambda>x :: 'a. b)) x" by simp
-  qed
-  ultimately have "(\<lambda>x :: 'a. a) = (\<lambda>x :: 'a. b)" by blast
-  then show "a = b" by metis 
-qed
-
 subsection \<open>Demostración del teorema en Isabelle/Hol\<close>
 
 text \<open>En consecuencia, la demostración de nuestro teorema: \<close>
