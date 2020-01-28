@@ -112,6 +112,7 @@ card 'b = 2, card 'a = 1, and card 'c = 1:
     f = (\<lambda>x. _)(a\<^sub>1 := b\<^sub>1)
 *)
 
+
   text \<open>En la especificación anterior, @{term "surj f"} es una abreviatura de
   @{text "range f = UNIV"}, donde @{term "range f"} es el rango o imagen
   de la función f y @{term UNIV} es el conjunto universal definido en la 
