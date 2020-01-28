@@ -204,7 +204,7 @@ theorem caracterizacion_inyectividad:
   "inj f \<longleftrightarrow> (\<forall>g h. (f \<circ> g = f \<circ> h) \<longrightarrow> (g = h))"
 proof
   assume "inj f"
-  show "\<forall>g h. f \<circ> g = f \<circ> h \<longrightarrow> g = h"
+  show "\<forall>(g :: 'c \<Rightarrow> 'a) h. f \<circ> g = f \<circ> h \<longrightarrow> g = h"
   proof (intro allI)
     fix g h
     show "f \<circ> g = f \<circ> h \<longrightarrow> g = h"
