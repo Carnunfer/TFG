@@ -28,7 +28,7 @@ text \<open>El siguiente teorema prueba una caracterización de las funciones
 
   \begin {teorema}
     La función f es sobreyectiva si y solo si $\#C \geq 2$ y f es
- cancelativa por la derecha.
+    cancelativa por la derecha.
   \end {teorema}
  
   El teorema se puede dividir en dos lemas, ya que se demuestra por una
@@ -85,20 +85,35 @@ text \<open>Su especificación es la siguiente, que se dividirá en dos al igual
   que en la demostración a mano: \<close>
 
 theorem caracterizacion_funciones_sobreyectivas:
- "surj f \<longleftrightarrow> 
-(\<forall>(g :: 'b \<Rightarrow> 'c)h.(g \<circ> f = h \<circ> f)\<longrightarrow>(g = h))\<and>(\<exists>(x0 :: 'c) x1. x0 \<noteq> x1)"
+  "surj f \<longleftrightarrow> 
+  (\<forall>(g :: 'b \<Rightarrow> 'c)h.(g \<circ> f = h \<circ> f)\<longrightarrow>(g = h))\<and>(\<exists>(x0 :: 'c) x1. x0 \<noteq> x1)"
   oops
 
 lemma condicion_suficiente:
-"surj f \<Longrightarrow>  (\<forall>g h. (g \<circ> f = h \<circ> f) \<longrightarrow> (g = h))"
+  "surj f \<Longrightarrow>  (\<forall>g h. (g \<circ> f = h \<circ> f) \<longrightarrow> (g = h))"
   oops
 
 lemma condicion_necesaria:
-"(\<forall>(g:: 'b \<Rightarrow>'c) h. (g \<circ> f = h \<circ> f \<longrightarrow> g = h))\<and>(\<exists>(x0 :: 'c) x1. x0 \<noteq> x1)
+  "(\<forall>(g:: 'b \<Rightarrow>'c) h. (g \<circ> f = h \<circ> f \<longrightarrow> g = h))\<and>(\<exists>(x0 :: 'c) x1. x0 \<noteq> x1)
   \<longrightarrow> surj f"
   oops
 
-text \<open>En la especificación anterior, @{term "surj f"} es una abreviatura de 
+lemma condicion_necesaria:
+  "(\<forall>(g:: 'b \<Rightarrow>'c) h. (g \<circ> f = h \<circ> f \<longrightarrow> g = h))
+  \<longrightarrow> surj f"
+  nitpick
+  oops
+
+(*
+Nitpick found a counterexample for
+card 'b = 2, card 'a = 1, and card 'c = 1:
+
+  Free variable:
+    f = (\<lambda>x. _)(a\<^sub>1 := b\<^sub>1)
+*)
+
+
+  text \<open>En la especificación anterior, @{term "surj f"} es una abreviatura de
   @{text "range f = UNIV"}, donde @{term "range f"} es el rango o imagen
   de la función f y @{term UNIV} es el conjunto universal definido en la 
   teoría \href{http://bit.ly/2XtHCW6}{Set.thy} como una abreviatura de 
@@ -151,7 +166,6 @@ proof (intro allI impI)
       by this
   qed
 qed
-
 
 lemma condicion_necesaria_detallada_l1: 
   assumes "\<nexists>x. y = f x"
