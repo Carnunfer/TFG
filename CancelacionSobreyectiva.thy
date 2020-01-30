@@ -84,36 +84,23 @@ subsection \<open>Especificación en Isabelle/Hol \<close>
 text \<open>Su especificación es la siguiente, que se dividirá en dos al igual 
   que en la demostración a mano: \<close>
 
+definition cancelativaDerecha :: "('a \<Rightarrow> 'b) \<Rightarrow> bool" where 
+  "cancelativaDerecha  f =
+   (\<forall>(g :: 'b \<Rightarrow> bool)  h. (g \<circ> f = h \<circ> f \<longrightarrow> g = h))"
+
 theorem caracterizacion_funciones_sobreyectivas:
-  "surj f \<longleftrightarrow> 
-  (\<forall>(g :: 'b \<Rightarrow> 'c)h.(g \<circ> f = h \<circ> f)\<longrightarrow>(g = h))\<and>(\<exists>(x0 :: 'c) x1. x0 \<noteq> x1)"
+  "surj f \<longleftrightarrow> cancelativaDerecha f"
   oops
 
 lemma condicion_suficiente:
-  "surj f \<Longrightarrow>  (\<forall>g h. (g \<circ> f = h \<circ> f) \<longrightarrow> (g = h))"
+  "surj f \<Longrightarrow> cancelativaDerecha f"
   oops
 
 lemma condicion_necesaria:
-  "(\<forall>(g:: 'b \<Rightarrow>'c) h. (g \<circ> f = h \<circ> f \<longrightarrow> g = h))\<and>(\<exists>(x0 :: 'c) x1. x0 \<noteq> x1)
-  \<longrightarrow> surj f"
+  "cancelativaDerecha f \<Longrightarrow> surj f"
   oops
 
-lemma condicion_necesaria:
-  "(\<forall>(g:: 'b \<Rightarrow>'c) h. (g \<circ> f = h \<circ> f \<longrightarrow> g = h))
-  \<longrightarrow> surj f"
-  nitpick
-  oops
-
-(*
-Nitpick found a counterexample for
-card 'b = 2, card 'a = 1, and card 'c = 1:
-
-  Free variable:
-    f = (\<lambda>x. _)(a\<^sub>1 := b\<^sub>1)
-*)
-
-
-  text \<open>En la especificación anterior, @{term "surj f"} es una abreviatura de
+text \<open>En la especificación anterior, @{term "surj f"} es una abreviatura de
   @{text "range f = UNIV"}, donde @{term "range f"} es el rango o imagen
   de la función f y @{term UNIV} es el conjunto universal definido en la 
   teoría \href{http://bit.ly/2XtHCW6}{Set.thy} como una abreviatura de 
@@ -140,31 +127,36 @@ text \<open>Presentaremos distintas demostraciones de los lemas. Las primeras
 
 lemma condicion_suficiente_detallada:
   assumes "surj f" 
-  shows "\<forall>g h. g \<circ> f = h \<circ> f \<longrightarrow> g = h"
-proof (intro allI impI)
-  fix g h :: "'a \<Rightarrow>'c"  
-  assume "g \<circ> f = h \<circ> f"
-  show "g = h"
-  proof  (rule ext)
-    fix x
-    have "\<exists>y. x = f y" 
-      using assms 
-      by (simp only: surjD)
-    then obtain "y" where "x = f y" 
-      by (rule exE)
-    then have "g x = g (f y)"  
-      by (simp only: \<open>x = f y\<close>)
-    also have "\<dots> = (g \<circ> f) y" 
-      by (simp only: comp_apply)
-    also have "\<dots> = (h \<circ> f) y" 
-      by (simp only: \<open>g \<circ> f = h \<circ> f\<close>)
-    also have "\<dots> = h (f y)" 
-      by (simp only: comp_apply)
-    also have "\<dots> = h x" 
-      by (simp only: \<open>x = f y\<close>)
-    finally show "g x = h x" 
-      by this
+  shows "cancelativaDerecha f"
+proof -
+  have "\<forall>(g :: 'a \<Rightarrow> bool) h. (g \<circ> f = h \<circ> f \<longrightarrow> g = h)"
+  proof (intro allI impI)
+    fix g h :: "'a \<Rightarrow> bool"  
+    assume "g \<circ> f = h \<circ> f"
+    show "g = h"
+    proof  (rule ext)
+      fix x
+      have "\<exists>y. x = f y" 
+        using assms 
+        by (simp only: surjD)
+      then obtain "y" where "x = f y" 
+        by (rule exE)
+      then have "g x = g (f y)"  
+        by (simp only: \<open>x = f y\<close>)
+      also have "\<dots> = (g \<circ> f) y" 
+        by (simp only: comp_apply)
+      also have "\<dots> = (h \<circ> f) y" 
+        by (simp only: \<open>g \<circ> f = h \<circ> f\<close>)
+      also have "\<dots> = h (f y)" 
+        by (simp only: comp_apply)
+      also have "\<dots> = h x" 
+        by (simp only: \<open>x = f y\<close>)
+      finally show "g x = h x" 
+        by this
+    qed
   qed
+  then show "cancelativaDerecha f"
+    by (simp only: cancelativaDerecha_def)
 qed
 
 lemma condicion_necesaria_detallada_l1: 
@@ -207,9 +199,7 @@ proof -
 qed
 
 lemma condicion_necesaria_detallada:
-  fixes f :: "'a \<Rightarrow>'b"
-  assumes "\<forall>(g :: 'b \<Rightarrow> 'c) h .(g \<circ> f = h \<circ> f) \<longrightarrow> (g = h)"
-    "\<exists>(x0 :: 'c) x1. x0 \<noteq> x1"
+  assumes "cancelativaDerecha f"
   shows "surj f"
 proof -
   have "\<forall>y. \<exists>x. y = f x"
@@ -221,14 +211,12 @@ proof -
       by (rule exE)
     then have "\<forall>x. y0 \<noteq> f x" 
       by (rule Meson.not_exD)
-    obtain a0 where "\<exists>(x1::'c). a0 \<noteq> x1" 
-      using assms(2) by (rule exE)
-    then obtain a1 where "a0 \<noteq> a1" 
-      by (rule exE)
-    let ?g = "(\<lambda>x. a0) :: 'b \<Rightarrow> 'c"
-    let ?h = "?g(y0 := a1)"
-    have "\<forall>h .(?g \<circ> f = h \<circ> f) \<longrightarrow> (?g = h)"
-      using assms(1) by (rule allE)
+    let ?g = "(\<lambda>x. True) :: 'b \<Rightarrow> bool"
+    let ?h = "?g(y0 := False)"
+    have "\<forall>(g :: 'b \<Rightarrow> bool) h . g \<circ> f = h \<circ> f \<longrightarrow> g = h"
+      using assms by (simp only: cancelativaDerecha_def)
+    then have "\<forall>h .(?g \<circ> f = h \<circ> f) \<longrightarrow> (?g = h)"
+      by (rule allE)
     then have "(?g \<circ> f = ?h \<circ> f) \<longrightarrow> (?g = ?h)" 
       by (rule allE)
     moreover
@@ -237,9 +225,9 @@ proof -
       by (rule condicion_necesaria_detallada_l1)
     ultimately have "(?g = ?h)" 
       by (rule mp)
-    then have "a0 = a1" 
+    then have "True = False" 
       by (rule condicion_necesaria_detallada_l2)
-    with \<open>a0 \<noteq> a1\<close> show False 
+    with True_not_False show False
       by (rule notE)
   qed
   then show "surj f" 
@@ -261,19 +249,19 @@ subsection \<open>Demostración teorema \<close>
 text \<open>En consecuencia, la demostración del teorema es \<close>
 
 theorem caracterizacion_funciones_sobreyectivas:
-  fixes  f :: "'a \<Rightarrow> 'b"
-  assumes "\<exists> (x0 :: 'c) x1. x0 \<noteq> x1"
-  shows "surj f \<longleftrightarrow> (\<forall>(g :: 'b \<Rightarrow> 'c) h.(g \<circ> f = h \<circ> f) \<longrightarrow> (g = h))"
+  "surj f \<longleftrightarrow> cancelativaDerecha f"
 proof (rule iffI)
-  assume "surj f"
-  then show "\<forall>g h. g \<circ> f = h \<circ> f \<longrightarrow> g = h"
+  show "surj f \<Longrightarrow> cancelativaDerecha f"
     by (rule condicion_suficiente_detallada)
 next
-  assume "\<forall>(g :: 'b \<Rightarrow> 'c) h. g \<circ> f = h \<circ> f \<longrightarrow> g = h" 
-  then show "surj f"
-    using assms
+  show "cancelativaDerecha f \<Longrightarrow> surj f"
     by (rule condicion_necesaria_detallada)
 qed
+
+(* Demostración automática *)
+theorem "surj f \<longleftrightarrow> cancelativaDerecha f"
+  by (auto simp add: condicion_suficiente_detallada
+                     condicion_necesaria_detallada)
 
 (*<*)
 end 

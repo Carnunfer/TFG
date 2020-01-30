@@ -77,16 +77,22 @@ subsection \<open>Especificación en Isabelle/Hol\<close>
 text \<open>Su especificación es la siguiente, pero al igual que se ha  hecho
  en la demostración a mano se va a demostrar a través de dos lemas:\<close>
 
+declare [[show_types]]
+
+definition cancelativaIzquierda :: "('a \<Rightarrow> 'b) \<Rightarrow> bool" where 
+  "cancelativaIzquierda  f =
+   (\<forall>(g :: bool \<Rightarrow> 'a) h. (f \<circ> g = f \<circ> h \<longrightarrow> g = h))"
+
 theorem caracterizacion_funcion_inyecctiva:
-  "inj f \<longleftrightarrow> (\<forall>g h. (f \<circ> g = f \<circ> h) \<longrightarrow> (g = h))"
+  "inj f \<longleftrightarrow> cancelativaIzquierda f"
   oops
 
 text \<open>Los lemas asociados a cada implicación son los siguientes:\<close>
 
-lemma "\<forall>g h. (f \<circ> g = f \<circ> h \<longrightarrow> g = h) \<Longrightarrow> inj f"
+lemma "\<forall>g h. cancelativaIzquierda f \<Longrightarrow> inj f"
   oops
 
-lemma "inj f \<Longrightarrow> (\<forall>g h.(f \<circ> g = f \<circ> h) \<longrightarrow> (g = h))"
+lemma "inj f \<Longrightarrow> cancelativaIzquierda f"
   oops
 
 text \<open>En la especificación anterior, @{term "inj f"} es una 
@@ -117,50 +123,56 @@ text \<open>Las demostraciones declarativas son las siguientes:\<close>
 
 lemma condicion_necesaria_detallada:
   assumes "inj f"
-  shows "(f \<circ> g = f \<circ> h) \<longrightarrow> (g = h)"
-proof (rule impI)
-  assume "f \<circ> g = f \<circ> h"
-  show "g = h"
-  proof (rule ext)
-    fix x
-    have "(f \<circ> g)(x) = (f \<circ> h)(x)" 
-      by (simp only: \<open>f \<circ> g = f \<circ> h\<close>)
-    then have "f(g(x)) = f(h(x))" 
-      by (simp only: comp_apply) 
-    then show "g(x) = h(x)"
-      using \<open>inj f\<close> 
-      by (simp only: injD)
+  shows "cancelativaIzquierda f"
+proof -
+  have "\<forall>(g :: bool \<Rightarrow> 'a) h. (f \<circ> g = f \<circ> h \<longrightarrow> g = h)"
+  proof (intro allI impI)
+    fix g h :: "bool \<Rightarrow> 'a"
+    assume "f \<circ> g = f \<circ> h"
+    show "g = h"
+    proof (rule ext)
+      fix x
+      have "(f \<circ> g)(x) = (f \<circ> h)(x)" 
+        by (simp only: \<open>f \<circ> g = f \<circ> h\<close>)
+      then have "f(g(x)) = f(h(x))" 
+        by (simp only: comp_apply) 
+      then show "g(x) = h(x)"
+        using \<open>inj f\<close> 
+        by (simp only: injD)
+    qed
   qed
+  then show "cancelativaIzquierda f"
+    by (simp only: cancelativaIzquierda_def)
 qed
 
 text \<open>\comentario{Añadir al glosario injD.}\<close>
 
-(* declare [[show_types]] *)
-
 lemma condicion_suficiente_detallada:
-  assumes "\<forall>g h. (f \<circ> g = f \<circ> h \<longrightarrow> g = h)"
+  assumes "cancelativaIzquierda f"
   shows "inj f"
 proof (rule injI)
   fix a b 
   assume "f a = f b"
-  let ?g = "\<lambda>x :: 'a. a"
-  let ?h = "\<lambda>x :: 'a. b"
-  have "\<forall>h. (f \<circ> ?g = f \<circ> h \<longrightarrow> ?g = h)"
+  let ?g = "\<lambda>x :: bool. a"
+  let ?h = "\<lambda>x :: bool. b"
+  have "\<forall>(g :: bool \<Rightarrow> 'a) h. (f \<circ> g = f \<circ> h \<longrightarrow> g = h)"
     using assms 
+    by (simp only: cancelativaIzquierda_def)
+  then have "\<forall>h. (f \<circ> ?g = f \<circ> h \<longrightarrow> ?g = h)" 
     by (rule allE) 
   then have "(f \<circ> ?g = f \<circ> ?h \<longrightarrow> ?g = ?h)"  
     by (rule allE)
   moreover
   have "f \<circ> ?g = f \<circ> ?h" 
   proof (rule ext)
-    fix x
-    have "(f \<circ> (\<lambda>x :: 'a. a)) x = f(a) " 
+    fix x :: bool
+    have "(f \<circ> (\<lambda>x :: bool. a)) x = f(a) " 
       by (simp only: comp_apply)
     also have "... = f(b)" 
       by (simp only: \<open>f a = f b\<close>)
-    also have "... =  (f \<circ> (\<lambda>x :: 'a. b)) x" 
+    also have "... =  (f \<circ> (\<lambda>x :: bool. b)) x" 
       by (simp only: comp_apply)
-    finally show " (f \<circ> (\<lambda>x. a)) x =  (f \<circ> (\<lambda>x. b)) x"
+    finally show "(f \<circ> (\<lambda>x. a)) x =  (f \<circ> (\<lambda>x. b)) x"
       by this
   qed
   ultimately have "?g = ?h" 
@@ -188,12 +200,18 @@ En las anteriores demostraciones se han introducido las reglas:
 
 lemma condicion_necesaria_1:
   assumes "inj f"
-  shows "(f \<circ> g = f \<circ> h) \<longrightarrow>(g = h)"
-proof 
+  shows "cancelativaIzquierda f"
+proof -
+  have "\<forall>(g :: bool \<Rightarrow> 'a) h. (f \<circ> g = f \<circ> h \<longrightarrow> g = h)"
+  proof (intro allI impI)
+  fix g h :: "bool \<Rightarrow> 'a"
   assume "f \<circ> g = f \<circ> h" 
   then show "g = h" 
     using `inj f` 
     by (simp add: inj_on_def fun_eq_iff) 
+  qed
+  then show "cancelativaIzquierda f"
+    by (simp only: cancelativaIzquierda_def)
 qed
 
 subsection \<open>Demostración del teorema en Isabelle/Hol\<close>
@@ -201,26 +219,20 @@ subsection \<open>Demostración del teorema en Isabelle/Hol\<close>
 text \<open>En consecuencia, la demostración de nuestro teorema: \<close>
 
 theorem caracterizacion_inyectividad:
-  "inj f \<longleftrightarrow> (\<forall>g h. (f \<circ> g = f \<circ> h) \<longrightarrow> (g = h))"
-proof
-  assume "inj f"
-  show "\<forall>(g :: 'c \<Rightarrow> 'a) h. f \<circ> g = f \<circ> h \<longrightarrow> g = h"
-  proof (intro allI)
-    fix g h
-    show "f \<circ> g = f \<circ> h \<longrightarrow> g = h"
-      using \<open>inj f\<close>
-      by (rule condicion_necesaria_detallada)
-  qed
-next 
-  assume "\<forall>g h. f \<circ> g = f \<circ> h \<longrightarrow> g = h"
-  then show "inj f"
+  "inj f \<longleftrightarrow> cancelativaIzquierda f"
+proof (rule iffI)
+  show "inj f \<Longrightarrow> cancelativaIzquierda f"
+    by (rule condicion_necesaria_detallada)
+next
+  show "cancelativaIzquierda f \<Longrightarrow> inj f"
     by (simp only: condicion_suficiente_detallada)
 qed
 
 text \<open>Su demostración automática es\<close>
 
-theorem "inj f \<longleftrightarrow> (\<forall>g h. (f \<circ> g = f \<circ> h) \<longrightarrow> (g = h))"
-  using condicion_necesaria_detallada condicion_suficiente_detallada 
+theorem "inj f \<longleftrightarrow> cancelativaIzquierda f"
+  using condicion_necesaria_detallada 
+        condicion_suficiente_detallada 
   by auto
 
 (*<*)
