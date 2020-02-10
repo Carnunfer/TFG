@@ -25,7 +25,7 @@ text \<open>El siguiente teorema que se va a probar es una caracterización de
 
   El teorema es el siguiente:
   \begin{teorema}
-    La función $f$ es inyectiva, si y solo si, es cancelativa por la
+    Una función $f$ es inyectiva si y solo si es cancelativa por la
  izquierda. 
   \end{teorema}
 
@@ -59,35 +59,37 @@ $$f \circ g = f \circ h \Longrightarrow (f \circ g)(x) = (f
 
     Sean $a,b$ tales que $f(a) = f(b)$. 
 
-    Consideremos las funciones constantes $g(x) = a  \ \forall x$  y
-    $h(x) = b \  \forall x.$
+    Consideremos las funciones constantes $g(x) = a,  \ \forall x$  y
+    $h(x) = b, \  \forall x.$
     Veamos que $f \circ g = f \circ h.$ En efecto, $\forall x$
     $$(f \circ g)(x) = f(g(x)) = f(a)$$
     $$(f \circ h)(x) = f(h(x)) = f(b)$$
     Por hipótesis se tiene que $f(a) = f(b)$ luego $f \circ g = f \circ
  h.$ Por hipótesis se tiene que $f$ es cancelativa por la izquierda, por
 lo tanto, esto implica que
-$$g = h \Longrightarrow g(x) = h(x) \, \forall x \Longrightarrow a =
+$$g = h \Longrightarrow g(x) = h(x), \, \forall x \Longrightarrow a =
  b.$$
 \end{demostracion}
 \<close>
 
 subsection \<open>Especificación en Isabelle/Hol\<close>
 
-text \<open>Su especificación es la siguiente, pero al igual que se ha  hecho
- en la demostración a mano se va a demostrar a través de dos lemas:\<close>
+text \<open>Antes de la especificación en Isabelle, vamos a definir en Isabelle
+la propiedad de que una función sea cancelativa por la izquierda.\<close>
 
-declare [[show_types]]
+(*<*)declare [[show_types]](*>*)
 
 definition cancelativaIzquierda :: "('a \<Rightarrow> 'b) \<Rightarrow> bool" where 
   "cancelativaIzquierda  f =
    (\<forall>(g :: bool \<Rightarrow> 'a) h. (f \<circ> g = f \<circ> h \<longrightarrow> g = h))"
 
+text \<open>La especificación del teorema es la siguiente: \<close>
 theorem caracterizacion_funcion_inyecctiva:
   "inj f \<longleftrightarrow> cancelativaIzquierda f"
   oops
 
-text \<open>Los lemas asociados a cada implicación son los siguientes:\<close>
+  text \<open>Al igual que en la demostración a mano, se va a demostrar a través
+de dos lemas asociados a cada implicación. Son los siguientes:\<close>
 
 lemma "\<forall>g h. cancelativaIzquierda f \<Longrightarrow> inj f"
   oops
@@ -188,6 +190,7 @@ En la demostración de condición suficiente detallada, es necesario
  que en caso de no especificarlo toma el tipo más general
  posible y no se puede demostrar.
 \end {nota}
+
 En las anteriores demostraciones se han introducido las reglas: 
   \begin{itemize}
     \item[] @{thm[mode=Rule] fun_cong[no_vars]} 

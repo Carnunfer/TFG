@@ -13,7 +13,7 @@ text \<open>\comentario{Añadir lemas usados al Soporte.}\<close>
 subsection \<open>Demostración en lenguaje natural \<close>
 
 text \<open>El siguiente teorema es una propiedad que verifican todos los 
-  conjuntos finitos de números naturales estudiado en el 
+  conjuntos finitos de números naturales. Se ha estudiado en el 
   \href{http://bit.ly/2XBW6n2}{tema 10} de la asignatura de LMF de 
   tercer curso del grado en Matemáticas. Su enunciado es el siguiente 
 
@@ -25,28 +25,27 @@ text \<open>El siguiente teorema es una propiedad que verifican todos los
     donde $\sum S $ denota la suma de todos los elementos de S.
   \end{teorema} 
 
-Primero se debe notar la definición de conjunto finito y el esquema de
- inducción que induce su propia definición.
+Primero se debe notar que podemos dar una definición inductiva de
+ conjunto finito, lo que conlleva un esquema de inducción asociado.
 
 \begin{definicion}
-Un conjunto finito es un conjunto con un número finito de elementos.
-\end{definicion}
-
-La construcción de un conjunto finito viene dada por:
+La definición inductiva de un conjunto finito es:
 \begin{itemize}
 \item $\emptyset$ es finito.
-\item Si $A$ es un conjunto finito y sea $x$ un elementos entonces $A
+\item Si $A$ es un conjunto finito y $x$ un elemento entonces $A
  \cup \{x\}$ es un conjunto finito.
 \end{itemize}
+\end{definicion}
 
 De esta construcción se obtiene un esquema de inducción. Para ello sea
  por ejemplo $\varphi$ una propiedad sobre conjuntos finitos. El esquema
-de inducción viene dado por:
+de inducción viene dado por: 
+
 
 \begin{itemize}
-\item $\varphi(\emptyset).$
-\item Sea $A$ un conjunto finito tal que $\varphi(A)$ y sea $x$ un
- elemento entonces $\varphi(A \cup \{x\}).$ 
+\item Si se verifica $\varphi(\emptyset).$
+\item Entonces  $\forall A$ finito  tal que $\varphi(A)$ y  $\forall x$ 
+ se verifica  $\varphi(A \cup \{x\}).$ 
 \end{itemize}
   \begin{demostracion}
   La demostración del teorema la haremos por inducción sobre conjuntos
@@ -56,9 +55,9 @@ de inducción viene dado por:
 
   (Paso de la inducción) Supongamos que se verifica el teorema para un
   conjunto finito de números naturales, que se denotará por $S$ y sea 
-  $a$ un elemento. Vamos a demostrarlo para $S \cup {a}.$
+  $a$ un elemento. Vamos a demostrarlo para $S \cup \{a\}.$
  
-  Sea $a \in \Bbb{N}$ tal que $a \notin S,$ Ya que si $a \in S$ se 
+  Sea $a \in \Bbb{N}$ tal que $a \notin S,$ ya que si $a \in S$ se 
   tendría probado el teorema. Luego hay que probar que: 
   $$\forall n \in S \cup \{a\} \Longrightarrow 
     n \leq \sum (S \cup \{a\})$$
@@ -80,28 +79,35 @@ de inducción viene dado por:
   \end{demostracion}
 
   En la demostración del teorema hemos usado un resultado, que vamos a
-  probar en Isabelle después de la especificación del teorema,
+  probar en Isabelle después de la especificación del teorema;
   el resultado es $\sum S + a = \sum (S \cup \{ a\})$.\<close>
 
 subsection \<open>Especificación en Isabelle/HOL \<close>
 
-text  \<open>Para la especificación del teorema en Isabelle, primero debemos
-  definir un conjunto finito en Isabelle. \<close>
+text  \<open>Para la especificación del teorema en Isabelle, primero 
+consideremos la definición de conjunto finito en Isabelle \<close>
 
-text \<open>\comentario{Añadir definición de conjunto en Isabelle, que no encuentro}\<close>
-
+text \<open>\comentario{No me acepta la definicion de conjunto finito de Isabelle }\<close>
 
 text \<open> También se debe notar que  @{text "finite S "} indica que un 
 conjunto $S$ es finito  y definir la función @{text "sumaConj"} tal que
   @{text "sumaConj n"} es la suma de todos los elementos de S.
-  Se usará la táctica induct que hace uso del esquema de inducción sobre
-conjuntos finitos que induce su propia definición.
- \begin{itemize}
-  \item[] @{thm[mode=Def] finite.induct} \hfill (@{text finite.induct})
-  \end{itemize} \<close>                 
+\<close>
+
 
 definition sumaConj :: "nat set \<Rightarrow> nat" where
   "sumaConj S \<equiv> \<Sum>S"
+
+text \<open> Donde $\sum$ ya se encuentra definido en Isabelle. \<close>
+
+text \<open>\comentario{No me acepta la definicion de $\sum$ de Isabelle}\<close>
+
+text \<open>Se usará la táctica induct que hace uso del esquema de inducción sobre
+conjuntos finitos que induce su propia definición.
+ \begin{itemize}
+  \item[] @{thm[mode=Def] finite.induct} \hfill (@{text finite.induct})
+  \end{itemize}   
+    \<close>     
 
 text \<open>El enunciado del teorema es el siguiente : \<close>
 
@@ -118,10 +124,10 @@ lemma aux_propiedad_conjuntos_finitos:
 proof -
   have "x + sumaConj S = x + \<Sum>S"
     by (simp only: sumaConj_def)
-  also have "\<dots> = sum (\<lambda>x. x) (insert x S)"
-    using assms
+  also have "\<dots> = sum (\<lambda>x. x) (insert x S)" 
+    using assms 
     by (rule sum.insert[THEN sym])
-  also have "\<dots> = sumaConj (insert x S)"
+   also have "\<dots> = sumaConj (insert x S)"
     by (simp only: sumaConj_def )
   finally show ?thesis
     by this
@@ -129,7 +135,7 @@ qed
 
 text \<open>\comentario{Añadir sum.insert al glosario.}\<close>
 
-text \<open>La demostración del lema anterior se ha incluido
+text \<open>En la demostración del lema anterior se ha usado 
   @{term"sumConj_def"}, que hace referencia a la definición sumaConj que
   hemos hecho anteriormente.
 
