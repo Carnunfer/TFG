@@ -16,12 +16,73 @@ text \<open>El siguiente teorema que se va a probar es una caracterización de
   inyectividad de una función y la propiedad de ser cancelativa por la
   izquierda. 
 
-  Una función $f : B \longrightarrow C$ es inyectiva si 
-  $$\forall x,y \in \ B : f(x) = f(y) \Longrightarrow x = y.$$
+\begin{definicion}
+  Una función $f : A \longrightarrow B$ es inyectiva si 
+  $$\forall x,y \in \ A : f(x) = f(y) \Longrightarrow x = y.$$
+\end{definicion}
 
-  Una función $f : B \longrightarrow C$ es cancelativa por la izquierda
- si $$\forall A: (\forall g,h: A \longrightarrow B) : 
+\begin{definicion}[Cancelativa izquierda]
+  Una función $f : A \longrightarrow B$ es cancelativa por la izquierda
+ si $$\forall C: (\forall g,h: C \longrightarrow A) : 
     f \circ g = f \circ h \Longrightarrow g = h.$$
+\end{definicion}
+
+ Se puede reformular la definición de ser cancelativa por la izquierda
+ como:
+
+\begin{definicion}[Cancelativa izquierda']
+Una función $f: A \longrightarrow B$ es cancelativa por la izquierda si
+ $$\forall g,h: \{0,1\} \longrightarrow A : f \circ g = f \circ h 
+\Longrightarrow g = h.$$
+\end{definicion}
+
+Vamos a demostrar la equivalencia de estas dos definiciones.
+
+\begin{lema}
+Son equivalentes:
+\begin{enumerate}
+\item Cancelativa izquierda 
+\item Cancelativa izquierda'
+\end{enumerate}
+\end{lema}
+
+\begin{demostracion}
+
+
+$1 \Longrightarrow 2$
+Trivial, ya que tomando en particular el conjunto $C = \{0,1\}$ se tiene
+probado.
+
+$2 \Longrightarrow 1$
+La prueba se va a realizar por reducción al  absurdo, es decir, 
+supongamos que $\exists C : \exists g,h: C \longrightarrow A : f \circ g
+= f \circ h$ y $g \neq h.$ Como $g \neq h$ esto implica que $\exists c
+ \in C$ tal que $g(c) \neq h(c).$ 
+Consideremos ahora $r: \{0,1\} \longrightarrow A$ tal que 
+  $$r(x)= \left\{\begin{array}{lcc}
+                   c &   si  & x = 0 \\
+                   c &  si & x = 1
+                 \end{array}
+          \right.$$
+Definamos entonces $g' = g \circ r$ y $h' = h \circ r.$ Luego se tiene
+ que 
+$$(f \circ g')(x) = (f \circ g \circ r)(x) = ((f \circ g) \circ r))(x) 
+\stackrel{H.I}{=} ((f \circ h) \circ r)(x) = (f \circ h \circ r)(x) = 
+(f \circ h')(x)$$
+
+Entonces $f \circ g' = f \circ h'$ luego usando la hipótesis $g' = h'.$
+
+Por otra parte 
+$$g'(0) = (g \circ r)(0) = g(r(0)) = g(c)$$
+$$h'(0) = (h \circ r)(0) = h(r(0)) = h(c)$$
+
+Luego $g'(0) \neq h'(0)$ por lo que hemos llegado a un absurdo.
+\end{demostracion}
+
+\begin{nota}
+A partir de ahora cuando se haga referencia a la definición de
+ cancelativa por la izquierda se usará la segunda definición.
+\end{nota}
 
   El teorema es el siguiente:
   \begin{teorema}
@@ -39,8 +100,10 @@ text \<open>El siguiente teorema que se va a probar es una caracterización de
   \end {lema}
 
   \begin{demostracion}
-  Vamos a probar  que $\forall x. \, g(x) = h(x).$
-  Por hipótesis se tiene que 
+ Hay que probar que $\forall g,h: \{0,1\} \longrightarrow A : f \circ g
+= f \circ h$ esto implica que $g = h$. Luego sean $g,h$ tales que $f
+ \circ g = f \circ h,$ veamos que $\forall x. g(x) = h(x).$ Luego se
+ tiene que: 
 $$f \circ g = f \circ h \Longrightarrow (f \circ g)(x) = (f
  \circ h)(x) \stackrel{def.}{\Longrightarrow} f(g(x)) = f(h(x))
  \stackrel{f \,  inyect.}{\Longrightarrow} g(x)=h(x)$$
@@ -77,7 +140,7 @@ subsection \<open>Especificación en Isabelle/Hol\<close>
 text \<open>Antes de la especificación en Isabelle, vamos a definir en Isabelle
 la propiedad de que una función sea cancelativa por la izquierda.\<close>
 
-(*<*)declare [[show_types]](*>*)
+
 
 definition cancelativaIzquierda :: "('a \<Rightarrow> 'b) \<Rightarrow> bool" where 
   "cancelativaIzquierda  f =

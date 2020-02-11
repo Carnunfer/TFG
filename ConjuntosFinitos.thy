@@ -85,9 +85,15 @@ de inducción viene dado por:
 subsection \<open>Especificación en Isabelle/HOL \<close>
 
 text  \<open>Para la especificación del teorema en Isabelle, primero 
-consideremos la definición de conjunto finito en Isabelle \<close>
+consideremos la definición de conjunto finito en Isabelle
 
-text \<open>\comentario{No me acepta la definicion de conjunto finito de Isabelle }\<close>
+
+inductive finite :: "'a set $\Rightarrow$ bool" \\
+  where \\
+    emptyI [simp, intro!]: "finite $\{\}$" \\
+  $|$ insertI [simp, intro!]: "finite A $\Longrightarrow$ finite (insert a A)"
+ \<close>
+
 
 text \<open> También se debe notar que  @{text "finite S "} indica que un 
 conjunto $S$ es finito  y definir la función @{text "sumaConj"} tal que
@@ -98,9 +104,12 @@ conjunto $S$ es finito  y definir la función @{text "sumaConj"} tal que
 definition sumaConj :: "nat set \<Rightarrow> nat" where
   "sumaConj S \<equiv> \<Sum>S"
 
-text \<open> Donde $\sum$ ya se encuentra definido en Isabelle. \<close>
+text \<open> Donde $\sum$ ya se encuentra definido en Isabelle:
 
-text \<open>\comentario{No me acepta la definicion de $\sum$ de Isabelle}\<close>
+
+abbreviation Sum ("$\sum$") \\
+  where "$\sum \equiv$  sum $(\lambda x. x)$" \<close>
+
 
 text \<open>Se usará la táctica induct que hace uso del esquema de inducción sobre
 conjuntos finitos que induce su propia definición.
