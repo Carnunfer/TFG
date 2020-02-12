@@ -15,12 +15,16 @@ text \<open> El siguiente teorema, denominado  teorema de Cantor por el matemát
 
   Para la exposición del teorema vamos a definir una serie de conceptos:
 
-  \begin {itemize}
-    \item Conjunto de potencia $A$  $(\mathcal{P}(A))$: conjunto formado
-      por todos los subconjuntos de $A$.
-    \item Cardinal del conjunto $A$ (denotado $\# A$): número de
+  
+    \begin{definicion}[Conjunto Potencia]
+ El conjunto potencia de un conjunto  $A$  $(\mathcal{P}(A))$ es el 
+conjunto formado  por todos los subconjuntos de $A$.
+ \end{definicion}
+
+    \begin{definicion}[Cardinal]
+ El cardinal de un conjunto $A$ (denotado $\# A$) es el número de
       elementos del propio conjunto.
-  \end {itemize}
+  \end{definicion}
 
   El enunciado original del teorema es el siguiente :
 

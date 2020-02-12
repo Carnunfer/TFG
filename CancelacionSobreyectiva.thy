@@ -16,19 +16,83 @@ text \<open>El siguiente teorema prueba una caracterización de las funciones
   sobreyectivas. Primero se definirá el significado de la sobreyectividad 
   de una función y de la propiedad de ser cancelativa por la derecha. 
 
+\begin{definicion}
   Una función $f: A \longrightarrow B$ es sobreyectiva si 
   $$\forall y \in B : \exists x \in A : f(x) = y$$
+\end{definicion}
 
+\begin{definicion}[Cancelativa derecha]
   Una función $f : A \longrightarrow B$ tiene la propiedad de ser
   cancelativa por la derecha si: 
   $$\forall C : (\forall g,h: B \longrightarrow C) : g \circ f = h \circ f
     \Longrightarrow g = h$$
+\end{definicion}
+
+
+Se puede reformular la definición de cancelativa por la derecha como:
+
+\begin{definicion}[Cancelativa derecha']
+Una función $f: A \longrightarrow B$ tiene la propiedad de ser
+ cancelativa por la derecha si:
+
+$$\forall g, h: B \longrightarrow \{0,1\} : g \circ f = h \circ f
+ \Longrightarrow g = h.$$
+\end{definicion}
+
+Vamos a demostrar la equivalencia de estas dos definiciones.
+
+\begin{lema}
+Son equivalentes:
+\begin{enumerate}
+\item Cancelativa derecha
+\item Cancelativa derecha'
+\end{enumerate}
+\end{lema}
+
+\begin{demostracion}
+
+$1 \Longrightarrow 2$ Trivial, ya que tomando en particular $C =
+ \{0,1\}$ se tiene probado.
+
+$2 \Longrightarrow 1$ La demostración se realizará por reducción al
+ absurdo, es decir, supongamos que $\exists C$ y $\exists g,h$ tales que
+$g \circ f = h \circ f$ y $g \neq h.$ Como $g \neq h$ esto implica que
+ $\exists b \in B$ tal que $g(b) \neq h(b).$
+
+Definamos $r: C \longrightarrow \{0,1\}$ como:
+  $$r(x)= \left\{\begin{array}{lcc}
+                   0 &   si  & x \neq g(b) \\
+                   1 &  si & x = g(b)
+                 \end{array}
+          \right.$$
+
+Consideremos $g' = r \circ g$ y $h' = r \circ h.$ Luego se
+ tiene que:
+$$(g' \circ f)(x) = (r \circ g \circ f)(x) = (r \circ (g \circ f))(x)
+ \stackrel{H.I}{=} (r \circ (h \circ f))(x) = (r \circ h \circ f)(x) =
+ (h' \circ f)(x).$$
+
+Por lo tanto, $g' \circ f = h' \circ f$. Luego por hipótesis $g' = h'.$
+
+Veamos por otro lado que:
+
+$$g'(b) = r(g(b)) = 1$$
+$$h'(b) = r(h(b)) = 0$$
+
+Por lo que hemos llegado a un absurdo.
+\end{demostracion}
+
+
+\begin{nota}
+A partir de ahora cuando se haga referencia a la definición de
+ cancelativa por la derecha se usará la segunda definición.
+\end{nota}
 
   El teorema es el siguiente: 
 
   \begin {teorema}
-    La función f es sobreyectiva si y solo si $\#C \geq 2$ y f es
-    cancelativa por la derecha.
+    Una función f es sobreyectiva si y solo si es cancelativa por la
+ derecha. 
   \end {teorema}
  
   El teorema se puede dividir en dos lemas, ya que se demuestra por una
@@ -39,32 +103,32 @@ text \<open>El siguiente teorema prueba una caracterización de las funciones
   \end {lema}
 
   \begin {demostracion}
-  Sean $g,h: B \longrightarrow C$ tales que $g \circ  f = h \circ f$, 
-  se quiere probar que $g = h.$ Usando la definición de sobreyectividad
+  Sea $f: A \longrightarrow B$ sobreyectiva. Veamos que f es cancelativa
+por la derecha. Usando la definición de sobreyectividad
   $(\forall y \in Y,  \exists x | y = f(x))$ y la hipótesis,
   tenemos que: 
   $$g(y) = g(f(x)) = (g \circ f) (x) = (h \circ f) (x) = h(f(x)) = h(y).$$
   \end {demostracion}
 
   \begin {lema}[Condición suficiente] 
-  Si f es cancelativa por la derecha y $\# C \geq 2$ entonces f es sobreyectiva.
+  Si f es cancelativa por la derecha entonces f es sobreyectiva.
   \end {lema}
 
   \begin {demostracion}
   Para la demostración del lema, primero se debe señalar los
   dominios y codominios de las funciones que se van a usar.
-  $f : C \longrightarrow A,$ $g,h: A \longrightarrow B.$
+  $f : A \longrightarrow B,$ $g,h: B \longrightarrow \{0,1\}.$
 
   La prueba se va a realizar por reducción al absurdo. Luego supongamos
   que nuestra función $f$ no es sobreyectiva, es decir, 
-  $\exists y_{1} \in A \ @{text " tal que "} \  \nexists x \in C \ : 
+  $\exists y_{1} \in B \ @{text " tal que "} \  \nexists x \in A \ : 
    f(x) = y.$ 
 
   Definamos ahora las funciones $g,h:$
-  $$g(y) = a \  \forall y \in A$$
+  $$g(y) = 0 \  \forall y \in B$$
   $$h(y)= \left\{\begin{array}{lcc}
-                   a &   si  & y \neq y_1 \\
-                   b &  si & y = y_1
+                   0 &   si  & y \neq y_1 \\
+                   1 &  si & y = y_1
                  \end{array}
           \right.$$
 
@@ -73,11 +137,7 @@ text \<open>El siguiente teorema prueba una caracterización de las funciones
   que hemos llegado a una contradicción, por lo tanto, $f$ es
   sobreyectiva. 
   \end {demostracion} 
-\begin{nota}
-En la condición necesaria, no es necesario que $\# C \geq 2$ a la hora
- de su demostración pero en la suficiente sí, luego el teorema lo debe
- de incluir.
-\end{nota}
+
 \<close>
 subsection \<open>Especificación en Isabelle/Hol \<close>
 
@@ -258,7 +318,7 @@ next
     by (rule condicion_necesaria_detallada)
 qed
 
-(* Demostración automática *)
+subsection \<open> Demostración automática del teorema \<close>
 theorem "surj f \<longleftrightarrow> cancelativaDerecha f"
   by (auto simp add: condicion_suficiente_detallada
                      condicion_necesaria_detallada)
