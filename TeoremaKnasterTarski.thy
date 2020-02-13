@@ -40,18 +40,19 @@ Se denotará por ínfimo de L(inf L), si existe, al máximo elemento de L que es
 \end{definicion}
 
 \begin{nota}
-Se notará como $x \or y$ en lugar de sup$\{x,y\}$ cuando este exista,
- análogamente $x \and y$ en lugar de inf$\{x,y\}$. También se notará
- $\and L$ y $\or L$  en lugar de sup L e inf L.
+Se notará como $x \vee y$ en lugar de sup$\{x,y\}$ cuando este exista,
+ análogamente $x \wedge y$ en lugar de inf$\{x,y\}$. También se notará
+ $\wedge L$ y $\vee L$  en lugar de sup L e inf L.
 \end{nota}
 
 \begin{definicion}
-Sea L un conjunto parcialmente ordenado no vacío. Si $x \or y$ y $x \and
+Sea L un conjunto parcialmente ordenado no vacío. Si $x \vee y$ y $x
+ \wedge
 y$ existe $\forall \, x,y \in L$ entonces L se llamará retículo.
 \end{definicion}
 
 \begin{definicion}
-Sea L un conjunto parcialmente ordenado no vacío. Si $\or L$ y $\and L$
+Sea L un conjunto parcialmente ordenado no vacío. Si $\vee L$ y $\wedge L$
  existe entonces L se llamará un retículo completo.
 \end{definicion}
 
