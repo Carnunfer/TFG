@@ -2,7 +2,8 @@
 
 (*<*) 
 theory TeoremaKnasterTarski
-imports Main "HOL-Library.LaTeXsugar" "HOL-Library.OptionalSugar" 
+  imports Main "HOL-Library.LaTeXsugar" "HOL-Library.OptionalSugar" 
+ "HOL-Library.Lattice_Syntax"
 begin
 (*>*) 
 
@@ -14,8 +15,8 @@ text \<open>El siguiente teorema, denominado teorema de Knaster-Tarski del
 punto fijo, es un teorema de la teoría de retículos y lleva el nombre de
 los matemáticos Bronislaw Knaster y Alfred Tarski.
 
-Para la exposición del teorema es necesario definir una serie de
- conceptos previos.
+Para la exposición y demostración del teorema es necesario definir una
+ serie de  conceptos previos.
 
 \begin{definicion}
 Una relación binaria de orden parcial es una relación binaria que es
@@ -56,9 +57,67 @@ Sea L un conjunto parcialmente ordenado no vacío. Si $\vee L$ y $\wedge L$
  existe entonces L se llamará un retículo completo.
 \end{definicion}
 
+\begin{definicion}
+Una función $f$ es monótona si conserva el orden, es decir, si $x \leq y
+$ implica $f(x) \leq f(y)$ o $x \neq y$ implica $f(x) \neq f(y).$
+\end{definicion}
 
+\begin{definicion}
+Diremos que $x$ es un punto fijo de una función si y solo si $f(x) = x.$
+\end{definicion}
+
+El enunciado del teorema es el siguiente: 
+
+\begin{teorema}
+Sea $L$ un retículo completo y $f: L \longrightarrow L$ una función
+ monótona. Entonces $\exists a \in L$ punto fijo de $f.$
+\end{teorema}
+
+\begin{demostracion}
+Hay que probar que $\exists a \in H$ tal que $f(a) = a.$ \\
+Sea $H = \{ x \in L | f(x) \leq x\}$ y $a = \cap H.$ Tenemos que $a \leq
+x \, \forall x \in H$, luego $f(a) \leq f(x) \leq x.$ Por lo que $f(a)$
+ es el ínfimo de $H,$ de donde obtenemos que $f(a) \leq a.$ Ahora vamos
+ a probar la otra desigualdad de forma que lleguemos a la igualdad. Como
+$f$ es monótona se tiene que $f(f(a)) \leq f(a).$ Esto significa que
+ $f(a) \in H,$ luego $a \leq f(a).$
+\end{demostracion}
 \<close>
 
+subsection \<open>Especificación en Isabelle/Hol\<close>
+
+
+subsection \<open>Demostración detallada\<close>
+
+
+theorem Knaster_Tarski:
+  fixes f :: "'a::complete_lattice \<Rightarrow> 'a"
+  assumes "mono f"
+  shows "\<exists>a. f a = a"
+proof
+  let ?H = "{u. f u \<le> u}"
+  let ?a = "\<Sqinter>?H"
+  show "f ?a = ?a"
+  proof -
+    { fix x
+      assume 1: "x \<in> ?H"
+      then have "?a \<le> x" by (rule Inf_lower)
+      with \<open>mono f\<close> have "f ?a \<le> f x" by (rule monoD)
+      also have "f x \<le> x" using 1 by (rule CollectE)
+      finally have "f ?a \<le> x" .
+    }
+    then have 2:"f ?a \<le> ?a" by (rule Inf_greatest)
+    from \<open>mono f\<close> and \<open>f ?a \<le> ?a\<close> have "f (f ?a) \<le> f ?a" by (rule monoD)
+    then have "f ?a \<in> ?H" by (rule CollectI)
+    then have 3:"?a \<le> f ?a" by (rule Inf_lower)
+    show ?thesis using 2 3 by (rule order_antisym)
+  qed
+qed
+
+    
+
+
+subsection \<open>Demostración automática \<close>
 
 
 
