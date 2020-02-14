@@ -85,7 +85,7 @@ $f$ es monótona se tiene que $f(f(a)) \leq f(a).$ Esto significa que
 \<close>
 
 theorem Knaster_Tarski:
-  fixes f :: "'a::complete_lattice \<Rightarrow> 'a"
+  fixes f :: "'a :: complete_lattice \<Rightarrow> 'a"
   assumes "mono f"
   shows "\<exists>a. f a = a"
 proof
