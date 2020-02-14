@@ -11,6 +11,11 @@ subsection \<open>Demostración en lenguaje natural \<close>
 
 text \<open>\comentario{Añadir lemas usados al Soporte.}\<close>
 
+text \<open>\comentario{No es adecuado tener esas dos definiciones de CI. Sería mejor
+  comentar que antes de definir cancelativa por la izquierda se va a probar
+  la siguiente propiedad.}\<close>
+
+
 text \<open>El siguiente teorema que se va a probar es una caracterización de
   las funciones inyectivas. Primero se definirá el significado de
   inyectividad de una función y la propiedad de ser cancelativa por la
@@ -21,28 +26,14 @@ text \<open>El siguiente teorema que se va a probar es una caracterización de
   $$\forall x,y \in \ A : f(x) = f(y) \Longrightarrow x = y.$$
 \end{definicion}
 
-\begin{definicion}[Cancelativa izquierda]
-  Una función $f : A \longrightarrow B$ es cancelativa por la izquierda
- si $$\forall C: (\forall g,h: C \longrightarrow A) : 
-    f \circ g = f \circ h \Longrightarrow g = h.$$
-\end{definicion}
-
- Se puede reformular la definición de ser cancelativa por la izquierda
- como:
-
-\begin{definicion}[Cancelativa izquierda']
-Una función $f: A \longrightarrow B$ es cancelativa por la izquierda si
- $$\forall g,h: \{0,1\} \longrightarrow A : f \circ g = f \circ h 
-\Longrightarrow g = h.$$
-\end{definicion}
-
-Vamos a demostrar la equivalencia de estas dos definiciones.
 
 \begin{lema}
-Son equivalentes:
+Sea $f$ una función $f : A \longrightarrow B$. Las siguientes condiciones son equivalentes:
 \begin{enumerate}
-\item Cancelativa izquierda 
-\item Cancelativa izquierda'
+\item $\forall C: (\forall g,h: C \longrightarrow A) : 
+    f \circ g = f \circ h \Longrightarrow g = h.$
+\item $\forall g,h: \{0,1\} \longrightarrow A : f \circ g = f \circ h 
+\Longrightarrow g = h.$
 \end{enumerate}
 \end{lema}
 
@@ -70,7 +61,7 @@ $$(f \circ g')(x) = (f \circ g \circ r)(x) = ((f \circ g) \circ r))(x)
 \stackrel{H.I}{=} ((f \circ h) \circ r)(x) = (f \circ h \circ r)(x) = 
 (f \circ h')(x)$$
 
-Entonces $f \circ g' = f \circ h'$ luego usando la hipótesis $g' = h'.$
+Entonces $f \circ g' = f \circ h'$. Luego, usando la hipótesis $g' = h'.$
 
 Por otra parte 
 $$g'(0) = (g \circ r)(0) = g(r(0)) = g(c)$$
@@ -79,10 +70,22 @@ $$h'(0) = (h \circ r)(0) = h(r(0)) = h(c)$$
 Luego $g'(0) \neq h'(0)$ por lo que hemos llegado a un absurdo.
 \end{demostracion}
 
-\begin{nota}
-A partir de ahora cuando se haga referencia a la definición de
- cancelativa por la izquierda se usará la segunda definición.
-\end{nota}
+\<close>
+text \<open>\comentario{En la demostración escribir cada igualdad en una línea.}\<close>
+
+text \<open>\comentario{Comentar que, puesto que se tiene la equivalencia,
+  la definición de cancelativa por la izquierda será (escribir sólo la
+  que has llamado '). También hay que comentar la razón por la que se elige
+  ésta: es adecuada para formalizarla en Isabelle, mientras que la otra no
+  se puede especificar en Isabelle, ya que requiere cuantificar sobre
+  tipos.}\<close>
+
+text \<open>
+\begin{definicion}[Cancelativa izquierda]
+Una función $f: A \longrightarrow B$ es cancelativa por la izquierda si
+ $$\forall g,h: \{0,1\} \longrightarrow A : f \circ g = f \circ h 
+\Longrightarrow g = h.$$
+\end{definicion}
 
   El teorema es el siguiente:
   \begin{teorema}
@@ -101,16 +104,17 @@ A partir de ahora cuando se haga referencia a la definición de
 
   \begin{demostracion}
  Hay que probar que $\forall g,h: \{0,1\} \longrightarrow A : f \circ g
-= f \circ h$ esto implica que $g = h$. Luego sean $g,h$ tales que $f
- \circ g = f \circ h,$ veamos que $\forall x. g(x) = h(x).$ Luego se
- tiene que: 
+= f \circ h$ esto implica que $g = h$. Luego, sean $g,h$ tales que $f
+  \circ g = f \circ h,$ veamos que $\forall x. g(x) = h(x).$
+
+  Se tiene que: 
 $$f \circ g = f \circ h \Longrightarrow (f \circ g)(x) = (f
  \circ h)(x) \stackrel{def.}{\Longrightarrow} f(g(x)) = f(h(x))
  \stackrel{f \,  inyect.}{\Longrightarrow} g(x)=h(x)$$
   \end{demostracion}
 
   \begin {lema}[Condición suficiente] 
-   Si f es cancelativa por la izquierda entonces f es inyectiva.
+   Si f es cancelativa por la izquierda, entonces f es inyectiva.
   \end {lema} 
 
   \begin {demostracion}
@@ -129,16 +133,25 @@ $$f \circ g = f \circ h \Longrightarrow (f \circ g)(x) = (f
     $$(f \circ h)(x) = f(h(x)) = f(b)$$
     Por hipótesis se tiene que $f(a) = f(b)$ luego $f \circ g = f \circ
  h.$ Por hipótesis se tiene que $f$ es cancelativa por la izquierda, por
-lo tanto, esto implica que
-$$g = h \Longrightarrow g(x) = h(x), \, \forall x \Longrightarrow a =
- b.$$
+  lo tanto, esto implica que $g = h$.
+Es decir, que $\forall x, g(x) = h(x)$. Y, por tanto, $a = b$. 
 \end{demostracion}
 \<close>
 
+text \<open>\comentario{En la demostración escribir cada igualdad en una línea.}\<close>
+
+text \<open>\comentario{En la demostración de la condición suficiente hay
+  que poner claramente los dominios y codominios de las funciones $f$, $g$
+  y $h$.}\<close>
+
 subsection \<open>Especificación en Isabelle/Hol\<close>
 
-text \<open>Antes de la especificación en Isabelle, vamos a definir en Isabelle
-la propiedad de que una función sea cancelativa por la izquierda.\<close>
+text \<open>Vamos a definir en Isabelle la propiedad de que una función sea cancelativa por la izquierda.\<close>
+
+text \<open>\comentario{Hay que comentar por qué se usan los booleanos para la definición
+en Isabelle.}\<close>
+
+text \<open>\comentario{Revisado hasta aquí.}\<close>
 
 
 
