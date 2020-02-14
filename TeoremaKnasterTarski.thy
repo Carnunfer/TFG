@@ -93,19 +93,30 @@ proof
   let ?a = "\<Sqinter>?H"
   show "f ?a = ?a"
   proof -
-    have 2:"f ?a \<le> ?a "
+    have "f ?a \<le> ?a"
     proof (rule Inf_greatest)
       fix x
-      assume 1: "x \<in> ?H"
-      then have "?a \<le> x" by (rule Inf_lower)
-      with \<open>mono f\<close> have "f ?a \<le> f x" by (rule monoD)
-      also have "f x \<le> x" using 1 by (rule CollectE)
-      finally show"f ?a \<le> x" .
+      assume "x \<in> ?H"
+      then have "?a \<le> x" 
+        by (rule Inf_lower)
+      with \<open>mono f\<close> have "f ?a \<le> f x"
+        by (rule monoD)
+      also have "f x \<le> x" 
+        using \<open>x \<in> ?H\<close> 
+        by (rule CollectE)
+      finally show "f ?a \<le> x" 
+        by this
     qed
-    from \<open>mono f\<close> and \<open>f ?a \<le> ?a\<close> have "f (f ?a) \<le> f ?a" by (rule monoD)
-    then have "f ?a \<in> ?H" by (rule CollectI)
-    then have 3:"?a \<le> f ?a" by (rule Inf_lower)
-    show ?thesis using 2 3 by (rule order_antisym)
+    from \<open>mono f\<close> and \<open>f ?a \<le> ?a\<close> have "f (f ?a) \<le> f ?a" 
+      by (rule monoD)
+    then have "f ?a \<in> ?H" 
+      by (rule CollectI)
+    then have "?a \<le> f ?a" 
+      by (rule Inf_lower)
+    show ?thesis 
+      using \<open>f ?a \<le> ?a\<close> 
+            \<open>?a \<le> f ?a\<close>
+      by (rule order_antisym)
   qed
 qed
 
