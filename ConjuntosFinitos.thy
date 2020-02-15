@@ -15,7 +15,7 @@ subsection \<open>Demostración en lenguaje natural \<close>
 text \<open>El siguiente teorema es una propiedad que verifican todos los 
   conjuntos finitos de números naturales. Se ha estudiado en el 
   \href{http://bit.ly/2XBW6n2}{tema 10} de la asignatura de LMF de 
-  tercer curso del grado en Matemáticas. Su enunciado es el siguiente 
+  tercer curso del grado en Matemáticas. Su enunciado es el siguiente:
 
   \begin{teorema} 
     Sea S un conjunto finito de números naturales. Entonces todos los
@@ -38,7 +38,7 @@ La definición inductiva de un conjunto finito es:
 \end{definicion}
 
 De esta construcción se obtiene un esquema de inducción. Para ello sea
- por ejemplo $\varphi$ una propiedad sobre conjuntos finitos. El esquema
+ $\varphi$ una propiedad sobre conjuntos finitos. El esquema
 de inducción viene dado por: 
 
 
@@ -46,7 +46,11 @@ de inducción viene dado por:
 \item Si se verifica $\varphi(\emptyset).$
 \item Entonces  $\forall A$ finito  tal que $\varphi(A)$ y  $\forall x$ 
  se verifica  $\varphi(A \cup \{x\}).$ 
-\end{itemize}
+  \end{itemize}
+
+text \<open>\comentario{El esquema de inducción no está escrito correctamente.}\<close>
+
+
   \begin{demostracion}
   La demostración del teorema la haremos por inducción sobre conjuntos
   finitos.
@@ -85,7 +89,7 @@ de inducción viene dado por:
 subsection \<open>Especificación en Isabelle/HOL \<close>
 
 text  \<open>Para la especificación del teorema en Isabelle, primero 
-consideremos la definición de conjunto finito en Isabelle
+consideremos la definición de conjunto finito ya definida en Isabelle
 
 
 inductive finite :: "'a set $\Rightarrow$ bool" \\
@@ -94,12 +98,27 @@ inductive finite :: "'a set $\Rightarrow$ bool" \\
   $|$ insertI [simp, intro!]: "finite A $\Longrightarrow$ finite (insert a A)"
  \<close>
 
+text \<open>\comentario{Hay que explicar que la definición del predicado finite en Isabelle
+  es una definición inductiva, que se corresponde con la definición 1.2.2,
+  y que genera de forma automática el siguiente esquema de inducción asociado.}\<close>
+
+text \<open>
+ \begin{itemize}
+  \item[] @{thm[mode=Def] finite.induct} \hfill (@{text finite.induct})
+  \end{itemize}   
+    \<close>     
+
+text \<open>Así, este es el esquema de inducción que se usará al emplear la táctica induct
+      sobre conjuntos finitos.
+    \<close>     
 
 text \<open> También se debe notar que  @{text "finite S "} indica que un 
 conjunto $S$ es finito  y definir la función @{text "sumaConj"} tal que
   @{text "sumaConj n"} es la suma de todos los elementos de S.
 \<close>
 
+text \<open>\comentario{Hay que comentar que  $\sum$ ya está definida en Isabelle.
+   Lo único que se hace es renombrarla.}\<close>
 
 definition sumaConj :: "nat set \<Rightarrow> nat" where
   "sumaConj S \<equiv> \<Sum>S"
@@ -111,12 +130,6 @@ abbreviation Sum ("$\sum$") \\
   where "$\sum \equiv$  sum $(\lambda x. x)$" \<close>
 
 
-text \<open>Se usará la táctica induct que hace uso del esquema de inducción sobre
-conjuntos finitos que induce su propia definición.
- \begin{itemize}
-  \item[] @{thm[mode=Def] finite.induct} \hfill (@{text finite.induct})
-  \end{itemize}   
-    \<close>     
 
 text \<open>El enunciado del teorema es el siguiente : \<close>
 
