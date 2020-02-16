@@ -28,7 +28,7 @@ text \<open>El siguiente teorema es una propiedad que verifican todos los
 Primero se debe notar que podemos dar una definición inductiva de
  conjunto finito, lo que conlleva un esquema de inducción asociado.
 
-\begin{definicion}
+\begin{definicion}\label{defconj}
 La definición inductiva de un conjunto finito es:
 \begin{itemize}
 \item $\emptyset$ es finito.
@@ -89,7 +89,7 @@ text \<open>\comentario{El esquema de inducción no está escrito correctamente.
 subsection \<open>Especificación en Isabelle/HOL \<close>
 
 text  \<open>Para la especificación del teorema en Isabelle, primero 
-consideremos la definición de conjunto finito ya definida en Isabelle
+consideremos la definición de conjunto finito ya definida en Isabelle.
 
 
 inductive finite :: "'a set $\Rightarrow$ bool" \\
@@ -98,9 +98,11 @@ inductive finite :: "'a set $\Rightarrow$ bool" \\
   $|$ insertI [simp, intro!]: "finite A $\Longrightarrow$ finite (insert a A)"
  \<close>
 
-text \<open>\comentario{Hay que explicar que la definición del predicado finite en Isabelle
-  es una definición inductiva, que se corresponde con la definición 1.2.2,
-  y que genera de forma automática el siguiente esquema de inducción asociado.}\<close>
+text \<open>
+Esta definición de conjunto finito es una definición inductiva en 
+Isabelle, equivalente a la Definición \ref{defconj} en lenguaje
+natural. Esta definición genera automáticamente el siguiente esquema de
+ inducción en Isabelle: \<close>
 
 text \<open>
  \begin{itemize}
@@ -108,22 +110,18 @@ text \<open>
   \end{itemize}   
     \<close>     
 
-text \<open>Así, este es el esquema de inducción que se usará al emplear la táctica induct
-      sobre conjuntos finitos.
-    \<close>     
-
 text \<open> También se debe notar que  @{text "finite S "} indica que un 
 conjunto $S$ es finito  y definir la función @{text "sumaConj"} tal que
   @{text "sumaConj n"} es la suma de todos los elementos de S.
 \<close>
 
-text \<open>\comentario{Hay que comentar que  $\sum$ ya está definida en Isabelle.
-   Lo único que se hace es renombrarla.}\<close>
+
 
 definition sumaConj :: "nat set \<Rightarrow> nat" where
   "sumaConj S \<equiv> \<Sum>S"
 
-text \<open> Donde $\sum$ ya se encuentra definido en Isabelle:
+text \<open> Donde $\sum$ ya se encuentra definido en Isabelle, pero se 
+renombra de la siguiente forma:
 
 
 abbreviation Sum ("$\sum$") \\
