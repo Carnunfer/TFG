@@ -9,7 +9,32 @@ begin
 
 section\<open>Teorema de Kanster Tarski \<close>
 
+
 subsection \<open>Demostración en lenguaje natural \<close>
+
+text  \<open>\comentario{Reescribir la definición de conjunto parcialmente ordenado.}
+  \<close>
+
+text  \<open>\comentario{Usar la misma notación: A, L, S,.. .}
+  \<close>
+
+text  \<open>\comentario{¿Por qué usar una notación para supremo e ínfimo y luego cambiarla?.}
+\<close>
+
+text  \<open>\comentario{Reescribir la definición de retículo.}
+  \<close>
+
+text  \<open>\comentario{Corregir la definición de retículo completo. .}
+  \<close>
+
+text  \<open>\comentario{Reescribir la definición de función monótona.}
+  \<close>
+
+text  \<open>\comentario{Añadir ejemplos de retículos (y también de conjuntos con relaciones
+  de orden que no son retículos).}
+  \<close>
+
+
 
 text \<open>El siguiente teorema, denominado teorema de Knaster-Tarski del 
 punto fijo, es un teorema de la teoría de retículos y lleva el nombre de
@@ -83,6 +108,10 @@ $f$ es monótona se tiene que $f(f(a)) \leq f(a).$ Esto significa que
  $f(a) \in H,$ luego $a \leq f(a).$
 \end{demostracion}
 \<close>
+
+text  \<open>\comentario{Explicar con más detalle la demostración..}
+  \<close>
+
 
 theorem Knaster_Tarski:
   fixes f :: "'a :: complete_lattice \<Rightarrow> 'a"

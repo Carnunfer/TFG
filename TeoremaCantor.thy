@@ -54,7 +54,6 @@ conjunto formado  por todos los subconjuntos de $A$.
   subconjunto de A. Luego podemos distinguir dos casos :
 
   $1.$ Si $a \in B.$
-
   Entonces por definición del conjunto $B$ se tiene que
   $a \notin B$, luego se llega a una contradicción. 
 

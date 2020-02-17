@@ -181,9 +181,9 @@ text \<open>Previamente a la especificación del teorema, vamos a definir en
 Isabelle la propiedad de que una función sea cancelativa por la izquierda.\<close>
 
 text \<open>\comentario{Hay que comentar por qué se usan los booleanos para la definición
-en Isabelle.}\<close>
-
-text \<open>\comentario{Revisado hasta aquí.}\<close>
+  en Isabelle. Es decir, explicar que el mismo papel que hace el conjunto {0,1} lo
+  haría cualquier conjunto de, al menos, 2 elementos. En Isabelle, elegimos el tipo 
+predefinido de los booleanos.}\<close>
 
 
 
@@ -199,7 +199,8 @@ theorem caracterizacion_funcion_inyecctiva:
   text \<open>Al igual que en la demostración a mano, se va a demostrar a través
 de dos lemas asociados a cada implicación. Son los siguientes:\<close>
 
-lemma "\<forall>g h. cancelativaIzquierda f \<Longrightarrow> inj f"
+  
+lemma "cancelativaIzquierda f \<Longrightarrow> inj f"
   oops
 
 lemma "inj f \<Longrightarrow> cancelativaIzquierda f"
@@ -226,6 +227,11 @@ text \<open>En la especificación anterior, @{term "inj f"} es una
   inclusión de conjuntos.
 
   Presentaremos distintas demostraciones de los lemas.\<close>
+
+text \<open>\comentario{En la explicación anterior creo que no son necesarias
+  las referencias al conjunto UNIV pues no aparece la definición de
+  inyectiva, sino su caracterización. No se sabe por qué se dan esas
+  explicaciones.}\<close>
 
 subsection \<open>Demostración estructurada de los lemas\<close>
  
