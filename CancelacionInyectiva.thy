@@ -180,17 +180,21 @@ subsection \<open>Especificación en Isabelle/Hol\<close>
 text \<open>Previamente a la especificación del teorema, vamos a definir en 
 Isabelle la propiedad de que una función sea cancelativa por la izquierda.\<close>
 
-text \<open>\comentario{Hay que comentar por qué se usan los booleanos para la definición
-  en Isabelle. Es decir, explicar que el mismo papel que hace el conjunto {0,1} lo
-  haría cualquier conjunto de, al menos, 2 elementos. En Isabelle, elegimos el tipo 
-predefinido de los booleanos.}\<close>
-
-
-
 definition cancelativaIzquierda :: "('a \<Rightarrow> 'b) \<Rightarrow> bool" where 
   "cancelativaIzquierda  f =
    (\<forall>(g :: bool \<Rightarrow> 'a) h. (f \<circ> g = f \<circ> h \<longrightarrow> g = h))"
 
+text \<open>
+\begin{nota}
+En esta definición en Isabelle
+ hemos definido las funciones $g$ y $h$ en los booleanos$(\{0,1\})$, 
+aunque solo  haría falta en un conjunto con ,al menos, 2 elementos, ya 
+que realiza el mismo papel. Pero como el tipo booleano ya está 
+predefinido en Isabelle utilizamos este. 
+
+\end{nota}
+
+\<close>
 text \<open>La especificación del teorema es la siguiente: \<close>
 theorem caracterizacion_funcion_inyecctiva:
   "inj f \<longleftrightarrow> cancelativaIzquierda f"
@@ -214,24 +218,10 @@ text \<open>En la especificación anterior, @{term "inj f"} es una
     \item[] @{thm[mode=Rule] inj_on_def[no_vars]}
       \hfill (@{text inj_on_def})
   \end{itemize} 
-  Por su parte, @{term UNIV} es el conjunto universal definido en la 
-  teoría \href{http://bit.ly/2XtHCW6}{Set.thy} como una abreviatura de 
-  @{term top} que, a su vez está definido en la teoría 
-  \href{http://bit.ly/2Xyj9Pe}{Orderings.thy} mediante la siguiente
-  propiedad 
-  \begin{itemize}
-    \item[] @{thm[mode=Rule] ordering_top.extremum[no_vars]} 
-      \hfill (@{text ordering_top.extremum})
-  \end{itemize} 
-  En el caso de la teoría de conjuntos, la relación de orden es la
-  inclusión de conjuntos.
+
 
   Presentaremos distintas demostraciones de los lemas.\<close>
 
-text \<open>\comentario{En la explicación anterior creo que no son necesarias
-  las referencias al conjunto UNIV pues no aparece la definición de
-  inyectiva, sino su caracterización. No se sabe por qué se dan esas
-  explicaciones.}\<close>
 
 subsection \<open>Demostración estructurada de los lemas\<close>
  

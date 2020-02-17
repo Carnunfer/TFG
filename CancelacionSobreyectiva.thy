@@ -8,9 +8,6 @@ begin
 
 text \<open>\comentario{Añadir lemas usados al Soporte.}\<close>
 
-text \<open>\comentario{Los mismos comentarios respecto a la definición de
-  cancelativa por la derecha que los de cancelativa por la izquierda. Estructurarlo
-de la misma forma.}\<close>
 
 section \<open>Cancelación de las funciones sobreyectivas \<close>
 
@@ -25,31 +22,16 @@ text \<open>El siguiente teorema prueba una caracterización de las funciones
   $$\forall y \in B : \exists x \in A : f(x) = y$$
 \end{definicion}
 
-\begin{definicion}[Cancelativa derecha]
-  Una función $f : A \longrightarrow B$ tiene la propiedad de ser
-  cancelativa por la derecha si: 
-  $$\forall C : (\forall g,h: B \longrightarrow C) : g \circ f = h \circ f
-    \Longrightarrow g = h$$
-\end{definicion}
-
-
-Se puede reformular la definición de cancelativa por la derecha como:
-
-\begin{definicion}[Cancelativa derecha']
-Una función $f: A \longrightarrow B$ tiene la propiedad de ser
- cancelativa por la derecha si:
-
-$$\forall g, h: B \longrightarrow \{0,1\} : g \circ f = h \circ f
- \Longrightarrow g = h.$$
-\end{definicion}
-
-Vamos a demostrar la equivalencia de estas dos definiciones.
+Antes de definir la propiedad de ser cancelativa por la derecha se va a
+ probar la siguiente propiedad.
 
 \begin{lema}
-Son equivalentes:
+Sea $f$ una función $f : A \longrightarrow B$. Las siguientes condiciones son equivalentes:
 \begin{enumerate}
-\item Cancelativa derecha
-\item Cancelativa derecha'
+\item   $\forall C : (\forall g,h: B \longrightarrow C) : g \circ f = h \circ f
+    \Longrightarrow g = h$
+\item $\forall g, h: B \longrightarrow \{0,1\} : g \circ f = h \circ f
+ \Longrightarrow g = h.$
 \end{enumerate}
 \end{lema}
 
@@ -72,24 +54,49 @@ Definamos $r: C \longrightarrow \{0,1\}$ como:
 
 Consideremos $g' = r \circ g$ y $h' = r \circ h.$ Luego se
  tiene que:
-$$(g' \circ f)(x) = (r \circ g \circ f)(x) = (r \circ (g \circ f))(x)
- \stackrel{H.I}{=} (r \circ (h \circ f))(x) = (r \circ h \circ f)(x) =
- (h' \circ f)(x).$$
+$$\begin{array}{l}
+(g' \circ f)(x) \\
+= (r \circ g \circ f)(x) \\
+= (r \circ (g \circ f))(x) \\
+= (r \circ (h \circ f))(x) @{text"H.I"} \\
+= (r \circ h \circ f)(x) 
+= (h' \circ f)(x). 
+\end{array}$$
 
 Por lo tanto, $g' \circ f = h' \circ f$. Luego por hipótesis $g' = h'.$
 
 Veamos por otro lado que:
 
-$$g'(b) = r(g(b)) = 1$$
-$$h'(b) = r(h(b)) = 0$$
+$$\begin{array}{l}
+g'(b) \\
+= r(g(b)) \\
+= 1
+\end{array}
+\qquad \qquad
+\begin{array}{l}
+h'(b) \\
+= r(h(b)) \\
+= 0
+\end{array}$$
 
 Por lo que hemos llegado a un absurdo.
 \end{demostracion}
 
+Puesto que tenemos esta equivalencia, la definición de la propiedad de
+ ser cancelativa por la derecha será: 
+
+\begin{definicion}[Cancelativa derecha]
+Una función $f: A \longrightarrow B$ tiene la propiedad de ser
+ cancelativa por la derecha si:
+
+$$\forall g, h: B \longrightarrow \{0,1\} : g \circ f = h \circ f
+ \Longrightarrow g = h.$$
+\end{definicion}
 
 \begin{nota}
-A partir de ahora cuando se haga referencia a la definición de
- cancelativa por la derecha se usará la segunda definición.
+Es adecuado usar esta definición, ya que a la hora de especificar la
+ definición en Isabelle no se puede cuantificar tipos y esta definición
+ no lo requiere. Sin embargo, la otra sí.
 \end{nota}
 
   El teorema es el siguiente: 
@@ -102,46 +109,41 @@ A partir de ahora cuando se haga referencia a la definición de
   El teorema se puede dividir en dos lemas, ya que se demuestra por una
   doble implicación. 
 
-text \<open>\comentario{En la demostración de la condición necesaria: hay
-  que explicarla con más detalle, si no no se sabe de dónde salen f y g. Cuando dices
-  "Veamos que f es cancelativa por la derecha", ... es decir,...hay que probar...
-sean g y h tales que ... hay que probar....}\<close>
-
   \begin {lema}[Condición necesaria]
     Si $f$ es sobreyectiva, entonces f es cancelativa por la derecha.
   \end {lema}
 
   \begin {demostracion}
-  Sea $f: A \longrightarrow B$ sobreyectiva. Veamos que f es cancelativa
-por la derecha. Usando la definición de sobreyectividad
+  Sea $f: A \longrightarrow B$ sobreyectiva. Veamos que 
+ f es cancelativa por la derecha, es decir, sean $g,h : B
+ \longrightarrow \{0,1\}$ tales que $g \circ f = h \circ f$ hay que
+ probar que $g = h.$ Usando la definición de sobreyectividad
   $(\forall y \in Y,  \exists x | y = f(x))$ y la hipótesis,
   tenemos que: 
-  $$g(y) = g(f(x)) = (g \circ f) (x) = (h \circ f) (x) = h(f(x)) = h(y).$$
+  $$\begin{array}{l}
+g(y)  \\
+= g(f(x)) \\
+= (g \circ f) (x) \\
+= (h \circ f) (x) \\
+= h(f(x)) \\
+= h(y).
+\end{array}$$
   \end {demostracion}
 
 
-text \<open>\comentario{En la demostración de la condición suficiente:
-  \begin{itenize}
-  \item Al principio de la demostración no existen g y h (cuando dices que
-  se van a señalar los dominios)
-  \item No se ha probado que $g \circ f = h \circ f$.
-\end{itemize}}\<close>
 
   \begin {lema}[Condición suficiente] 
   Si f es cancelativa por la derecha entonces f es sobreyectiva.
   \end {lema}
 
   \begin {demostracion}
-  Para la demostración del lema, primero se debe señalar los
-  dominios y codominios de las funciones que se van a usar.
-  $f : A \longrightarrow B,$ $g,h: B \longrightarrow \{0,1\}.$
 
   La prueba se va a realizar por reducción al absurdo. Luego supongamos
-  que nuestra función $f$ no es sobreyectiva, es decir, 
+  que nuestra función $f : A \longrightarrow B$ no es sobreyectiva, es decir, 
   $\exists y_{1} \in B \ @{text " tal que "} \  \nexists x \in A \ : 
    f(x) = y_{1}.$ 
 
-  Definamos ahora las funciones $g,h:$
+  Definamos ahora las funciones $g,h: B \longrightarrow \{0,1\}$
   $$g(y) = 0 \  \forall y \in B$$
   $$h(y)= \left\{\begin{array}{lcc}
                    0 &   si  & y \neq y_1 \\
@@ -150,9 +152,15 @@ text \<open>\comentario{En la demostración de la condición suficiente:
           \right.$$
 
   Entonces $g(y) \neq h(y).$ Sin embargo, por hipótesis se tiene que si 
-  $g \circ f = h \circ f$, lo cual es cierto, entonces $h = g$. Por lo 
-  que hemos llegado a una contradicción, por lo tanto, $f$ es
-  sobreyectiva. 
+  $g \circ f = h \circ f$ entonces $h = g$. En efecto, 
+$$\begin{array}{l}
+(g \circ f)(x) \\
+ = g(f(x)) \\
+= 0  \\
+= h(f(x)) \\
+= (h \circ f)(x).
+\end{array}$$
+ Por lo que $g(y) = h(y),$ con lo que hemos llegado a una contradicción.
   \end {demostracion} 
 
 \<close>
