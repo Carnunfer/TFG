@@ -8,6 +8,10 @@ begin
 
 text \<open>\comentario{Añadir lemas usados al Soporte.}\<close>
 
+text \<open>\comentario{Los mismos comentarios respecto a la definición de
+  cancelativa por la derecha que los de cancelativa por la izquierda. Estructurarlo
+de la misma forma.}\<close>
+
 section \<open>Cancelación de las funciones sobreyectivas \<close>
 
 subsection \<open>Demostración en lenguaje natural \<close>
@@ -98,6 +102,11 @@ A partir de ahora cuando se haga referencia a la definición de
   El teorema se puede dividir en dos lemas, ya que se demuestra por una
   doble implicación. 
 
+text \<open>\comentario{En la demostración de la condición necesaria: hay
+  que explicarla con más detalle, si no no se sabe de dónde salen f y g. Cuando dices
+  "Veamos que f es cancelativa por la derecha", ... es decir,...hay que probar...
+sean g y h tales que ... hay que probar....}\<close>
+
   \begin {lema}[Condición necesaria]
     Si $f$ es sobreyectiva, entonces f es cancelativa por la derecha.
   \end {lema}
@@ -109,6 +118,14 @@ por la derecha. Usando la definición de sobreyectividad
   tenemos que: 
   $$g(y) = g(f(x)) = (g \circ f) (x) = (h \circ f) (x) = h(f(x)) = h(y).$$
   \end {demostracion}
+
+
+text \<open>\comentario{En la demostración de la condición suficiente:
+  \begin{itenize}
+  \item Al principio de la demostración no existen g y h (cuando dices que
+  se van a señalar los dominios)
+  \item No se ha probado que $g \circ f = h \circ f$.
+\end{itemize}}\<close>
 
   \begin {lema}[Condición suficiente] 
   Si f es cancelativa por la derecha entonces f es sobreyectiva.
@@ -122,7 +139,7 @@ por la derecha. Usando la definición de sobreyectividad
   La prueba se va a realizar por reducción al absurdo. Luego supongamos
   que nuestra función $f$ no es sobreyectiva, es decir, 
   $\exists y_{1} \in B \ @{text " tal que "} \  \nexists x \in A \ : 
-   f(x) = y.$ 
+   f(x) = y_{1}.$ 
 
   Definamos ahora las funciones $g,h:$
   $$g(y) = 0 \  \forall y \in B$$
