@@ -12,24 +12,6 @@ section\<open>Teorema de Kanster Tarski \<close>
 
 subsection \<open>Demostración en lenguaje natural \<close>
 
-text  \<open>\comentario{Reescribir la definición de conjunto parcialmente ordenado.}
-  \<close>
-
-text  \<open>\comentario{Usar la misma notación: A, L, S,.. .}
-  \<close>
-
-text  \<open>\comentario{¿Por qué usar una notación para supremo e ínfimo y luego cambiarla?.}
-\<close>
-
-text  \<open>\comentario{Reescribir la definición de retículo.}
-  \<close>
-
-text  \<open>\comentario{Corregir la definición de retículo completo. .}
-  \<close>
-
-text  \<open>\comentario{Reescribir la definición de función monótona.}
-  \<close>
-
 text  \<open>\comentario{Añadir ejemplos de retículos (y también de conjuntos con relaciones
   de orden que no son retículos).}
   \<close>
@@ -44,12 +26,20 @@ Para la exposición y demostración del teorema es necesario definir una
  serie de  conceptos previos.
 
 \begin{definicion}
-Una relación binaria de orden parcial es una relación binaria que es
- reflexiva, antisimétrica y transitiva.
+Sea L un conjunto. Un orden parcial sobre L es una relación binaria
+ $\leq$ sobre L, tal que $\forall x,y,z \in L$ se verifica:
+\begin {enumerate}
+\item $x \leq x$ (Propiedad reflexiva).
+\item Si $x \leq y$ e $y \leq x$ entonces $x = y$ (Propiedad
+ antisimétrica). 
+\item Si $x \leq y$ e $y \leq z$ esto implica que $x \leq z$ (Propiedad
+ transitiva).
+\end{enumerate}
 \end{definicion}
+
 \begin{definicion}
-Un conjunto A se dice parcialmente ordenado cuando este equipado de una
- relacion binaria de orden parcial$(\leq)$. Se denotara $(A, \leq).$
+Un conjunto $L$ equipado con un relación de orden $(\leq)$ se denomina
+ conjunto parcialmente ordenado y se denota $(L,\leq).$
 \end{definicion}
 
 A partir de ahora se considerará L como un conjunto parcialmente
@@ -65,26 +55,47 @@ Se denotará por ínfimo de L(inf L), si existe, al máximo elemento de L que es
  menor o igual que cada elemento de L. 
 \end{definicion}
 
-\begin{nota}
-Se notará como $x \vee y$ en lugar de sup$\{x,y\}$ cuando este exista,
- análogamente $x \wedge y$ en lugar de inf$\{x,y\}$. También se notará
- $\wedge L$ y $\vee L$  en lugar de sup L e inf L.
-\end{nota}
-
 \begin{definicion}
-Sea L un conjunto parcialmente ordenado no vacío. Si $x \vee y$ y $x
- \wedge
-y$ existe $\forall \, x,y \in L$ entonces L se llamará retículo.
+Sea L un conjunto no vacío parcialmente ordenado. Se dirá que L es un
+ retículo si: 
+\begin{enumerate}
+\item Si $\forall a,b \in L$ existe sup$(\{a,b\}).$
+\item Si $\forall a,b \in L$ existe inf$(\{a,b\}).$
+\end{enumerate}
 \end{definicion}
 
 \begin{definicion}
-Sea L un conjunto parcialmente ordenado no vacío. Si $\vee L$ y $\wedge L$
- existe entonces L se llamará un retículo completo.
+Sea L un conjunto parcialmente ordenado no vacío. Se dirá que $L$ es un
+ retículo completo si $\forall S \subset L$ existe sup$(S)$ e inf$(S).$
 \end{definicion}
 
+\begin{ejemplo}
+Ahora vamos a dar una serie de ejemplos de conjuntos que son
+ retículos, retículos completos y algunos que no son retículos.
+
+\begin{itemize}
+\item Los subconjuntos de un conjunto dado con la relación de orden la
+ inclusión es un retículo y el supremo está dado por la unión y el
+ ínfimo por la intersección.
+\item Los enteros no negativos dado con la relación de orden la
+ divisibilidad es un retículo con el ínfimo el mínimo común múltiplo y
+ el supremo el máximo común divisor.
+\item Los enteros no negativos dado con la relación de orden la
+ divisibilidad es un retículo completo siendo el ínfimo de este conjunto
+el 1 ya que divide a cualquier número y siendo el supremo el 0 ya
+ que es divisible por cualquier número.
+\item Un ejemplo de un conjunto paricalmente ordenado, pero que no es un
+retículo es el conjunto $\{ \emptyset, \{0\}, \{1\} \}$ con la relación
+ de orden la inclusión. No es un retículo ya que el $\{0\}$ y el $\{1\}$
+no tienen supremo.
+\end{itemize}
+\end{ejemplo}
+
 \begin{definicion}
-Una función $f$ es monótona si conserva el orden, es decir, si $x \leq y
-$ implica $f(x) \leq f(y)$ o $x \neq y$ implica $f(x) \neq f(y).$
+Una función $f: L \longrightarrow R$ entre dos conjuntos parcialmente 
+ordenados, \\ $(L,\leq)$ y $(R,\leq ')$ respectivamente. Se dirá que es 
+ monótona si conserva el orden, es decir, si $x \leq y
+$ implica $f(x) \leq ' f(y)$ o $x \geq y$ implica $f(x) \geq ' f(y).$
 \end{definicion}
 
 \begin{definicion}
@@ -99,13 +110,15 @@ Sea $L$ un retículo completo y $f: L \longrightarrow L$ una función
 \end{teorema}
 
 \begin{demostracion}
-Hay que probar que $\exists a \in H$ tal que $f(a) = a.$ \\
-Sea $H = \{ x \in L | f(x) \leq x\}$ y $a = \cap H.$ Tenemos que $a \leq
-x \, \forall x \in H$, luego $f(a) \leq f(x) \leq x.$ Por lo que $f(a)$
- es el ínfimo de $H,$ de donde obtenemos que $f(a) \leq a.$ Ahora vamos
- a probar la otra desigualdad de forma que lleguemos a la igualdad. Como
-$f$ es monótona se tiene que $f(f(a)) \leq f(a).$ Esto significa que
- $f(a) \in H,$ luego $a \leq f(a).$
+Hay que probar que $\exists a \in L$ tal que $f(a) = a.$ \\
+Sea $H = \{ x \in L | f(x) \leq x\}$ y $a = \cap H.$ Por ser $L$ un
+ retículo completo y $H \subset L$ sabemos que $\exists inf(H)$ y $sup(H).$
+ Tenemos que $a \leq x \, \forall x \in H.$ Como $f$ es monótona, $f(a) 
+\leq f(x)$ y como $x \in H$ se tiene que $f(a) \leq f(x) \leq x.$ Por lo
+ que $f(a)$ es el ínfimo de $H,$ de donde obtenemos que $f(a) \leq a.$
+Ahora veamos que $f(a) \geq a$ y ya se tendría probado el teorema.
+ En efecto, como $f$ es monótona se tiene que $f(f(a)) \leq f(a).$
+ Esto implica que $f(a) \in H,$ luego $a \leq f(a).$
 \end{demostracion}
 \<close>
 
