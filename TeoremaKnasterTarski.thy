@@ -125,6 +125,33 @@ Ahora veamos que $f(a) \geq a$ y ya se tendría probado el teorema.
 text  \<open>\comentario{Explicar con más detalle la demostración..}
   \<close>
 
+theorem
+  fixes f :: "'a :: complete_lattice \<Rightarrow> 'a"
+  assumes "mono f"
+  shows "\<exists>a. f a = a"
+proof
+  let ?H = "{u. f u \<le> u}"
+  let ?a = "\<Sqinter>?H"
+  show "f ?a = ?a"
+  proof -
+    have "f ?a \<le> ?a" 
+    proof (rule Inf_greatest)
+      fix x
+      assume "x \<in> ?H"
+      then have "f ?a \<le> f x" 
+        using assms 
+        by (simp add: Inf_lower monoD)
+      then show "f ?a \<le> x" 
+        using \<open>x \<in> ?H\<close> 
+        by simp
+    qed
+    then show ?thesis 
+      using \<open>mono f\<close>
+      by (simp add: Inf_lower 
+                    dual_order.antisym 
+                    mono_def)
+  qed
+qed
 
 theorem Knaster_Tarski:
   fixes f :: "'a :: complete_lattice \<Rightarrow> 'a"
@@ -161,6 +188,7 @@ proof
       by (rule order_antisym)
   qed
 qed
+
 
 
 
