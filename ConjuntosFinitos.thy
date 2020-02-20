@@ -8,7 +8,7 @@ begin
 
 section \<open>Propiedad de los conjuntos finitos de número naturales \<close>
 
-text \<open>\comentario{Añadir lemas usados al Soporte.}\<close>
+
 
 subsection \<open>Demostración en lenguaje natural \<close>
 
@@ -153,7 +153,6 @@ proof -
     by this
 qed
 
-text \<open>\comentario{Añadir sum.insert al glosario.}\<close>
 
 text \<open>En la demostración del lema anterior se ha usado 
   @{term"sumConj_def"}, que hace referencia a la definición sumaConj que
@@ -216,17 +215,6 @@ next
   qed
 qed
 
-text \<open>En la demostración se han usado las reglas: 
-  \begin{itemize}
-    \item[] @{thm[mode=rule] ball_empty} 
-      \hfill (@{text ball_empty})
-    \item[] @{thm[mode=rule] le_add_same_cancel1}
-      \hfill (@{text le_add_same_cancel1 })
-    \item[] @{thm[mode=rule] le_add_same_cancel2}
-      \hfill (@{text le_add_same_cancel2 })
-    \item[] @{thm[mode=rule] insert_iff}
-      \hfill (@{text insert_iff })
-  \end{itemize}\<close>
 
 (*<*)
 end

@@ -12,9 +12,6 @@ section\<open>Teorema de Kanster Tarski \<close>
 
 subsection \<open>Demostración en lenguaje natural \<close>
 
-text  \<open>\comentario{Añadir ejemplos de retículos (y también de conjuntos con relaciones
-  de orden que no son retículos).}
-  \<close>
 
 
 

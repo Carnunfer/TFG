@@ -9,7 +9,6 @@ begin
 section \<open>Cancelación de funciones inyectivas\<close>
 subsection \<open>Demostración en lenguaje natural \<close>
 
-text \<open>\comentario{Añadir lemas usados al Soporte.}\<close>
 
 
 
@@ -251,7 +250,7 @@ proof -
     by (simp only: cancelativaIzquierda_def)
 qed
 
-text \<open>\comentario{Añadir al glosario injD.}\<close>
+
 
 lemma condicion_suficiente_detallada:
   assumes "cancelativaIzquierda f"
@@ -295,13 +294,7 @@ En la demostración de condición suficiente detallada, es necesario
  posible y no se puede demostrar.
 \end {nota}
 
-En las anteriores demostraciones se han introducido las reglas: 
-  \begin{itemize}
-    \item[] @{thm[mode=Rule] fun_cong[no_vars]} 
-      \hfill (@{text fun_cong})
-    \item[] @{thm[mode=Rule] comp_apply[no_vars]} 
-      \hfill (@{text comp_apply})
-  \end{itemize}
+
   Otras demostraciones declarativas no detalladas usando demostradores 
   automáticos metis, auto y blast son:\<close>
 
