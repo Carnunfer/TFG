@@ -10,7 +10,6 @@ session TFG = HOL +
     CancelacionInyectiva
     CancelacionSobreyectiva 
     TeoremaCantor 
-    Metodosdepruebasyreglas
     TeoremaKnasterTarski
     Soporte
   document_files

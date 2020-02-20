@@ -128,8 +128,6 @@ proof (rule notI)
   qed
 qed
 
-text \<open>\comentario{Añadir los lemas usados en la prueba anterior al
-  apéndice.}\<close> 
 
 subsection \<open>Demostración automática \<close>
 
@@ -139,7 +137,7 @@ theorem Cantor:
   "\<nexists>f :: 'a \<Rightarrow> 'a set. \<forall>B. \<exists>x. B = f x"
   by best
 
-text \<open>\comentario{Añadir el método best al apéndice.}\<close>
+
 
 (*<*) end (*>*)
  

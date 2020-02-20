@@ -6,7 +6,6 @@ theory CancelacionSobreyectiva
 begin
 (*>*) 
 
-text \<open>\comentario{Añadir lemas usados al Soporte.}\<close>
 
 
 section \<open>Cancelación de las funciones sobreyectivas \<close>
@@ -320,14 +319,6 @@ proof -
     by (rule rev_iffD2)
 qed
 
-text \<open>En la demostración hemos introducido: 
- \begin{itemize}
-    \item[] @{thm[mode=Rule] exE[no_vars]} 
-      \hfill (@{text "rule exE"}) 
-    \item[] @{thm[mode=Proof] iffI[no_vars]} 
-      \hfill (@{text iffI})
-  \end{itemize} 
-\<close>
 
 subsection \<open>Demostración teorema \<close>
 
