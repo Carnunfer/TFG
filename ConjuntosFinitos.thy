@@ -48,7 +48,7 @@ de inducción viene dado por:
  se verifica  $\varphi(A \cup \{x\}).$ 
   \end{itemize}
 
-text \<open>\comentario{El esquema de inducción no está escrito correctamente.}\<close>
+\comentario{El esquema de inducción no está escrito correctamente.}
 
 
   \begin{demostracion}

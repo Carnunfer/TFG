@@ -7,7 +7,7 @@ theory TeoremaKnasterTarski
 begin
 (*>*) 
 
-section\<open>Teorema de Kanster Tarski \<close>
+section\<open>Teorema de Knaster Tarski \<close>
 
 
 subsection \<open>Demostración en lenguaje natural \<close>
@@ -29,18 +29,21 @@ Sea L un conjunto. Un orden parcial sobre L es una relación binaria
 \item $x \leq x$ (Propiedad reflexiva).
 \item Si $x \leq y$ e $y \leq x$ entonces $x = y$ (Propiedad
  antisimétrica). 
-\item Si $x \leq y$ e $y \leq z$ esto implica que $x \leq z$ (Propiedad
+\item Si $x \leq y$ e $y \leq z$ entonces que $x \leq z$ (Propiedad
  transitiva).
 \end{enumerate}
 \end{definicion}
 
 \begin{definicion}
-Un conjunto $L$ equipado con un relación de orden $(\leq)$ se denomina
+Un conjunto $L$ con un relación de orden $(\leq)$ se denomina
  conjunto parcialmente ordenado y se denota $(L,\leq).$
 \end{definicion}
 
 A partir de ahora se considerará L como un conjunto parcialmente
  ordenado.
+
+\comentario{Definir supremo e ínfimo para un subconjunto cualquiera de L, 
+no sólo para L}
 
 \begin{definicion}
 Se denotará por supremo de L(sup L), si existe, al mínimo elemento de L que es
@@ -74,10 +77,10 @@ Ahora vamos a dar una serie de ejemplos de conjuntos que son
 \item Los subconjuntos de un conjunto dado con la relación de orden la
  inclusión es un retículo y el supremo está dado por la unión y el
  ínfimo por la intersección.
-\item Los enteros no negativos dado con la relación de orden la
+\item Los enteros no negativos, con la relación de orden la
  divisibilidad es un retículo con el ínfimo el mínimo común múltiplo y
  el supremo el máximo común divisor.
-\item Los enteros no negativos dado con la relación de orden la
+\item Los enteros no negativos, con la relación de orden la
  divisibilidad es un retículo completo siendo el ínfimo de este conjunto
 el 1 ya que divide a cualquier número y siendo el supremo el 0 ya
  que es divisible por cualquier número.
@@ -92,10 +95,11 @@ no tienen supremo.
 Una función $f: L \longrightarrow R$ entre dos conjuntos parcialmente 
 ordenados, \\ $(L,\leq)$ y $(R,\leq ')$ respectivamente. Se dirá que es 
  monótona si conserva el orden, es decir, si $x \leq y
-$ implica $f(x) \leq ' f(y)$ o $x \geq y$ implica $f(x) \geq ' f(y).$
+$ implica $f(x) \leq ' f(y)$.
 \end{definicion}
 
 \begin{definicion}
+Sea  $(L,\leq)$ un conjunto parcialmente ordenado y  $f: L \longrightarrow L$.
 Diremos que $x$ es un punto fijo de una función si y solo si $f(x) = x.$
 \end{definicion}
 
@@ -105,6 +109,8 @@ El enunciado del teorema es el siguiente:
 Sea $L$ un retículo completo y $f: L \longrightarrow L$ una función
  monótona. Entonces $\exists a \in L$ punto fijo de $f.$
 \end{teorema}
+
+\comentario{Corregir la demostración. No es correcta}
 
 \begin{demostracion}
 Hay que probar que $\exists a \in L$ tal que $f(a) = a.$ \\
@@ -122,6 +128,10 @@ Ahora veamos que $f(a) \geq a$ y ya se tendría probado el teorema.
 text  \<open>\comentario{Explicar con más detalle la demostración..}
   \<close>
 
+text  \<open>\comentario{En la especificación del teorema en Isabelle hay que 
+ explicar la notación para el supremo y el ínfimo predefinidos en la teoría
+de retículos que se importa al principio de esta teoría .}
+  \<close>
 
 theorem Knaster_Tarski:
   fixes f :: "'a :: complete_lattice \<Rightarrow> 'a"
