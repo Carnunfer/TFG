@@ -39,24 +39,21 @@ Un conjunto $L$ con un relación de orden $(\leq)$ se denomina
  conjunto parcialmente ordenado y se denota $(L,\leq).$
 \end{definicion}
 
-A partir de ahora se considerará L como un conjunto parcialmente
- ordenado.
-
-\comentario{Definir supremo e ínfimo para un subconjunto cualquiera de L, 
-no sólo para L}
 
 \begin{definicion}
-Se denotará por supremo de L(sup L), si existe, al mínimo elemento de L que es
- mayor o igual que cada elemento de L. 
+Dado un subconjunto $S$ de un conjunto $(L,\leq)$ parcialmente ordenado,
+se define el supremo de $S$(sup $S$), si existe, al mínimo elemento de
+ S que mayor o igual que cada elementos de S.
 \end{definicion}
 
 \begin{definicion}
-Se denotará por ínfimo de L(inf L), si existe, al máximo elemento de L que es
- menor o igual que cada elemento de L. 
+Dado un subconjunto $S$ de un conjunto $(L,\leq)$ parcialmente ordenado,
+se define el ínfimo de $S$(inf $S$), si existe, al máximo elemento de
+ S que menor o igual que cada elementos de S. 
 \end{definicion}
 
 \begin{definicion}
-Sea L un conjunto no vacío parcialmente ordenado. Se dirá que L es un
+Sea $(L,\leq)$ un conjunto no vacío parcialmente ordenado. Se dirá que L es un
  retículo si: 
 \begin{enumerate}
 \item Si $\forall a,b \in L$ existe sup$(\{a,b\}).$
@@ -65,7 +62,7 @@ Sea L un conjunto no vacío parcialmente ordenado. Se dirá que L es un
 \end{definicion}
 
 \begin{definicion}
-Sea L un conjunto parcialmente ordenado no vacío. Se dirá que $L$ es un
+Sea $(L,\leq)$ un conjunto parcialmente ordenado no vacío. Se dirá que $L$ es un
  retículo completo si $\forall S \subset L$ existe sup$(S)$ e inf$(S).$
 \end{definicion}
 
@@ -110,30 +107,91 @@ Sea $L$ un retículo completo y $f: L \longrightarrow L$ una función
  monótona. Entonces $\exists a \in L$ punto fijo de $f.$
 \end{teorema}
 
-\comentario{Corregir la demostración. No es correcta}
-
 \begin{demostracion}
 Hay que probar que $\exists a \in L$ tal que $f(a) = a.$ \\
-Sea $H = \{ x \in L | f(x) \leq x\}$ y $a = \cap H.$ Por ser $L$ un
- retículo completo y $H \subset L$ sabemos que $\exists inf(H)$ y $sup(H).$
- Tenemos que $a \leq x \, \forall x \in H.$ Como $f$ es monótona, $f(a) 
-\leq f(x)$ y como $x \in H$ se tiene que $f(a) \leq f(x) \leq x.$ Por lo
- que $f(a)$ es el ínfimo de $H,$ de donde obtenemos que $f(a) \leq a.$
-Ahora veamos que $f(a) \geq a$ y ya se tendría probado el teorema.
- En efecto, como $f$ es monótona se tiene que $f(f(a)) \leq f(a).$
- Esto implica que $f(a) \in H,$ luego $a \leq f(a).$
+Sea $H = \{ x \in L | f(x) \leq x \}.$ Como L, por hipótesis, es un 
+retículo completo tenemos que $\exists a = inf H,$ luego  como $a$ es una cota
+ inferior se tiene que $\forall x \in H \, a \leq x.$ Como $f$ es una
+ función monótona, $f(a) \leq f(x) \leq x \, \forall x \in H.$ Luego se
+ obtiene que $f(a)$ es una cota inferior de $H,$ por ser cota inferior
+ llegamos a que $f(a) \leq a.$ Ahora veamos que $f(a) \geq a$ y ya se
+ tendría probado el teorema. En efecto, como $f$ es monótona, $f(f(a))
+ \leq f(a).$ Esto implica que $f(a) \in H$ y como $a$ es cota inferior
+ de $H$ entonces $a \leq f(a).$ 
 \end{demostracion}
 \<close>
 
-text  \<open>\comentario{Explicar con más detalle la demostración..}
-  \<close>
 
-text  \<open>\comentario{En la especificación del teorema en Isabelle hay que 
- explicar la notación para el supremo y el ínfimo predefinidos en la teoría
-de retículos que se importa al principio de esta teoría .}
-  \<close>
+subsection \<open> Especificación en Isabelle/HOL \<close>
+
+text \<open>
+Para la comprensión de la especificación vamos a notar una serie
+de definiciones y notación que se encuentran en la teoría de retículos y retículos
+completos importada en Isabelle,
+\href{https://isabelle.in.tum.de/dist/library/HOL/HOL/Lattices.html}{Lattice.thy}
+y \href{https://isabelle.in.tum.de/library/HOL/HOL-Lattice/CompleteLattice.html}
+{LatticeComplete.thy} respectivamente. 
+
+La notación requerida para la comprensión de la especificación y
+ demostración del teorema que viene importada de 
+\href{http://isabelle.in.tum.de/website-Isabelle2012/dist/library/HOL/
+HOL-Library/Lattice_Syntax.html}{Lattice-Syntax.thy} es:
+
+notation \\
+  bot $(\bot)$ and \\
+  top $(\top)$ and  \\
+  inf  $($ infixl $\sqcap$ 70 $)$ and \\
+  sup  $($ infixl $\sqcup$ 65 $)$ and \\
+  Inf  $($ $\sqcap  -$ $[$900$]$ 900$)$ and \\
+  Sup  $($ $\sqcup -$ $[$900$]$ 900$)$ \\
+
+
+
+Tanto los retículos, como los retículos completos se definen en Isabelle
+como clases: 
+
+Retículo: \\
+class lattice $=$ \\
+  assumes ex-inf : $\exists$ inf. is-inf x y inf. \\
+  assumes ex-sup : $\exists$ sup. is-sup x y sup. \\
+
+Retículo completo: \\
+class complete-lattice $=$ lattice $+$ Inf $+$ Sup $+$ bot $+$ top $+$
+ \\
+  assumes Inf-lower : $x \in A \Longrightarrow A \leq x$ \\
+  and Inf-greatest : $(\bigwedge x. x \in A \Longrightarrow z \leq x) 
+\Longrightarrow z \leq \sqcap A.$ \\
+    and Sup-upper : $x \in A \Longrightarrow x \leq \sqcup A$ \\
+    and Sup-least : $(\bigwedge x. x \in A \Longrightarrow x \leq z) 
+\Longrightarrow \sqcup A \leq z$ \\
+    and Inf-empty $[$simp$]$ : $\sqcap \{\} = \top$ \\
+    and Sup-empty $[$simp$]$ : $\sqcup \{\} = \bot$ \\
+
+Para la especificiación del teorema también debemos notar que:
+
+$$f :: "'a :: @{text "complete_latices"} \Rightarrow 'a"$$
+
+significa que $f$ es una función cuyo dominio y codominio es un retículo
+completo.
+
+La especifiación del teorema es: 
+\<close>
 
 theorem Knaster_Tarski:
+  fixes f :: "'a :: complete_lattice \<Rightarrow> 'a"
+  assumes "mono f"
+  shows "\<exists>a. f a = a"
+  oops 
+
+  text \<open> 
+A continuación presentaremos distintas demostraciones del teorema.
+\<close>
+
+  subsection \<open> 
+Demostración detallada
+\<close>
+
+theorem Knaster_Tarski_detallada:
   fixes f :: "'a :: complete_lattice \<Rightarrow> 'a"
   assumes "mono f"
   shows "\<exists>a. f a = a"
@@ -169,7 +227,31 @@ proof
   qed
 qed
 
+subsection \<open> Demostración automática \<close>
 
+
+theorem Knaster_Tarski_automatica:
+  fixes f :: "'a :: complete_lattice \<Rightarrow> 'a"
+  assumes "mono f"
+  shows "\<exists>a. f a = a"
+proof
+  let ?H = "{u. f u \<le> u}"
+  let ?a = "\<Sqinter>?H"
+  show "f ?a = ?a"
+  proof -
+    have "f ?a \<le> ?a"
+    proof (rule Inf_greatest)
+      fix x
+      assume 1:"x \<in> ?H"      
+      show "f ?a \<le> x" using 1 assms order_trans
+      by (metis (mono_tags, lifting) Inf_lower mem_Collect_eq mono_def)    
+    qed
+    show ?thesis  
+      using \<open>f ?a \<le> ?a\<close> 
+            assms
+      by (simp add: Inf_lower dual_order.antisym mono_def)
+  qed
+qed
 
 
 (*<*)

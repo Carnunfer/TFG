@@ -42,13 +42,15 @@ De esta construcción se obtiene un esquema de inducción. Para ello sea
 de inducción viene dado por: 
 
 
-\begin{itemize}
-\item Si se verifica $\varphi(\emptyset).$
-\item Entonces  $\forall A$ finito  tal que $\varphi(A)$ y  $\forall x$ 
- se verifica  $\varphi(A \cup \{x\}).$ 
-  \end{itemize}
+Si se verifica: 
+\begin{enumerate}
+\item $\varphi(\emptyset).$
+\item $\forall A$ finito  tal que $\varphi(A)$ y  $\forall x$ 
+ entonces $\varphi(A \cup \{x\}).$ 
+  \end{enumerate}
 
-\comentario{El esquema de inducción no está escrito correctamente.}
+Entonces $\forall A$ finito se verifica $\varphi(A).$
+
 
 
   \begin{demostracion}
