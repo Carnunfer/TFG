@@ -229,7 +229,6 @@ qed
 
 subsection \<open> Demostración automática \<close>
 
-
 theorem Knaster_Tarski_automatica:
   fixes f :: "'a :: complete_lattice \<Rightarrow> 'a"
   assumes "mono f"
@@ -242,14 +241,15 @@ proof
     have "f ?a \<le> ?a"
     proof (rule Inf_greatest)
       fix x
-      assume 1:"x \<in> ?H"      
-      show "f ?a \<le> x" using 1 assms order_trans
-      by (metis (mono_tags, lifting) Inf_lower mem_Collect_eq mono_def)    
+      assume "x \<in> ?H"      
+      then have "?a \<le> x" 
+        by (simp add: Inf_lower)
+      then show "f ?a \<le> x" 
+        by (metis (mono_tags, lifting) \<open>x \<in> ?H\<close> assms le_INF_iff 
+            mem_Collect_eq mono_Inf order.trans)
     qed
-    show ?thesis  
-      using \<open>f ?a \<le> ?a\<close> 
-            assms
-      by (simp add: Inf_lower dual_order.antisym mono_def)
+    then show "f ?a = ?a" 
+      by (meson CollectI Inf_lower antisym assms mono_def) 
   qed
 qed
 
