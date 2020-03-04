@@ -21,8 +21,11 @@ locale Simple_Geometry =
   assumes A1: "plane \<noteq> {}"
       and A2: "\<forall>l \<in> lines. l \<subseteq> plane \<and> l \<noteq> {}"
       and A3: "\<forall>p \<in> plane. \<forall>q \<in> plane. \<exists>l \<in> lines. {p,q} \<subseteq> l"
-      and A4: (* FILL THIS SPACE: Two different lines intersect in no more than one point. *)
-      and A5: (* FILL THIS SPACE: For every line L there is a point in the plane outside of L. *)
+      and A4: "\<forall>l \<in> lines. \<forall>r \<in> lines. l \<noteq> r \<Longrightarrow>
+                l \<inter> r = {} \<or> ( \<exists>q \<in> plane. l \<inter> r = {q}) "
+(* FILL THIS SPACE: Two different lines intersect in no more than one point. *)
+      and A5:"\<forall>l \<in> lines. \<exists>q \<in> plane. p \<notin> l"
+(* FILL THIS SPACE: For every line L there is a point in the plane outside of L. *)
 
 
 (*  ---------------------------  *)
@@ -30,16 +33,16 @@ locale Simple_Geometry =
 (*  ---------------------------  *)
 (* Formalise the statement: the set of lines is non-empty *)
 lemma (in Simple_Geometry) one_line_exists: 
+"\<exists>l. l \<subseteq> plane \<and> l \<noteq> {}"
+  using A1 by auto
   (* FILL THIS SPACE: The set of lines is non-empty *)
-  oops
-  
 
 (*  ----------------------------  *)
 (* |   Problem 16 (2 marks):   | *)
 (*  ----------------------------  *)
 lemma (in Simple_Geometry) two_points_exist: 
   "\<exists>p1 p2. p1 \<noteq> p2 \<and> {p1,p2} \<subseteq> plane" 
-  oops
+  using A1 A3 A5 by auto
 
 
 (*  ----------------------------  *)
@@ -47,7 +50,7 @@ lemma (in Simple_Geometry) two_points_exist:
 (*  ----------------------------  *)
 lemma (in Simple_Geometry) three_points_exist: 
   "\<exists>p1 p2 p3. distinct [p1,p2,p3] \<and> {p1,p2,p3} \<subseteq> plane" 
-  oops
+  using two_points_exist A3 A5 by auto
   
 
 (*  ----------------------------  *)
@@ -56,7 +59,13 @@ lemma (in Simple_Geometry) three_points_exist:
 (* REMEMVER THAT CARD OF INFINITE SETS IS 0! *)
 lemma (in Simple_Geometry) card_of_plane_greater: 
   "finite plane \<Longrightarrow> card plane \<ge> 3" 
-  oops
+proof -
+  
+  have "\<exists>p1 p2 p3. distinct [p1,p2,p3] \<and> {p1,p2,p3} \<subseteq> plane"
+    by (rule three_points_exist)
+  then show "card plane \<ge> 3" using A3 A5 by auto
+qed
+
 
 (*  ----------------------------  *)
 (* |   Problem 19 (2 marks):   | *)
