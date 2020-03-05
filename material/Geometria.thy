@@ -24,7 +24,7 @@ locale Simple_Geometry =
       and A4: "\<forall>l \<in> lines. \<forall>r \<in> lines. l \<noteq> r \<Longrightarrow>
                 l \<inter> r = {} \<or> ( \<exists>q \<in> plane. l \<inter> r = {q}) "
 (* FILL THIS SPACE: Two different lines intersect in no more than one point. *)
-      and A5:"\<forall>l \<in> lines. \<exists>q \<in> plane. p \<notin> l"
+      and A5:"\<forall>l \<in> lines. \<exists>q \<in> plane. q \<notin> l"
 (* FILL THIS SPACE: For every line L there is a point in the plane outside of L. *)
 
 
@@ -41,8 +41,8 @@ lemma (in Simple_Geometry) one_line_exists:
 (* |   Problem 16 (2 marks):   | *)
 (*  ----------------------------  *)
 lemma (in Simple_Geometry) two_points_exist: 
-  "\<exists>p1 p2. p1 \<noteq> p2 \<and> {p1,p2} \<subseteq> plane" 
-  using A1 A3 A5 by auto
+  "\<exists>p1 p2. p1 \<noteq> p2 \<and> {p1,p2} \<subseteq> plane"
+  by (metis A1 A3 A5 bot.extremum_uniqueI empty_iff insert_subset subsetI)
 
 
 (*  ----------------------------  *)
@@ -50,32 +50,24 @@ lemma (in Simple_Geometry) two_points_exist:
 (*  ----------------------------  *)
 lemma (in Simple_Geometry) three_points_exist: 
   "\<exists>p1 p2 p3. distinct [p1,p2,p3] \<and> {p1,p2,p3} \<subseteq> plane" 
-  using two_points_exist A3 A5 by auto
-  
-
+  oops
 (*  ----------------------------  *)
 (* |   Problem 18 (3 marks):   | *)
 (*  ----------------------------  *)
 (* REMEMVER THAT CARD OF INFINITE SETS IS 0! *)
 lemma (in Simple_Geometry) card_of_plane_greater: 
-  "finite plane \<Longrightarrow> card plane \<ge> 3" 
-proof -
-  
-  have "\<exists>p1 p2 p3. distinct [p1,p2,p3] \<and> {p1,p2,p3} \<subseteq> plane"
-    by (rule three_points_exist)
-  then show "card plane \<ge> 3" using A3 A5 by auto
-qed
-
+  "finite plane \<Longrightarrow> card plane \<ge> 3"
+  oops
 
 (*  ----------------------------  *)
 (* |   Problem 19 (2 marks):   | *)
 (*  ----------------------------  *)
 (* GIVE THE SMALLEST MODEL! *)
-definition "plane_3 \<equiv> (* FILL THIS SPACE *)"
+definition "plane_3 \<equiv>  "
 definition "lines_3 \<equiv> (* FILL THIS SPACE *)"
 interpretation Simple_Geometry_smallest_model: 
   Simple_Geometry plane_3 lines_3
-apply standard 
+  apply standard 
   oops
       
 
@@ -90,7 +82,7 @@ assumes
     "p \<notin> l"
     "n \<in> lines" "{a, p} \<subseteq> n" 
     "m \<in> lines" "{b, p} \<subseteq> m"
-shows "m \<noteq> n"
+  shows "m \<noteq> n"
   oops
 
 
