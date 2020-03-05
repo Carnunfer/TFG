@@ -22,18 +22,20 @@ locale Simple_Geometry =
       and A2: "\<forall>l \<in> lines. l \<subseteq> plane \<and> l \<noteq> {}"
       and A3: "\<forall>p \<in> plane. \<forall>q \<in> plane. \<exists>l \<in> lines. {p,q} \<subseteq> l"
       and A4: "\<forall>l \<in> lines. \<forall>r \<in> lines. l \<noteq> r \<Longrightarrow>
-                l \<inter> r = {} \<or> ( \<exists>q \<in> plane. l \<inter> r = {q}) "
-(* FILL THIS SPACE: Two different lines intersect in no more than one point. *)
-      and A5:"\<forall>l \<in> lines. \<exists>q \<in> plane. q \<notin> l"
-(* FILL THIS SPACE: For every line L there is a point in the plane outside of L. *)
-
+               l \<inter> r = {} \<or> (\<exists>q \<in> plane. l \<inter> r = {q}) "
+               (* Two different lines intersect in no more than one 
+                  point. *)
+              \<comment> \<open><Pendiente de corregir A4\<close>
+      and A5: "\<forall>l \<in> lines. \<exists>q \<in> plane. q \<notin> l"
+              (* For every line L there is a point in the plane outside 
+                 of L. *)
 
 (*  ---------------------------  *)
 (* |   Problem 15 (1 point):   | *)
 (*  ---------------------------  *)
 (* Formalise the statement: the set of lines is non-empty *)
 lemma (in Simple_Geometry) one_line_exists: 
-"\<exists>l. l \<subseteq> plane \<and> l \<noteq> {}"
+  "\<exists>l. l \<subseteq> plane \<and> l \<noteq> {}"
   using A1 by auto
   (* FILL THIS SPACE: The set of lines is non-empty *)
 
