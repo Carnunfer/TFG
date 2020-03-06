@@ -52,7 +52,30 @@ lemma (in Simple_Geometry) two_points_exist:
 (*  ----------------------------  *)
 lemma (in Simple_Geometry) three_points_exist: 
   "\<exists>p1 p2 p3. distinct [p1,p2,p3] \<and> {p1,p2,p3} \<subseteq> plane" 
-  try
+proof - 
+  have "\<exists>p1 p2. p1 \<noteq> p2 \<and> {p1,p2} \<subseteq> plane" by (rule two_points_exist)
+  then obtain "p1" where  "\<exists>p2. p1 \<noteq> p2 \<and> {p1,p2} \<subseteq> plane" by (rule exE) 
+  then obtain "p2" where 1:" p1 \<noteq> p2 \<and> {p1,p2} \<subseteq> plane" by (rule exE) 
+  then have 7:"p1 \<noteq> p2" by (rule conjE) 
+  have 3:"{p1,p2} \<subseteq> plane "  using 1 by (rule conjE)
+  then have 2:"p1 \<in> plane" by simp
+  have "p2 \<in> plane" using 3 by simp
+  have  "\<forall>p \<in> plane. \<forall>q \<in> plane. \<exists>l \<in> lines. {p,q} \<subseteq> l" using A3 by simp
+  then obtain "\<forall>q \<in> plane. \<exists>l \<in> lines. {p1,q} \<subseteq> l" using 2 by simp
+  then obtain " \<exists>l \<in> lines. {p1,p2} \<subseteq> l" using 3 by simp 
+  then obtain "l1" where 5:"l1 \<in> lines \<and> {p1,p2} \<subseteq> l1" by auto
+  have "\<forall>l \<in> lines. \<exists>q \<in> plane. q \<notin> l" using A5 by simp
+  then obtain "\<exists>q \<in> plane . q \<notin> l1" using 5 by simp
+  then obtain "p3" where 6:"p3 \<in> plane \<and> p3 \<notin> l1" by auto
+  have "p1 \<in> l1" using 5 by auto
+  then have "p1 \<noteq> p3" using 5 6 by auto
+  then have 8: " distinct [p1,p2,p3]" using 7 5 6 by auto
+  have 9: "{p1,p2,p3} \<subseteq> plane" using 6 3 by auto
+  show ?thesis using 8 9 by auto
+qed
+
+
+
 (*  ----------------------------  *)
 (* |   Problem 18 (3 marks):   | *)
 (*  ----------------------------  *)
