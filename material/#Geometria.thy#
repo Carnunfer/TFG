@@ -53,6 +53,7 @@ lemma (in Simple_Geometry) two_points_exist:
 lemma (in Simple_Geometry) three_points_exist: 
   "\<exists>p1 p2 p3. distinct [p1,p2,p3] \<and> {p1,p2,p3} \<subseteq> plane" 
   try
+
 (*  ----------------------------  *)
 (* |   Problem 18 (3 marks):   | *)
 (*  ----------------------------  *)
