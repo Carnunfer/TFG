@@ -81,8 +81,26 @@ qed
 (*  ----------------------------  *)
 (* REMEMVER THAT CARD OF INFINITE SETS IS 0! *)
 lemma (in Simple_Geometry) card_of_plane_greater: 
-  "finite plane \<Longrightarrow> card plane \<ge> 3"
-  oops
+  assumes "finite plane" 
+  shows "card plane \<ge> 3"
+proof -
+  have 1:"card plane \<ge> 0 " using assms by auto
+  have "\<exists>p1 p2 p3. distinct [p1,p2,p3] \<and> {p1,p2,p3} \<subseteq> plane" by (rule
+        three_points_exist)
+  then obtain "p1" where 
+"\<exists>p2 p3. distinct [p1,p2,p3] \<and> {p1,p2,p3} \<subseteq> plane"
+    by auto
+  then obtain "p2" where 
+ "\<exists> p3. distinct [p1,p2,p3] \<and> {p1,p2,p3} \<subseteq> plane" by auto
+  then obtain "p3" where 1: 
+"distinct [p1,p2,p3] \<and> {p1,p2,p3} \<subseteq> plane" by auto
+  show "card plane \<ge> 3" 
+  by (smt "1" assms card.empty card.insert card_seteq 
+distinct_length_2_or_more doubleton_eq_iff finite.emptyI 
+finite.insertI insert_absorb insert_commute 
+le_cases numeral_3_eq_3 singleton_insert_inj_eq')
+qed
+
 
 (*  ----------------------------  *)
 (* |   Problem 19 (2 marks):   | *)
