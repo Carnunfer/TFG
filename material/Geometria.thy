@@ -43,9 +43,13 @@ lemma (in Simple_Geometry) one_line_exists:
 (* |   Problem 16 (2 marks):   | *)
 (*  ----------------------------  *)
 lemma (in Simple_Geometry) two_points_exist: 
-  "\<exists>p1 p2. p1 \<noteq> p2 \<and> {p1,p2} \<subseteq> plane"
-  by (metis A2 A3 A5 bot.extremum_uniqueI one_line_exists subsetD subset_emptyI subset_trans)
-
+  "\<exists>p1 p2. p1 \<noteq> p2 \<and> {p1,p2} \<subseteq> plane" try
+  by (metis A2 A3 A5 
+            bot.extremum_uniqueI 
+            one_line_exists 
+            subsetD 
+            subset_emptyI 
+            subset_trans)
 
 (*  ----------------------------  *)
 (* |   Problem 17 (3 marks):   | *)
@@ -55,12 +59,12 @@ lemma (in Simple_Geometry) three_points_exist:
 proof - 
   have "\<exists>p1 p2. p1 \<noteq> p2 \<and> {p1,p2} \<subseteq> plane" by (rule two_points_exist)
   then obtain "p1" where  "\<exists>p2. p1 \<noteq> p2 \<and> {p1,p2} \<subseteq> plane" by (rule exE) 
-  then obtain "p2" where 1:" p1 \<noteq> p2 \<and> {p1,p2} \<subseteq> plane" by (rule exE) 
-  then have 7:"p1 \<noteq> p2" by (rule conjE) 
-  have 3:"{p1,p2} \<subseteq> plane "  using 1 by (rule conjE)
-  then have 2:"p1 \<in> plane" by simp
+  then obtain "p2" where 1: "p1 \<noteq> p2 \<and> {p1,p2} \<subseteq> plane" by (rule exE) 
+  then have 7: "p1 \<noteq> p2" by (rule conjE) 
+  have 3:"{p1,p2} \<subseteq> plane" using 1 by (rule conjE)
+  then have 2: "p1 \<in> plane" by simp
   have "p2 \<in> plane" using 3 by simp
-  have  "\<forall>p \<in> plane. \<forall>q \<in> plane. \<exists>l \<in> lines. {p,q} \<subseteq> l" using A3 by simp
+  have "\<forall>p \<in> plane. \<forall>q \<in> plane. \<exists>l \<in> lines. {p,q} \<subseteq> l" using A3 by simp
   then obtain "\<forall>q \<in> plane. \<exists>l \<in> lines. {p1,q} \<subseteq> l" using 2 by simp
   then obtain " \<exists>l \<in> lines. {p1,p2} \<subseteq> l" using 3 by simp 
   then obtain "l1" where 5:"l1 \<in> lines \<and> {p1,p2} \<subseteq> l1" by auto
@@ -74,8 +78,6 @@ proof -
   show ?thesis using 8 9 by auto
 qed
 
-
-
 (*  ----------------------------  *)
 (* |   Problem 18 (3 marks):   | *)
 (*  ----------------------------  *)
@@ -84,21 +86,30 @@ lemma (in Simple_Geometry) card_of_plane_greater:
   assumes "finite plane" 
   shows "card plane \<ge> 3"
 proof -
-  have 1:"card plane \<ge> 0 " using assms by auto
-  have "\<exists>p1 p2 p3. distinct [p1,p2,p3] \<and> {p1,p2,p3} \<subseteq> plane" by (rule
-        three_points_exist)
-  then obtain "p1" where 
-"\<exists>p2 p3. distinct [p1,p2,p3] \<and> {p1,p2,p3} \<subseteq> plane"
+  have 1: "card plane \<ge> 0" using assms by auto
+  have "\<exists>p1 p2 p3. distinct [p1,p2,p3] \<and> {p1,p2,p3} \<subseteq> plane" 
+    by (rule three_points_exist)
+  then obtain "p1" 
+    where "\<exists>p2 p3. distinct [p1,p2,p3] \<and> {p1,p2,p3} \<subseteq> plane"
     by auto
-  then obtain "p2" where 
- "\<exists> p3. distinct [p1,p2,p3] \<and> {p1,p2,p3} \<subseteq> plane" by auto
-  then obtain "p3" where 1: 
-"distinct [p1,p2,p3] \<and> {p1,p2,p3} \<subseteq> plane" by auto
+  then obtain "p2" 
+    where "\<exists> p3. distinct [p1,p2,p3] \<and> {p1,p2,p3} \<subseteq> plane" by auto
+  then obtain "p3" 
+    where 1: "distinct [p1,p2,p3] \<and> {p1,p2,p3} \<subseteq> plane" by auto
   show "card plane \<ge> 3" 
-  by (smt "1" assms card.empty card.insert card_seteq 
-distinct_length_2_or_more doubleton_eq_iff finite.emptyI 
-finite.insertI insert_absorb insert_commute 
-le_cases numeral_3_eq_3 singleton_insert_inj_eq')
+    by (smt "1"
+            assms 
+            card.empty 
+            card.insert 
+            card_seteq 
+            distinct_length_2_or_more 
+            doubleton_eq_iff 
+            finite.emptyI 
+            finite.insertI 
+            insert_absorb 
+            insert_commute 
+            le_cases numeral_3_eq_3 
+            singleton_insert_inj_eq')
 qed
 
 
