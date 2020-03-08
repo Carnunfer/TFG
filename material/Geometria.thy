@@ -15,14 +15,15 @@ begin
 (*  ----------------------------  *)
 (* State formally the following axioms 
    (first 3 are given; one point per each of the others): *)
+
 locale Simple_Geometry =
   fixes plane :: "'a set"
   fixes lines :: "('a set) set"
   assumes A1: "plane \<noteq> {}"
       and A2: "\<forall>l \<in> lines. l \<subseteq> plane \<and> l \<noteq> {}"
       and A3: "\<forall>p \<in> plane. \<forall>q \<in> plane. \<exists>l \<in> lines. {p,q} \<subseteq> l"
-      and A4: "\<forall>l \<in> lines. \<forall>r \<in> lines. l \<noteq> r \<Longrightarrow>
-               l \<inter> r = {} \<or> (\<exists>q \<in> plane. l \<inter> r = {q}) "
+      and A4: "\<forall>l \<in> lines. \<forall>r \<in> lines.
+ l \<noteq> r  \<longrightarrow>  l \<inter> r = {} \<or> (\<exists>q \<in> plane. l \<inter> r = {q}) "
                (* Two different lines intersect in no more than one 
                   point. *)
               \<comment> \<open><Pendiente de corregir A4\<close>
@@ -159,7 +160,38 @@ assumes
     "n \<in> lines" "{a, p} \<subseteq> n" 
     "m \<in> lines" "{b, p} \<subseteq> m"
   shows "m \<noteq> n"
-  oops
+proof (rule notI)
+  assume 1:"m = n"
+  show False
+  proof -
+    have "{a,b} \<subseteq> m" using assms 1 by auto
+    then have 2:" {a,b} \<subseteq> m \<inter> l" using assms(2) by auto
+    have 3:"m \<noteq> l" using assms(4) assms(8) by auto
+    have "\<forall>s \<in> lines. \<forall>r \<in> lines.
+ s \<noteq> r  \<longrightarrow>  s \<inter> r = {} \<or> (\<exists>q \<in> plane. s \<inter> r = {q}) " using A4 by simp
+    then obtain " \<forall>r \<in> lines.
+ l \<noteq> r  \<longrightarrow>  l \<inter> r = {} \<or> (\<exists>q \<in> plane. l \<inter> r = {q}) " 
+      using assms(1) by auto
+    then obtain "l \<noteq> m  \<longrightarrow>  l \<inter> m = {} \<or> (\<exists>q \<in> plane. l \<inter> m = {q})"
+      using assms(7) by auto
+    then have "l \<inter> m = {} \<or> (\<exists>q \<in> plane. l \<inter> m = {q})" 
+      using 3  by auto
+    then show False 
+    proof (rule disjE)
+      assume "l \<inter> m = {}"
+      then show False using 2 by auto
+    next
+      assume "\<exists>q \<in>plane. l \<inter> m = {q}" 
+      then obtain "q" where "q \<in> plane \<and> l \<inter> m = {q}" by auto
+      then have "l \<inter> m = {q}" by (rule conjE)
+      then have "{a,b} \<subseteq> {q}" using 2 by auto
+      then show False using assms(3) by auto
+    qed
+  qed
+qed
+
+
+
 
 
 (*  ----------------------------  *)
