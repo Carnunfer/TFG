@@ -206,8 +206,39 @@ assumes
     "n \<in> lines" "{a, p, c} \<subseteq> n"  
     "m \<in> lines" "{b, p, d} \<subseteq> m"
     "p \<noteq> c"
-shows "c \<noteq> d" 
-  oops
+  shows "c \<noteq> d" 
+proof 
+  assume 3:"c = d" 
+  show False
+  proof -
+    have 7:"d \<noteq> p" using 3 assms(9) by auto
+    have 1:"{a,p} \<subseteq> n" using assms(6) by auto
+    have 2:"{b,p} \<subseteq> m" using assms(8) by auto
+    have 4: "{p,d} \<subseteq> m \<inter> n" using 3 assms by auto
+    have 5:"m \<noteq> n"
+      using 1 2 assms(1,2,3,4,7) how_to_produce_different_lines by metis
+  have "\<forall>s \<in> lines. \<forall>r \<in> lines.
+ s \<noteq> r  \<longrightarrow>  s \<inter> r = {} \<or> (\<exists>q \<in> plane. s \<inter> r = {q}) " using A4 by simp
+    then obtain " \<forall>r \<in> lines.
+ m \<noteq> r  \<longrightarrow>  m \<inter> r = {} \<or> (\<exists>q \<in> plane. m \<inter> r = {q}) " 
+      using assms(7) by auto
+    then obtain "n \<noteq> m  \<longrightarrow>  m \<inter> n = {} \<or> (\<exists>q \<in> plane. m \<inter> n = {q})"
+      using assms(5) by auto
+    then have "m \<inter> n = {} \<or> (\<exists>q \<in> plane. m \<inter> n = {q})" using 5 by auto
+      then show False
+      proof (rule disjE)
+        assume "m \<inter> n = {}"
+        then show False using 4 by auto
+      next
+        assume "\<exists>q\<in>plane. m \<inter> n = {q}"
+        then obtain "q1" where 6:"q1 \<in> plane \<and> m \<inter> n = {q1}" by auto
+        then have "{p,d} \<subseteq> {q1}" using 4 by auto
+        then show False using 7 by auto
+     qed
+  qed
+qed
+
+
 
 
 (*  ---------------------------  *)
