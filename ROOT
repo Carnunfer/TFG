@@ -11,6 +11,7 @@ session TFG = HOL +
     CancelacionSobreyectiva 
     TeoremaCantor 
     TeoremaKnasterTarski
+    Geometria
     Soporte
   document_files
     "root.tex"
