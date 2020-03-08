@@ -251,7 +251,10 @@ qed
    which does not intersect l *)
 locale Non_Projective_Geometry = 
   Simple_Geometry +
-  assumes parallels_Ex: (*  FILL THIS SPACE  *)
+  assumes parallels_Ex:
+"\<forall>p \<in> plane. \<forall>l \<in> lines. p \<notin> l \<longrightarrow> (\<exists>m \<in> lines. p \<in> m \<and> m \<inter> l = {} )"
+
+ (*  FILL THIS SPACE  *)
   
 
 (*  ----------------------------  *)
@@ -269,8 +272,29 @@ locale Non_Projective_Geometry =
 (*  Formalise and prove: 
      "it is not true that every pair of lines intersect"  *)
 lemma (in Non_Projective_Geometry) non_projective: 
+"\<exists>r \<in> lines. \<exists>s \<in> lines. r \<inter> s = {}"
+proof -
+  have "\<exists>l \<in> lines. l \<subseteq> plane" by (rule one_line_exists)
+  then obtain "l1" where 1:"l1 \<in> lines \<and> l1 \<subseteq> plane" by auto
+  have "\<forall>l \<in> lines. \<exists>q \<in> plane. q \<notin> l" using A5 by simp
+  then obtain "\<exists>q \<in> plane. q \<notin> l1" using 1 by auto
+  then obtain "q1" where 2: "q1 \<in> plane \<and> q1 \<notin> l1" by auto
+  have 
+"\<forall>p \<in> plane. \<forall>l \<in> lines. p \<notin> l \<longrightarrow> (\<exists>m \<in> lines. p \<in> m \<and> m \<inter> l = {} )"
+    using parallels_Ex by simp
+  then obtain " q1 \<notin> l1 \<longrightarrow> (\<exists>m \<in> lines. q1 \<in> m \<and> m \<inter> l1 = {} )" 
+    using 1 2 by auto
+  then have "\<exists>m \<in> lines. q1 \<in> m \<and> m \<inter> l1 = {} " using 2 by auto
+  then obtain "m1" where 3:"m1 \<in> lines \<and> q1 \<in> m1 \<and> m1 \<inter> l1 = {}" by auto
+  then have 4:"m1 \<inter> l1 = {}" by auto
+  have "m1 \<in> lines" using 3 by auto
+  then have " \<exists>m \<in> lines. m \<inter> l1 = {}" using 4 by auto
+  then show ?thesis using 1 by auto
+qed
+
+
    (*  fill this space *)
-   oops
+   
 
 (* The following are some auxiliary lemmas that may be useful.
    You don't need to use them if you don't want. *)
