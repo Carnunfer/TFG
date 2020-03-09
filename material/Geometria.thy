@@ -328,7 +328,41 @@ locale Projective_Geometry =
 (*   Prove this alternative to axiom A7   *)
 lemma (in Projective_Geometry) A7': 
   "\<forall>l \<in> lines. \<exists>p1 p2 p3. {p1,p2,p3} \<subseteq> plane \<and> distinct [p1,p2,p3] \<and> {p1,p2,p3} \<subseteq> l" 
-  oops
+proof
+  fix l
+  assume 1:"l \<in> lines"
+  show " \<exists>p1 p2 p3. {p1, p2, p3} \<subseteq> plane \<and> distinct [p1, p2, p3] \<and> {p1,p2, p3} \<subseteq> l "
+  proof -
+    have "\<forall>l \<in> lines. \<exists>x. card x = 3 \<and> x \<subseteq> l" using A7 by simp
+    then obtain " \<exists>x. card x = 3 \<and> x \<subseteq> l" using 1 by auto
+    then obtain x where 2:"card x = 3 \<and> x \<subseteq> l" by auto
+    then have 3:"card x = 3" by (rule conjE)
+    have 4:"x \<subseteq> l" using 2 by (rule conjE)
+    have 5:"\<exists> p1 p2 p3. distinct [p1,p2,p3] \<and> x = {p1,p2,p3}" using 3
+      by (rule construct_set_of_card3)
+    then obtain "p1" 
+      where "\<exists>p2 p3. distinct [p1,p2,p3] \<and> x = {p1,p2,p3}" by auto
+    then obtain "p2"
+      where "\<exists>p3. distinct [p1,p2,p3] \<and> x = {p1,p2,p3}" by auto
+    then obtain "p3"
+      where 6:"distinct [p1,p2,p3] \<and> x = {p1,p2,p3}" by auto
+    then have 8:"distinct [p1,p2,p3]" by (rule conjE)
+    have "x = {p1,p2,p3}" using 6 by (rule conjE)
+    then have 7:"{p1,p2,p3} \<subseteq> l" using 4 by auto
+    then have "\<forall>l \<in> lines. l \<subseteq> plane \<and> l \<noteq> {}" using A2 by simp
+    then obtain "l \<subseteq> plane \<and> l \<noteq> {}" using 1 by auto
+    then obtain "l \<subseteq> plane" by (rule conjE)
+    then have "{p1,p2,p3} \<subseteq> plane" using 7 by auto
+    then have 
+"{p1,p2,p3} \<subseteq> plane \<and> distinct [p1,p2,p3] \<and> {p1,p2,p3} \<subseteq> l"
+      using 8 7 by auto
+    then show ?thesis by auto
+  qed
+qed
+
+
+   
+
 
 
 (*  ----------------------------  *)
