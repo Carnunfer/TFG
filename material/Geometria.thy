@@ -370,8 +370,14 @@ qed
 (*  ----------------------------  *)
 (* Prove yet another alternative to axiom A7  *)
 lemma (in Projective_Geometry) A7'': 
-  "l \<in> lines \<Longrightarrow> {p,q} \<subseteq> l  \<Longrightarrow> (\<exists>r \<in> plane. r \<notin> {p,q} \<and> r \<in> l)"
+  assumes "l \<in> lines" 
+          "{p,q} \<subseteq> l"
+        shows"(\<exists>r \<in> plane. r \<notin> {p,q} \<and> r \<in> l)"
+proof -
+  have " \<forall>l \<in> lines. \<exists>x. card x = 3 \<and> x \<subseteq> l" using A7 by simp
+
   oops
+  
 
 
 (*  ----------------------------  *)
