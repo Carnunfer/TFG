@@ -35,10 +35,9 @@ locale Simple_Geometry =
 (*  ---------------------------  *)
 (* Formalise the statement: the set of lines is non-empty *)
 lemma (in Simple_Geometry) one_line_exists: 
-  "\<exists>l \<in> lines. l \<subseteq> plane " 
+  "\<exists>l. l \<in> lines " 
 proof - 
   have 1:"plane \<noteq> {}" using A1 by simp
-  have 2:"\<forall>l \<in> lines. l \<subseteq> plane \<and> l \<noteq> {}" using A2 by simp
   have "\<exists>q. q \<in> plane " using 1 by auto
   then obtain "q1" where 4:"q1 \<in> plane" by (rule exE)
   have 3:"\<forall>p \<in> plane. \<forall>q \<in> plane. \<exists>l \<in> lines. {p,q} \<subseteq> l"
@@ -46,8 +45,8 @@ proof -
   then obtain " \<forall>q \<in> plane. \<exists>l \<in> lines. {q1,q} \<subseteq> l" using 4 by auto
   then obtain "\<exists>l \<in> lines. {q1,q1} \<subseteq> l" using 4 by auto
   then obtain "l1" where 5:"l1 \<in> lines \<and> {q1,q1} \<subseteq> l1" by auto
-  then obtain "l1 \<subseteq> plane \<and> l1 \<noteq> {}" using 2 by auto
-  then show ?thesis using 5 by auto
+  then have "l1 \<in> lines" by (rule conjE)
+  then show ?thesis  by (rule exI)
 qed
   (* FILL THIS SPACE: The set of lines is non-empty *)
 
