@@ -56,8 +56,8 @@ qed
 lemma (in Simple_Geometry) two_points_exist: 
   "\<exists>p1 p2. p1 \<noteq> p2 \<and> {p1,p2} \<subseteq> plane"
 proof -
-  have "\<exists>l \<in> lines.  l \<subseteq> plane" by (rule one_line_exists) 
-  then obtain "l1" where 1:"l1 \<in> lines \<and> l1 \<subseteq> plane" by auto
+  have "\<exists>l. l \<in> lines" by (rule one_line_exists) 
+  then obtain "l1" where 1:"l1 \<in> lines" by auto
   have "\<forall>l \<in> lines. l \<subseteq> plane \<and> l \<noteq> {}" using A2 by simp
   then obtain 2:"l1 \<subseteq> plane \<and> l1 \<noteq> {}" using 1 by auto
   then have "l1 \<noteq> {}" by (rule conjE)
@@ -272,8 +272,8 @@ locale Non_Projective_Geometry =
 lemma (in Non_Projective_Geometry) non_projective: 
 "\<exists>r \<in> lines. \<exists>s \<in> lines. r \<inter> s = {}"
 proof -
-  have "\<exists>l \<in> lines. l \<subseteq> plane" by (rule one_line_exists)
-  then obtain "l1" where 1:"l1 \<in> lines \<and> l1 \<subseteq> plane" by auto
+  have "\<exists>l. l \<in> lines" by (rule one_line_exists)
+  then obtain "l1" where 1:"l1 \<in> lines" by auto
   have "\<forall>l \<in> lines. \<exists>q \<in> plane. q \<notin> l" using A5 by simp
   then obtain "\<exists>q \<in> plane. q \<notin> l1" using 1 by auto
   then obtain "q1" where 2: "q1 \<in> plane \<and> q1 \<notin> l1" by auto
@@ -367,15 +367,12 @@ qed
 (* |   Problem 26 (3 marks):   | *)
 (*  ----------------------------  *)
 (* Prove yet another alternative to axiom A7  *)
+
 lemma (in Projective_Geometry) A7'': 
-  assumes "l \<in> lines" 
+  assumes "l \<in> lines"
           "{p,q} \<subseteq> l"
         shows"(\<exists>r \<in> plane. r \<notin> {p,q} \<and> r \<in> l)"
-proof -
-  have " \<forall>l \<in> lines. \<exists>x. card x = 3 \<and> x \<subseteq> l" using A7 by simp
-
   oops
-  
 
 
 (*  ----------------------------  *)
