@@ -37,16 +37,10 @@ locale Simple_Geometry =
 lemma (in Simple_Geometry) one_line_exists: 
   "\<exists>l. l \<in> lines " 
 proof - 
-  have 1:"plane \<noteq> {}" using A1 by simp
-  have "\<exists>q. q \<in> plane " using 1 by auto
+  have "\<exists>q. q \<in> plane " using A1 by auto
   then obtain "q1" where 4:"q1 \<in> plane" by (rule exE)
-  have 3:"\<forall>p \<in> plane. \<forall>q \<in> plane. \<exists>l \<in> lines. {p,q} \<subseteq> l"
-    using A3 by simp
-  then obtain " \<forall>q \<in> plane. \<exists>l \<in> lines. {q1,q} \<subseteq> l" using 4 by auto
-  then obtain "\<exists>l \<in> lines. {q1,q1} \<subseteq> l" using 4 by auto
-  then obtain "l1" where 5:"l1 \<in> lines \<and> {q1,q1} \<subseteq> l1" by auto
-  then have "l1 \<in> lines" by (rule conjE)
-  then show ?thesis  by (rule exI)
+  then obtain "\<exists>l \<in> lines. {q1,q1} \<subseteq> l" using A3 by auto
+  then show ?thesis  by auto
 qed
   (* FILL THIS SPACE: The set of lines is non-empty *)
 
