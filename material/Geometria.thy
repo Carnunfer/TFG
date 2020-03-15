@@ -30,28 +30,28 @@ locale Simple_Geometry =
               (* For every line L there is a point in the plane outside 
                  of L. *)
 
-(*  ---------------------------  *)
-(* |   Problem 15 (1 point):   | *)
-(*  ---------------------------  *)
-(* Formalise the statement: the set of lines is non-empty *)
-lemma (in Simple_Geometry) one_line_exists: 
+(* ---------------------------------------------------------------------
+   Problem 15 : Formalise the statement: the set of lines is non-empty 
+   ------------------------------------------------------------------ *)
+
+lemma (in Simple_Geometry) one_line_exists:
   "\<exists>l. l \<in> lines " 
 proof - 
   have "\<exists>q. q \<in> plane " using A1 by auto
-  then obtain "q1" where 4:"q1 \<in> plane" by (rule exE)
-  then obtain "\<exists>l \<in> lines. {q1,q1} \<subseteq> l" using A3 by auto
-  then show ?thesis  by auto
+  then obtain "q1" where "q1 \<in> plane" by (rule exE)
+  then obtain "\<exists>l \<in> lines. {q1, q1} \<subseteq> l" using A3 by auto
+  then show ?thesis by auto
 qed
-  (* FILL THIS SPACE: The set of lines is non-empty *)
 
-(*  ----------------------------  *)
-(* |   Problem 16 (2 marks):   | *)
-(*  ----------------------------  *)
-lemma (in Simple_Geometry) two_points_exist: 
-  "\<exists>p1 p2. p1 \<noteq> p2 \<and> {p1,p2} \<subseteq> plane"
+(* ---------------------------------------------------------------------
+   Problem 16
+   ------------------------------------------------------------------ *)
+
+lemma (in Simple_Geometry) two_points_exist:
+  "\<exists>p1 p2. p1 \<noteq> p2 \<and> {p1, p2} \<subseteq> plane"
 proof -
   have "\<exists>l. l \<in> lines" by (rule one_line_exists) 
-  then obtain "l1" where 1:"l1 \<in> lines" by auto
+  then obtain "l1" where 1: "l1 \<in> lines" by auto
   then obtain 2:"l1 \<subseteq> plane \<and> l1 \<noteq> {}" using A2 by auto
   then have "\<exists>q \<in> plane. q \<in> l1" using 2  by auto
   then obtain "q1" where 3:"q1 \<in> plane \<and> q1 \<in> l1" by auto
