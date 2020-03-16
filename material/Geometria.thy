@@ -50,14 +50,14 @@ qed
 lemma (in Simple_Geometry) two_points_exist:
   "\<exists>p1 p2. p1 \<noteq> p2 \<and> {p1, p2} \<subseteq> plane"
 proof -
-  have "\<exists>l. l \<in> lines" by (rule one_line_exists) 
-  then obtain "l1" where 1: "l1 \<in> lines" by auto
-  then obtain 2:"l1 \<subseteq> plane \<and> l1 \<noteq> {}" using A2 by auto
-  then have "\<exists>q \<in> plane. q \<in> l1" using 2  by auto
-  then obtain "q1" where 3:"q1 \<in> plane \<and> q1 \<in> l1" by auto
-  then obtain "q2" where 4:"q2 \<in> plane \<and> q2 \<notin> l1" using 1 A5 by auto
-  have 5:"q1 \<noteq> q2" using 3 4 by auto
-  show ?thesis using 3 4 5 by auto
+  obtain "l1" where "l1 \<in> lines" using one_line_exists by (rule exE)
+  then obtain "l1 \<subseteq> plane \<and> l1 \<noteq> {}" using A2 one_line_exists by auto
+  then have "\<exists>q. q \<in> l1 \<and> q \<in> plane"   by auto
+  moreover then obtain "p1" where "p1 \<in> l1 \<and> p1 \<in> plane" by (rule exE)
+  moreover obtain "p2" where "p2 \<in> plane \<and> p2 \<notin> l1" 
+    using \<open>l1 \<in> lines\<close>  A5 by auto
+  moreover  have  "p1 \<noteq> p2" using calculation(2) calculation(3) by auto
+  ultimately show ?thesis  by auto
 qed
 
 
