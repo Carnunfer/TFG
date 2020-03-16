@@ -71,7 +71,7 @@ proof -
     using two_points_exist by auto  
   then obtain "l1" where 2:"l1 \<in> lines \<and> {p1,p2} \<subseteq> l1" using A3 by auto
   then obtain "p3" where 3:"p3 \<in> plane \<and> p3 \<notin> l1" using A5 by auto
-  then have 4: " distinct [p1,p2,p3]" using 1 2 3 by auto
+  have 4: " distinct [p1,p2,p3]" using 1 2 3 by auto
   have 5: "{p1,p2,p3} \<subseteq> plane" using 3 1 by auto
   show ?thesis using 4 5 by auto
 qed
