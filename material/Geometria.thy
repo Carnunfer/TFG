@@ -84,30 +84,15 @@ lemma (in Simple_Geometry) card_of_plane_greater:
   assumes "finite plane" 
   shows "card plane \<ge> 3"
 proof -
-  have 1: "card plane \<ge> 0" using assms by auto
   have "\<exists>p1 p2 p3. distinct [p1,p2,p3] \<and> {p1,p2,p3} \<subseteq> plane" 
     by (rule three_points_exist)
-  then obtain "p1" 
-    where "\<exists>p2 p3. distinct [p1,p2,p3] \<and> {p1,p2,p3} \<subseteq> plane"
-    by auto
-  then obtain "p2" 
-    where "\<exists> p3. distinct [p1,p2,p3] \<and> {p1,p2,p3} \<subseteq> plane" by auto
-  then obtain "p3" 
-    where 1: "distinct [p1,p2,p3] \<and> {p1,p2,p3} \<subseteq> plane" by auto
-  show "card plane \<ge> 3" 
-    by (smt "1"
-            assms 
-            card.empty 
-            card.insert 
-            card_seteq 
-            distinct_length_2_or_more 
-            doubleton_eq_iff 
-            finite.emptyI 
-            finite.insertI 
-            insert_absorb 
-            insert_commute 
-            le_cases numeral_3_eq_3 
-            singleton_insert_inj_eq')
+  then obtain "p1" "p2" "p3" where 
+    1:"distinct [p1,p2,p3] \<and> {p1,p2,p3} \<subseteq> plane" by auto
+  then have 2:"card {p1,p2,p3} = 3" by auto
+  have "{p1,p2,p3} \<subseteq> plane"  using 1 by auto
+  then have "card {p1,p2,p3} \<le> card plane" 
+    using assms  by (simp add: card_mono)
+  then show "3 \<le> card plane" using 2 by auto
 qed
 
 
@@ -226,7 +211,10 @@ qed
 (*  ---------------------------  *)
 (* 1 point: 
  Formalise the following axiom: 
-   if a point p lies outside of a line l then there 
+   if a point p lies outside of definition "plane_3 \<equiv> {1::nat,2,3} "
+definition "lines_3 \<equiv> {{1,2},{2,3},{1,3}}"
+interpretation Simple_Geometry_smallest_model: 
+  Simple_Geometry plane_3 lines_3a line l then there 
    must exist at least one line m that passes through p, 
    which does not intersect l *)
 locale Non_Projective_Geometry = 
@@ -242,6 +230,22 @@ locale Non_Projective_Geometry =
 (*  ----------------------------  *)
 (* Give a model of Non-Projective Geometry with cardinality 4. 
    Show that it is indeed a model using the command "interpretation" *)
+
+
+
+definition "plane_4 \<equiv> {1::nat,2,3,4} "
+definition "lines_4 \<equiv> {{1,2},{2,3},{1,3},{1,4},{2,4},{3,4}}"
+interpretation Non_projective_geometry_card_4: 
+  Non_Projective_Geometry plane_4 lines_4
+  apply standard
+       apply (simp add: plane_4_def)
+      apply (simp add: plane_4_def lines_4_def)
+     apply (simp add: plane_4_def lines_4_def)
+    apply (simp add: plane_4_def lines_4_def)
+   apply (simp add: plane_4_def lines_4_def)
+  apply (simp add: plane_4_def lines_4_def)
+  done
+
 
  (*  FILL THIS SPACE  *)
 
