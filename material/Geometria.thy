@@ -303,7 +303,7 @@ lemma construct_set_of_card4:
 locale Projective_Geometry = 
   Simple_Geometry + 
   assumes A6: "\<forall>l \<in> lines. \<forall>m \<in> lines. \<exists>p \<in> plane. p \<in> l \<and> p \<in> m"
-      and A7: "\<forall>l \<in> lines. \<exists>x. card x = 3 \<and> x \<subseteq> l"
+      and A7: "\<forall>l \<in> lines.\<exists>x. card x = 3 \<and> x \<subseteq> l" 
   
 
 (*  ----------------------------  *)
@@ -355,18 +355,18 @@ qed
 (* Prove yet another alternative to axiom A7  *)
 
 lemma (in Projective_Geometry) A7'': 
-  assumes "l \<in> lines"
-          "{p,q} \<subseteq> l"
-        shows"(\<exists>r \<in> plane. r \<notin> {p,q} \<and> r \<in> l)"
+ "l \<in> lines \<Longrightarrow> {p,q} \<subseteq> l \<Longrightarrow> (\<exists>r \<in> plane. r \<notin> {p,q} \<and> r \<in> l)"
   oops
-
 
 (*  ----------------------------  *)
 (* |   Problem 27 (5 marks):   | *)
 (*  ----------------------------  *)
 lemma (in Projective_Geometry) two_lines_per_point:
   "\<forall>p \<in> plane. \<exists>l \<in> lines. \<exists>m \<in> lines. l \<noteq> m \<and> p \<in> l \<inter> m" 
+proof -
   oops
+
+
 
 
 (*  ----------------------------  *)
