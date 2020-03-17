@@ -2,19 +2,15 @@ theory Geometria
 imports Main 
 begin
 
-(*  --------------------------------------------------------------  *)
-(* |                            PART 3:                           | *)
-(* |                   FORMALISING AND REASONING                  | *)
-(* |                ABOUT GEOMETRIES USING LOCALES                | *)
-(*  --------------------------------------------------------------  *)
+(* ---------------------------------------------------------------------  
+                  FORMALISING AND REASONING                  
+                ABOUT GEOMETRIES USING LOCALES                
+   ------------------------------------------------------------------ *)
 
-(*  From this point on you can also use metis and meson, but not smt.   *)
+(* --------------------------------------------------------------------
+   Problem 14: State formally the following axioms.  
+  ------------------------------------------------------------------- *)
 
-(*  ----------------------------  *)
-(* |   Problem 14 (2 marks):   | *)
-(*  ----------------------------  *)
-(* State formally the following axioms 
-   (first 3 are given; one point per each of the others): *)
 
 locale Simple_Geometry =
   fixes plane :: "'a set"
@@ -52,7 +48,7 @@ lemma (in Simple_Geometry) two_points_exist:
 proof -
   obtain "l1" where "l1 \<in> lines" using one_line_exists by (rule exE)
   then obtain "l1 \<subseteq> plane \<and> l1 \<noteq> {}" using A2 one_line_exists by auto
-  then have "\<exists>q. q \<in> l1 \<and> q \<in> plane"   by auto
+  then have "\<exists>q. q \<in> l1 \<and> q \<in> plane" by auto
   moreover then obtain "p1" where "p1 \<in> l1 \<and> p1 \<in> plane" by (rule exE)
   moreover obtain "p2" where "p2 \<in> plane \<and> p2 \<notin> l1" 
     using \<open>l1 \<in> lines\<close>  A5 by auto
