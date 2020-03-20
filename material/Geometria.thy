@@ -73,27 +73,27 @@ proof -
     using A3 by auto
   moreover then obtain "p3" where "p3 \<in> plane \<and> p3 \<notin> l1" 
     using A5 by auto
-  ultimately have " distinct [p1, p2, p3] \<and> {p1,p2,p3} \<subseteq> plane" 
+  ultimately have "distinct [p1, p2, p3] \<and> {p1, p2, p3} \<subseteq> plane" 
     by auto
-  thus ?thesis  by (intro exI)
+  thus ?thesis by (intro exI)
 qed
 
-(*  ----------------------------  *)
-(* |   Problem 18 (3 marks):   | *)
-(*  ----------------------------  *)
-(* REMEMVER THAT CARD OF INFINITE SETS IS 0! *)
-lemma (in Simple_Geometry) card_of_plane_greater: 
+(* ---------------------------------------------------------------------  
+   Problem 18 
+   ------------------------------------------------------------------ *)
+
+lemma (in Simple_Geometry) card_of_plane_greater:
   assumes "finite plane" 
   shows "card plane \<ge> 3"
 proof -
   have "\<exists>p1 p2 p3. distinct [p1,p2,p3] \<and> {p1,p2,p3} \<subseteq> plane" 
     by (rule three_points_exist)
   moreover then obtain "p1" "p2" "p3" where 
-    "distinct [p1,p2,p3] \<and> {p1,p2,p3} \<subseteq> plane" by auto
-  moreover then have "{p1,p2,p3} \<subseteq> plane"  by auto
-  moreover then have "card {p1,p2,p3} \<le> card plane" 
-    using assms  by (simp add: card_mono)
-  ultimately  show "3 \<le> card plane"  by auto
+    "distinct [p1, p2, p3] \<and> {p1, p2, p3} \<subseteq> plane" by auto
+  moreover then have "{p1, p2, p3} \<subseteq> plane"  by auto
+  moreover then have "card {p1, p2, p3} \<le> card plane" 
+    using assms by (simp add: card_mono)
+  ultimately show "3 \<le> card plane"  by auto
 qed
 
 
