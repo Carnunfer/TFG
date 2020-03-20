@@ -127,38 +127,26 @@ assumes
     "m \<in> lines" "{b, p} \<subseteq> m"
   shows "m \<noteq> n"
 proof (rule notI)
-  assume 1:"m = n"
+  assume "m = n"
   show False
   proof -
-    have "{a,b} \<subseteq> m" using assms 1 by auto
-    then have 2:" {a,b} \<subseteq> m \<inter> l" using assms(2) by auto
-    have 3:"m \<noteq> l" using assms(4) assms(8) by auto
-    have "\<forall>s \<in> lines. \<forall>r \<in> lines.
- s \<noteq> r  \<longrightarrow>  s \<inter> r = {} \<or> (\<exists>q \<in> plane. s \<inter> r = {q}) " using A4 by simp
-    then obtain " \<forall>r \<in> lines.
- l \<noteq> r  \<longrightarrow>  l \<inter> r = {} \<or> (\<exists>q \<in> plane. l \<inter> r = {q}) " 
-      using assms(1) by auto
-    then obtain "l \<noteq> m  \<longrightarrow>  l \<inter> m = {} \<or> (\<exists>q \<in> plane. l \<inter> m = {q})"
-      using assms(7) by auto
-    then have "l \<inter> m = {} \<or> (\<exists>q \<in> plane. l \<inter> m = {q})" 
-      using 3  by auto
+    have "m \<noteq> l" using assms(4) assms(8) by auto
+    moreover obtain "l \<noteq> m  \<longrightarrow>  l \<inter> m = {} \<or> (\<exists>q \<in> plane. l \<inter> m = {q})"
+      using assms(7) A4 assms(1) by auto
+    ultimately have "l \<inter> m = {} \<or> (\<exists>q \<in> plane. l \<inter> m = {q})"   by auto
     then show False 
     proof (rule disjE)
       assume "l \<inter> m = {}"
-      then show False using 2 by auto
+      thus False using assms \<open>m = n \<close> by auto
     next
       assume "\<exists>q \<in>plane. l \<inter> m = {q}" 
       then obtain "q" where "q \<in> plane \<and> l \<inter> m = {q}" by auto
       then have "l \<inter> m = {q}" by (rule conjE)
-      then have "{a,b} \<subseteq> {q}" using 2 by auto
+      then have "{a,b} \<subseteq> {q}" using  assms \<open>m = n \<close> by auto
       then show False using assms(3) by auto
     qed
   qed
 qed
-
-
-
-
 
 (*  ----------------------------  *)
 (* |   Problem 21 (4 marks):   | *)
@@ -174,32 +162,22 @@ assumes
     "p \<noteq> c"
   shows "c \<noteq> d" 
 proof 
-  assume 3:"c = d" 
+  assume "c = d" 
   show False
   proof -
-    have 7:"d \<noteq> p" using 3 assms(9) by auto
-    have 1:"{a,p} \<subseteq> n" using assms(6) by auto
-    have 2:"{b,p} \<subseteq> m" using assms(8) by auto
-    have 4: "{p,d} \<subseteq> m \<inter> n" using 3 assms by auto
-    have 5:"m \<noteq> n"
-      using 1 2 assms(1,2,3,4,7) how_to_produce_different_lines by metis
-  have "\<forall>s \<in> lines. \<forall>r \<in> lines.
- s \<noteq> r  \<longrightarrow>  s \<inter> r = {} \<or> (\<exists>q \<in> plane. s \<inter> r = {q}) " using A4 by simp
-    then obtain " \<forall>r \<in> lines.
- m \<noteq> r  \<longrightarrow>  m \<inter> r = {} \<or> (\<exists>q \<in> plane. m \<inter> r = {q}) " 
-      using assms(7) by auto
-    then obtain "n \<noteq> m  \<longrightarrow>  m \<inter> n = {} \<or> (\<exists>q \<in> plane. m \<inter> n = {q})"
-      using assms(5) by auto
-    then have "m \<inter> n = {} \<or> (\<exists>q \<in> plane. m \<inter> n = {q})" using 5 by auto
+    have "m \<noteq> n" using assms how_to_produce_different_lines by simp
+    moreover obtain "n \<noteq> m  \<longrightarrow>  m \<inter> n = {} \<or> (\<exists>q \<in> plane. m \<inter> n = {q})"
+      using assms(5) assms(7) A4 by auto
+    ultimately have "m \<inter> n = {} \<or> (\<exists>q \<in> plane. m \<inter> n = {q})" by auto
       then show False
       proof (rule disjE)
         assume "m \<inter> n = {}"
-        then show False using 4 by auto
+        then show False using \<open>c = d \<close> assms(6,8) by auto
       next
         assume "\<exists>q\<in>plane. m \<inter> n = {q}"
-        then obtain "q1" where 6:"q1 \<in> plane \<and> m \<inter> n = {q1}" by auto
-        then have "{p,d} \<subseteq> {q1}" using 4 by auto
-        then show False using 7 by auto
+        then obtain "q" where "q \<in> plane \<and> m \<inter> n = {q}" by auto
+        then have "{p,d} \<subseteq> {q}" using \<open>c = d \<close> assms by auto
+        then show False using \<open>c = d\<close> assms(9) by auto
      qed
   qed
 qed
@@ -212,10 +190,7 @@ qed
 (*  ---------------------------  *)
 (* 1 point: 
  Formalise the following axiom: 
-   if a point p lies outside of definition "plane_3 \<equiv> {1::nat,2,3} "
-definition "lines_3 \<equiv> {{1,2},{2,3},{1,3}}"
-interpretation Simple_Geometry_smallest_model: 
-  Simple_Geometry plane_3 lines_3a line l then there 
+   if a point p lies outside of line l then there 
    must exist at least one line m that passes through p, 
    which does not intersect l *)
 locale Non_Projective_Geometry = 
@@ -259,22 +234,13 @@ interpretation Non_projective_geometry_card_4:
 lemma (in Non_Projective_Geometry) non_projective: 
 "\<exists>r \<in> lines. \<exists>s \<in> lines. r \<inter> s = {}"
 proof -
-  have "\<exists>l. l \<in> lines" by (rule one_line_exists)
-  then obtain "l1" where 1:"l1 \<in> lines" by auto
-  have "\<forall>l \<in> lines. \<exists>q \<in> plane. q \<notin> l" using A5 by simp
-  then obtain "\<exists>q \<in> plane. q \<notin> l1" using 1 by auto
-  then obtain "q1" where 2: "q1 \<in> plane \<and> q1 \<notin> l1" by auto
-  have 
-"\<forall>p \<in> plane. \<forall>l \<in> lines. p \<notin> l \<longrightarrow> (\<exists>m \<in> lines. p \<in> m \<and> m \<inter> l = {} )"
-    using parallels_Ex by simp
-  then obtain " q1 \<notin> l1 \<longrightarrow> (\<exists>m \<in> lines. q1 \<in> m \<and> m \<inter> l1 = {} )" 
-    using 1 2 by auto
-  then have "\<exists>m \<in> lines. q1 \<in> m \<and> m \<inter> l1 = {} " using 2 by auto
-  then obtain "m1" where 3:"m1 \<in> lines \<and> q1 \<in> m1 \<and> m1 \<inter> l1 = {}" by auto
-  then have 4:"m1 \<inter> l1 = {}" by auto
-  have "m1 \<in> lines" using 3 by auto
-  then have " \<exists>m \<in> lines. m \<inter> l1 = {}" using 4 by auto
-  then show ?thesis using 1 by auto
+  obtain "l1" where 1:"l1 \<in> lines" using one_line_exists by auto
+  then obtain "q1" where 2: "q1 \<in> plane \<and> q1 \<notin> l1" using A5 by auto
+  then  obtain " q1 \<notin> l1 \<longrightarrow> (\<exists>m \<in> lines. q1 \<in> m \<and> m \<inter> l1 = {} )" 
+    using   1 parallels_Ex by simp
+   then obtain "m1" where "m1 \<in> lines \<and> q1 \<in> m1 \<and> m1 \<inter> l1 = {}"
+    using 2 by auto
+  thus ?thesis using  1 by auto
 qed
 
 
@@ -316,31 +282,18 @@ lemma (in Projective_Geometry) A7':
 proof
   fix l
   assume 1:"l \<in> lines"
-  show " \<exists>p1 p2 p3. {p1, p2, p3} \<subseteq> plane \<and> distinct [p1, p2, p3] \<and> {p1,p2, p3} \<subseteq> l "
+  show "\<exists>p1 p2 p3. {p1, p2, p3} \<subseteq> plane \<and> distinct [p1, p2, p3] \<and> {p1,p2, p3} \<subseteq> l "
   proof -
-    have "\<forall>l \<in> lines. \<exists>x. card x = 3 \<and> x \<subseteq> l" using A7 by simp
-    then obtain " \<exists>x. card x = 3 \<and> x \<subseteq> l" using 1 by auto
-    then obtain x where 2:"card x = 3 \<and> x \<subseteq> l" by auto
+    obtain x where 2:"card x = 3 \<and> x \<subseteq> l"  using 1 A7 by auto
     then have 3:"card x = 3" by (rule conjE)
-    have 4:"x \<subseteq> l" using 2 by (rule conjE)
-    have 5:"\<exists> p1 p2 p3. distinct [p1,p2,p3] \<and> x = {p1,p2,p3}" using 3
+    have "\<exists> p1 p2 p3. distinct [p1,p2,p3] \<and> x = {p1,p2,p3}" using 3
       by (rule construct_set_of_card3)
-    then obtain "p1" 
-      where "\<exists>p2 p3. distinct [p1,p2,p3] \<and> x = {p1,p2,p3}" by auto
-    then obtain "p2"
-      where "\<exists>p3. distinct [p1,p2,p3] \<and> x = {p1,p2,p3}" by auto
-    then obtain "p3"
-      where 6:"distinct [p1,p2,p3] \<and> x = {p1,p2,p3}" by auto
-    then have 8:"distinct [p1,p2,p3]" by (rule conjE)
-    have "x = {p1,p2,p3}" using 6 by (rule conjE)
-    then have 7:"{p1,p2,p3} \<subseteq> l" using 4 by auto
-    then have "\<forall>l \<in> lines. l \<subseteq> plane \<and> l \<noteq> {}" using A2 by simp
-    then obtain "l \<subseteq> plane \<and> l \<noteq> {}" using 1 by auto
-    then obtain "l \<subseteq> plane" by (rule conjE)
-    then have "{p1,p2,p3} \<subseteq> plane" using 7 by auto
+    then obtain "p1" "p2" "p3" where 4:"distinct [p1,p2,p3] \<and> x =
+      {p1,p2,p3}" by auto
+     obtain "l \<subseteq> plane \<and> l \<noteq> {}" using 1 A2  by auto
     then have 
 "{p1,p2,p3} \<subseteq> plane \<and> distinct [p1,p2,p3] \<and> {p1,p2,p3} \<subseteq> l"
-      using 8 7 by auto
+      using 4 2 by auto
     then show ?thesis by auto
   qed
 qed
