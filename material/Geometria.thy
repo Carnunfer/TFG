@@ -75,7 +75,7 @@ proof -
     using A5 by auto
   ultimately have "distinct [p1, p2, p3] \<and> {p1, p2, p3} \<subseteq> plane" 
     by auto
-  thus ?thesis by (intro exI)
+  then show ?thesis by (intro exI)
 qed
 
 (* ---------------------------------------------------------------------  
@@ -86,14 +86,13 @@ lemma (in Simple_Geometry) card_of_plane_greater:
   assumes "finite plane" 
   shows "card plane \<ge> 3"
 proof -
-  have "\<exists>p1 p2 p3. distinct [p1,p2,p3] \<and> {p1,p2,p3} \<subseteq> plane" 
-    by (rule three_points_exist)
-  moreover then obtain "p1" "p2" "p3" where 
-    "distinct [p1, p2, p3] \<and> {p1, p2, p3} \<subseteq> plane" by auto
-  moreover then have "{p1, p2, p3} \<subseteq> plane"  by auto
-  moreover then have "card {p1, p2, p3} \<le> card plane" 
+ obtain "p1" "p2" "p3" where 
+    "distinct [p1, p2, p3] \<and> {p1, p2, p3} \<subseteq> plane"
+   using  three_points_exist by auto
+  moreover then have "{p1, p2, p3} \<subseteq> plane"  by (rule conjE)
+   then have "card {p1, p2, p3} \<le> card plane" 
     using assms by (simp add: card_mono)
-  ultimately show "3 \<le> card plane"  by auto
+  ultimately show ?thesis  by auto
 qed
 
 
