@@ -316,8 +316,24 @@ lemma (in Projective_Geometry) A7'':
 (*  ----------------------------  *)
 lemma (in Projective_Geometry) two_lines_per_point:
   "\<forall>p \<in> plane. \<exists>l \<in> lines. \<exists>m \<in> lines. l \<noteq> m \<and> p \<in> l \<inter> m" 
-proof -
-  oops
+proof 
+  fix p 
+  assume 1:"p \<in> plane"
+  show " \<exists>l \<in> lines. \<exists>m \<in> lines. l \<noteq> m \<and> p \<in> l \<inter> m" 
+  proof - 
+    obtain "q" where "q \<in> plane" using A1 by auto
+    then obtain "l" where 2:"l \<in> lines \<and> {p,q} \<subseteq> l " using A3 1 by auto
+    then obtain "r" where 3:" r \<notin> l \<and> r \<in> plane" using A5 by auto
+    then obtain "m" where 4: " m \<in> lines \<and> {p,r} \<subseteq> m " using A3 1  by auto
+    then have 5:"l \<noteq> m" using  3 by auto
+    have "p \<in> l \<inter> m" using 2 4 by auto
+    then have "l \<noteq> m \<and> p \<in> l \<inter> m" using 5 by auto
+    thus ?thesis using 2 4 by auto
+  qed
+qed
+
+
+
 
 
 
@@ -327,8 +343,41 @@ proof -
 (*  ----------------------------  *)
 lemma (in Projective_Geometry) external_line: 
   "\<forall>p \<in> plane. \<exists>l \<in> lines. p \<notin> l" 
-  oops
-  
+proof 
+  fix p 
+  assume 1:"p \<in> plane" 
+  show "\<exists>l \<in> lines. p \<notin> l"
+  proof - 
+     obtain "q" where 4:"q \<in> plane" using A1 by auto
+    then obtain "l" where 2:"l \<in> lines \<and> {p,q} \<subseteq> l " using A3 1 by auto
+    then obtain "r" where 3:" r \<notin> l \<and> r \<in> plane" using A5 by auto
+    then obtain "m" where 6:"m \<in> lines \<and> {q,r} \<subseteq> m" using A3 4 by auto
+    then have 7:"m \<noteq> l" using 3 by auto
+    then obtain " l \<inter> m = {} \<or> (\<exists>q\<in>plane. l \<inter> m = {q})" using A4 2 6 by
+        auto
+    have "p \<notin> m"
+    proof
+      assume 5:"p \<in> m"
+      obtain  " l \<inter> m = {} \<or> (\<exists>q\<in>plane. l \<inter> m = {q})" using A4 2 6 7 by
+        auto
+      then  show False 
+      proof (rule disjE)
+        assume 8:"l \<inter> m = {}"
+        have 9:"{p,q,r} \<subseteq> m" using 5 6 by auto
+        then show False using 2 8  by auto
+      next
+        assume " \<exists>q\<in>plane. l \<inter> m = {q}"
+        then obtain "t" where 10:"l \<inter> m = {t}" by auto
+        have 9:"{p,q,r} \<subseteq> m" using 5 6 by auto
+        then have "{p,q} \<subseteq> {t}" using 2 10  by auto
+        thus False 
+          oops
+
+       
+
+
+
+
 
 (*  ----------------------------  *)
 (* |   Problem 29 (6 marks):   | *)
