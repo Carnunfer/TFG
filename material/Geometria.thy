@@ -111,10 +111,9 @@ interpretation Simple_Geometry_smallest_model:
       apply (simp add: plane_3_def lines_3_def)+
   done
 
-
-(*  ----------------------------  *)
-(* |   Problem 20 (5 marks):   | *)
-(*  ----------------------------  *)
+(* ---------------------------------------------------------------------
+   Problem 20
+   ------------------------------------------------------------------ *)
 lemma (in Simple_Geometry) 
   how_to_produce_different_lines:
 assumes
