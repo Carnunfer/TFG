@@ -108,13 +108,9 @@ definition "lines_3 \<equiv> {{1,2},{2,3},{1,3}}"
 interpretation Simple_Geometry_smallest_model:
   Simple_Geometry plane_3 lines_3
   apply standard 
-      apply (simp add: plane_3_def)
-     apply (simp add: plane_3_def lines_3_def)
-    apply (simp add: plane_3_def lines_3_def)
-   apply (simp add: plane_3_def lines_3_def)
-  apply (simp add: plane_3_def lines_3_def)
+      apply (simp add: plane_3_def lines_3_def)+
   done
-      
+
 
 (*  ----------------------------  *)
 (* |   Problem 20 (5 marks):   | *)
@@ -216,13 +212,9 @@ definition "lines_4 \<equiv> {{1,2},{2,3},{1,3},{1,4},{2,4},{3,4}}"
 interpretation Non_projective_geometry_card_4: 
   Non_Projective_Geometry plane_4 lines_4
   apply standard
-       apply (simp add: plane_4_def)
-      apply (simp add: plane_4_def lines_4_def)
-     apply (simp add: plane_4_def lines_4_def)
-    apply (simp add: plane_4_def lines_4_def)
-   apply (simp add: plane_4_def lines_4_def)
-  apply (simp add: plane_4_def lines_4_def)
+       apply (simp add: plane_4_def lines_4_def)+
   done
+   
 
 
  (*  FILL THIS SPACE  *)
