@@ -137,7 +137,7 @@ proof (rule notI)
     proof (rule disjE)
       assume "l \<inter> m = {}"
       thus False 
-        using assms \<open>m = n\<close> by auto
+        using assms(2,6) \<open>m = n\<close> by auto
     next
       assume "\<exists>q \<in> plane. l \<inter> m = {q}" 
       then obtain "q" where "q \<in> plane \<and> l \<inter> m = {q}" 
@@ -145,7 +145,7 @@ proof (rule notI)
       then have "l \<inter> m = {q}" 
         by (rule conjE)
       then have "{a, b} \<subseteq> {q}" 
-        using assms \<open>m = n\<close> by auto
+        using assms(2,6,8) \<open>m = n\<close> by auto
       then show False 
         using assms(3) by auto
     qed
