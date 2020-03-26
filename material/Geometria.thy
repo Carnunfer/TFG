@@ -75,7 +75,8 @@ proof -
     using A5 by auto
   ultimately have "distinct [p1, p2, p3] \<and> {p1, p2, p3} \<subseteq> plane" 
     by auto
-  then show ?thesis by (intro exI)
+  then show ?thesis 
+    by (intro exI)
 qed
 
 (* ---------------------------------------------------------------------  
@@ -86,32 +87,33 @@ lemma (in Simple_Geometry) card_of_plane_greater:
   assumes "finite plane" 
   shows "card plane \<ge> 3"
 proof -
- obtain "p1" "p2" "p3" where 
+  obtain "p1" "p2" "p3" where 
     "distinct [p1, p2, p3] \<and> {p1, p2, p3} \<subseteq> plane"
-   using  three_points_exist by auto
-  moreover then have "{p1, p2, p3} \<subseteq> plane"  by (rule conjE)
-   then have "card {p1, p2, p3} \<le> card plane" 
+    using three_points_exist by auto
+  moreover then have "{p1, p2, p3} \<subseteq> plane"  
+    by (rule conjE)
+  then have "card {p1, p2, p3} \<le> card plane" 
     using assms by (simp add: card_mono)
   ultimately show ?thesis  by auto
 qed
 
+(* --------------------------------------------------------------------- 
+   Problem 19
+   ------------------------------------------------------------------ *)
 
-(*  ----------------------------  *)
-(* |   Problem 19 (2 marks):   | *)
-(*  ----------------------------  *)
-(* GIVE THE SMALLEST MODEL! *)
 definition "plane_3 \<equiv> {1::nat,2,3} "
+
 definition "lines_3 \<equiv> {{1,2},{2,3},{1,3}}"
-interpretation Simple_Geometry_smallest_model: 
+
+interpretation Simple_Geometry_smallest_model:
   Simple_Geometry plane_3 lines_3
   apply standard 
       apply (simp add: plane_3_def lines_3_def)+
   done
 
-
-(*  ----------------------------  *)
-(* |   Problem 20 (5 marks):   | *)
-(*  ----------------------------  *)
+(* ---------------------------------------------------------------------
+   Problem 20
+   ------------------------------------------------------------------ *)
 lemma (in Simple_Geometry) 
   how_to_produce_different_lines:
 assumes
@@ -125,20 +127,27 @@ proof (rule notI)
   assume "m = n"
   show False
   proof -
-    have "m \<noteq> l" using assms(4) assms(8) by auto
-    moreover obtain "l \<noteq> m  \<longrightarrow>  l \<inter> m = {} \<or> (\<exists>q \<in> plane. l \<inter> m = {q})"
-      using assms(7) A4 assms(1) by auto
-    ultimately have "l \<inter> m = {} \<or> (\<exists>q \<in> plane. l \<inter> m = {q})"   by auto
+    have "m \<noteq> l" 
+      using assms(4, 8) by auto
+    moreover have "l \<noteq> m  \<longrightarrow>  l \<inter> m = {} \<or> (\<exists>q \<in> plane. l \<inter> m = {q})"
+      using assms(1, 7) A4 by auto
+    ultimately have "l \<inter> m = {} \<or> (\<exists>q \<in> plane. l \<inter> m = {q})"   
+      by auto
     then show False 
     proof (rule disjE)
       assume "l \<inter> m = {}"
-      thus False using assms \<open>m = n \<close> by auto
+      thus False 
+        using assms \<open>m = n\<close> by auto
     next
-      assume "\<exists>q \<in>plane. l \<inter> m = {q}" 
-      then obtain "q" where "q \<in> plane \<and> l \<inter> m = {q}" by auto
-      then have "l \<inter> m = {q}" by (rule conjE)
-      then have "{a,b} \<subseteq> {q}" using  assms \<open>m = n \<close> by auto
-      then show False using assms(3) by auto
+      assume "\<exists>q \<in> plane. l \<inter> m = {q}" 
+      then obtain "q" where "q \<in> plane \<and> l \<inter> m = {q}" 
+        by auto
+      then have "l \<inter> m = {q}" 
+        by (rule conjE)
+      then have "{a, b} \<subseteq> {q}" 
+        using assms \<open>m = n\<close> by auto
+      then show False 
+        using assms(3) by auto
     qed
   qed
 qed
