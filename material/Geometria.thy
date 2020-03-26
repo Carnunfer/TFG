@@ -127,20 +127,27 @@ proof (rule notI)
   assume "m = n"
   show False
   proof -
-    have "m \<noteq> l" using assms(4) assms(8) by auto
-    moreover obtain "l \<noteq> m  \<longrightarrow>  l \<inter> m = {} \<or> (\<exists>q \<in> plane. l \<inter> m = {q})"
-      using assms(7) A4 assms(1) by auto
-    ultimately have "l \<inter> m = {} \<or> (\<exists>q \<in> plane. l \<inter> m = {q})"   by auto
+    have "m \<noteq> l" 
+      using assms(4, 8) by auto
+    moreover have "l \<noteq> m  \<longrightarrow>  l \<inter> m = {} \<or> (\<exists>q \<in> plane. l \<inter> m = {q})"
+      using assms(1, 7) A4 by auto
+    ultimately have "l \<inter> m = {} \<or> (\<exists>q \<in> plane. l \<inter> m = {q})"   
+      by auto
     then show False 
     proof (rule disjE)
       assume "l \<inter> m = {}"
-      thus False using assms \<open>m = n \<close> by auto
+      thus False 
+        using assms \<open>m = n\<close> by auto
     next
-      assume "\<exists>q \<in>plane. l \<inter> m = {q}" 
-      then obtain "q" where "q \<in> plane \<and> l \<inter> m = {q}" by auto
-      then have "l \<inter> m = {q}" by (rule conjE)
-      then have "{a,b} \<subseteq> {q}" using  assms \<open>m = n \<close> by auto
-      then show False using assms(3) by auto
+      assume "\<exists>q \<in> plane. l \<inter> m = {q}" 
+      then obtain "q" where "q \<in> plane \<and> l \<inter> m = {q}" 
+        by auto
+      then have "l \<inter> m = {q}" 
+        by (rule conjE)
+      then have "{a, b} \<subseteq> {q}" 
+        using assms \<open>m = n\<close> by auto
+      then show False 
+        using assms(3) by auto
     qed
   qed
 qed
