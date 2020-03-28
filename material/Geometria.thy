@@ -173,75 +173,70 @@ proof
       using assms how_to_produce_different_lines by simp
     moreover have "n \<noteq> m  \<longrightarrow>  m \<inter> n = {} \<or> (\<exists>q \<in> plane. m \<inter> n = {q})"
       using assms(5,7) A4 by auto
-    ultimately have "m \<inter> n = {} \<or> (\<exists>q \<in> plane. m \<inter> n = {q})" by auto
+    ultimately have "m \<inter> n = {} \<or> (\<exists>q \<in> plane. m \<inter> n = {q})" 
+      by auto
     then show False
     proof (rule disjE)
       assume "m \<inter> n = {}"
-      then show False using  assms(6,8) by auto
+      then show False 
+        using assms(6, 8) by auto
     next
-      assume "\<exists>q\<in>plane. m \<inter> n = {q}"
-      then obtain "q" where "q \<in> plane \<and> m \<inter> n = {q}" by auto
-      then have "{p,d} \<subseteq> {q}" using \<open>c = d \<close> assms by auto
-      then show False using \<open>c = d\<close> assms(9) by auto
+      assume "\<exists>q \<in> plane. m \<inter> n = {q}"
+      then obtain "q" where "q \<in> plane \<and> m \<inter> n = {q}" 
+        by auto
+      then have "{p,d} \<subseteq> {q}" 
+        using \<open>c = d\<close> assms by auto
+      then show False 
+        using \<open>c = d\<close> assms(9) by auto
     qed
   qed
 qed
 
+(* ---------------------------------------------------------------------
+   Problem 22: Formalise the following axiom: 
+     if a point p lies outside of line l then there must exist at least
+     one line m that passes through p, which does not intersect l 
+  ------------------------------------------------------------------- *)
 
-
-
-(*  ---------------------------  *)
-(* |   Problem 22 (1 point):   | *)
-(*  ---------------------------  *)
-(* 1 point: 
- Formalise the following axiom: 
-   if a point p lies outside of line l then there 
-   must exist at least one line m that passes through p, 
-   which does not intersect l *)
-locale Non_Projective_Geometry = 
+locale Non_Projective_Geometry =
   Simple_Geometry +
   assumes parallels_Ex:
-"\<forall>p \<in> plane. \<forall>l \<in> lines. p \<notin> l \<longrightarrow> (\<exists>m \<in> lines. p \<in> m \<and> m \<inter> l = {} )"
+    "\<forall>p \<in> plane. \<forall>l \<in> lines. p \<notin> l \<longrightarrow> (\<exists>m \<in> lines. p \<in> m \<and> m \<inter> l = {} )"
 
- (*  FILL THIS SPACE  *)
-  
+(* ---------------------------- ----------------------------------------
+   Problem 23: Give a model of Non-Projective Geometry with 
+   cardinality 4. 
+   Show that it is indeed a model using the command "interpretation" 
+   ------------------------------------------------------------------ *)
 
-(*  ----------------------------  *)
-(* |   Problem 23 (2 marks):   | *)
-(*  ----------------------------  *)
-(* Give a model of Non-Projective Geometry with cardinality 4. 
-   Show that it is indeed a model using the command "interpretation" *)
+definition "plane_4 \<equiv> {1::nat, 2, 3, 4}"
 
-
-
-definition "plane_4 \<equiv> {1::nat,2,3,4} "
 definition "lines_4 \<equiv> {{1,2},{2,3},{1,3},{1,4},{2,4},{3,4}}"
-interpretation Non_projective_geometry_card_4: 
+
+interpretation Non_projective_geometry_card_4:
   Non_Projective_Geometry plane_4 lines_4
   apply standard
        apply (simp add: plane_4_def lines_4_def)+
   done
-   
 
+(* ---------------------------------------------------------------------
+   Problem 24: Formalise and prove: 
+     "it is not true that every pair of lines intersect"  
+  ------------------------------------------------------------------- *)
 
- (*  FILL THIS SPACE  *)
-
-
-(*  ----------------------------  *)
-(* |   Problem 24 (3 marks):   | *)
-(*  ----------------------------  *)
-(*  Formalise and prove: 
-     "it is not true that every pair of lines intersect"  *)
-lemma (in Non_Projective_Geometry) non_projective: 
-"\<exists>r \<in> lines. \<exists>s \<in> lines. r \<inter> s = {}"
+lemma (in Non_Projective_Geometry) non_projective:
+  "\<exists>r \<in> lines. \<exists>s \<in> lines. r \<inter> s = {}"
 proof -
-  obtain "l1" where 1:"l1 \<in> lines" using one_line_exists by auto
-  then obtain "q1" where 2: "q1 \<in> plane \<and> q1 \<notin> l1" using A5 by auto
+  obtain "l1" where 1: "l1 \<in> lines" 
+    using one_line_exists by auto
+  then obtain "q1" where 2: "q1 \<in> plane \<and> q1 \<notin> l1" 
+    using A5 by auto
   then  obtain " q1 \<notin> l1 \<longrightarrow> (\<exists>m \<in> lines. q1 \<in> m \<and> m \<inter> l1 = {} )" 
-    using   1 parallels_Ex by simp
+    using 1 parallels_Ex by simp
    then obtain "m1" where "m1 \<in> lines \<and> q1 \<in> m1 \<and> m1 \<inter> l1 = {}"
     using 2 by auto
-  thus ?thesis using  1 by auto
+  thus ?thesis 
+    using 1 by auto
 qed
 
 
