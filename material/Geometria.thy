@@ -114,9 +114,9 @@ interpretation Simple_Geometry_smallest_model:
 (* ---------------------------------------------------------------------
    Problem 20
    ------------------------------------------------------------------ *)
-lemma (in Simple_Geometry) 
-  how_to_produce_different_lines:
-assumes
+
+lemma (in Simple_Geometry) how_to_produce_different_lines:
+  assumes
     "l \<in> lines" 
     "{a, b} \<subseteq> l" "a \<noteq> b"
     "p \<notin> l"
@@ -136,8 +136,8 @@ proof (rule notI)
     then show False 
     proof (rule disjE)
       assume "l \<inter> m = {}"
-      thus False 
-        using assms(2,6) \<open>m = n\<close> by auto
+      then show False 
+        using assms(2, 6) \<open>m = n\<close> by auto
     next
       assume "\<exists>q \<in> plane. l \<inter> m = {q}" 
       then obtain "q" where "q \<in> plane \<and> l \<inter> m = {q}" 
@@ -145,19 +145,19 @@ proof (rule notI)
       then have "l \<inter> m = {q}" 
         by (rule conjE)
       then have "{a, b} \<subseteq> {q}" 
-        using assms(2,6,8) \<open>m = n\<close> by auto
+        using assms(2, 6, 8) \<open>m = n\<close> by auto
       then show False 
         using assms(3) by auto
     qed
   qed
 qed
 
-(*  ----------------------------  *)
-(* |   Problem 21 (4 marks):   | *)
-(*  ----------------------------  *)
-lemma (in Simple_Geometry) 
-  how_to_produce_different_points:
-assumes
+(* --------------------------------------------------------------------- 
+   Problem 21   
+   ------------------------------------------------------------------ *)
+
+lemma (in Simple_Geometry) how_to_produce_different_points:
+  assumes
     "l \<in> lines" 
     "{a, b} \<subseteq> l" "a \<noteq> b"
     "p \<notin> l"
@@ -169,20 +169,21 @@ proof
   assume "c = d" 
   show False
   proof -
-    have "m \<noteq> n" using assms how_to_produce_different_lines by simp
+    have "m \<noteq> n" 
+      using assms how_to_produce_different_lines by simp
     moreover obtain "n \<noteq> m  \<longrightarrow>  m \<inter> n = {} \<or> (\<exists>q \<in> plane. m \<inter> n = {q})"
       using assms(5) assms(7) A4 by auto
     ultimately have "m \<inter> n = {} \<or> (\<exists>q \<in> plane. m \<inter> n = {q})" by auto
-      then show False
-      proof (rule disjE)
-        assume "m \<inter> n = {}"
-        then show False using \<open>c = d \<close> assms(6,8) by auto
-      next
-        assume "\<exists>q\<in>plane. m \<inter> n = {q}"
-        then obtain "q" where "q \<in> plane \<and> m \<inter> n = {q}" by auto
-        then have "{p,d} \<subseteq> {q}" using \<open>c = d \<close> assms by auto
-        then show False using \<open>c = d\<close> assms(9) by auto
-     qed
+    then show False
+    proof (rule disjE)
+      assume "m \<inter> n = {}"
+      then show False using \<open>c = d \<close> assms(6,8) by auto
+    next
+      assume "\<exists>q\<in>plane. m \<inter> n = {q}"
+      then obtain "q" where "q \<in> plane \<and> m \<inter> n = {q}" by auto
+      then have "{p,d} \<subseteq> {q}" using \<open>c = d \<close> assms by auto
+      then show False using \<open>c = d\<close> assms(9) by auto
+    qed
   qed
 qed
 
