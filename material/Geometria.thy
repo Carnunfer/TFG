@@ -224,6 +224,16 @@ interpretation Non_projective_geometry_card_4:
      "it is not true that every pair of lines intersect"  
   ------------------------------------------------------------------- *)
 
+lemma aux:
+  assumes "\<not>(\<forall>r \<in> lines. \<forall>s \<in> lines. r \<inter> s \<noteq> {})"
+  shows   "\<exists>r \<in> lines. \<exists>s \<in> lines. r \<inter> s = {}"
+  using assms by blast
+
+lemma aux2:
+  assumes   "\<exists>r \<in> lines. \<exists>s \<in> lines. r \<inter> s = {}"
+  shows  "\<not>(\<forall>r \<in> lines. \<forall>s \<in> lines. r \<inter> s \<noteq> {})"
+  using assms by blast
+
 lemma (in Non_Projective_Geometry) non_projective:
   "\<exists>r \<in> lines. \<exists>s \<in> lines. r \<inter> s = {}"
 proof -
@@ -235,7 +245,7 @@ proof -
     using 1 parallels_Ex by simp
    then obtain "m1" where "m1 \<in> lines \<and> q1 \<in> m1 \<and> m1 \<inter> l1 = {}"
     using 2 by auto
-  thus ?thesis 
+  then show ?thesis 
     using 1 by auto
 qed
 
