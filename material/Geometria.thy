@@ -171,13 +171,13 @@ proof
   proof -
     have "m \<noteq> n" 
       using assms how_to_produce_different_lines by simp
-    moreover obtain "n \<noteq> m  \<longrightarrow>  m \<inter> n = {} \<or> (\<exists>q \<in> plane. m \<inter> n = {q})"
-      using assms(5) assms(7) A4 by auto
+    moreover have "n \<noteq> m  \<longrightarrow>  m \<inter> n = {} \<or> (\<exists>q \<in> plane. m \<inter> n = {q})"
+      using assms(5,7) A4 by auto
     ultimately have "m \<inter> n = {} \<or> (\<exists>q \<in> plane. m \<inter> n = {q})" by auto
     then show False
     proof (rule disjE)
       assume "m \<inter> n = {}"
-      then show False using \<open>c = d \<close> assms(6,8) by auto
+      then show False using  assms(6,8) by auto
     next
       assume "\<exists>q\<in>plane. m \<inter> n = {q}"
       then obtain "q" where "q \<in> plane \<and> m \<inter> n = {q}" by auto
