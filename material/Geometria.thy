@@ -241,7 +241,7 @@ proof -
     using one_line_exists by auto
   then obtain "q1" where 2: "q1 \<in> plane \<and> q1 \<notin> l1" 
     using A5 by auto
-  then  obtain " q1 \<notin> l1 \<longrightarrow> (\<exists>m \<in> lines. q1 \<in> m \<and> m \<inter> l1 = {} )" 
+  then obtain "q1 \<notin> l1 \<longrightarrow> (\<exists>m \<in> lines. q1 \<in> m \<and> m \<inter> l1 = {} )" 
     using 1 parallels_Ex by simp
    then obtain "m1" where "m1 \<in> lines \<and> q1 \<in> m1 \<and> m1 \<inter> l1 = {}"
     using 2 by auto
