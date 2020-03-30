@@ -224,29 +224,25 @@ interpretation Non_projective_geometry_card_4:
      "it is not true that every pair of lines intersect"  
   ------------------------------------------------------------------- *)
 
-lemma aux:
-  assumes "\<not>(\<forall>r \<in> lines. \<forall>s \<in> lines. r \<inter> s \<noteq> {})"
-  shows   "\<exists>r \<in> lines. \<exists>s \<in> lines. r \<inter> s = {}"
-  using assms by blast
 
-lemma aux2:
-  assumes   "\<exists>r \<in> lines. \<exists>s \<in> lines. r \<inter> s = {}"
-  shows  "\<not>(\<forall>r \<in> lines. \<forall>s \<in> lines. r \<inter> s \<noteq> {})"
-  using assms by blast
 
 lemma (in Non_Projective_Geometry) non_projective:
-  "\<exists>r \<in> lines. \<exists>s \<in> lines. r \<inter> s = {}"
-proof -
-  obtain "l1" where 1: "l1 \<in> lines" 
+"\<not>(\<forall>r \<in> lines. \<forall>s \<in> lines. r \<inter> s \<noteq> {})"
+proof 
+  assume  4:"\<forall>r\<in>lines. \<forall>s\<in>lines. r \<inter> s \<noteq> {}"
+  show False
+  proof -
+    obtain "l1" where 1: "l1 \<in> lines" 
     using one_line_exists by auto
   then obtain "q1" where 2: "q1 \<in> plane \<and> q1 \<notin> l1" 
     using A5 by auto
-  then obtain "q1 \<notin> l1 \<longrightarrow> (\<exists>m \<in> lines. q1 \<in> m \<and> m \<inter> l1 = {} )" 
+  then  have " q1 \<notin> l1 \<longrightarrow> (\<exists>m \<in> lines. q1 \<in> m \<and> m \<inter> l1 = {} )" 
     using 1 parallels_Ex by simp
-   then obtain "m1" where "m1 \<in> lines \<and> q1 \<in> m1 \<and> m1 \<inter> l1 = {}"
-    using 2 by auto
-  then show ?thesis 
-    using 1 by auto
+   then obtain "m1" where 3:"m1 \<in> lines \<and> q1 \<in> m1 \<and> m1 \<inter> l1 = {}"
+     using 2 by auto
+   then obtain "m1 \<inter> l1 \<noteq> {}" using 1 4 by auto
+   then show ?thesis using 3 by auto
+ qed
 qed
 
 
