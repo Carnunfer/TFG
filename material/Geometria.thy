@@ -322,6 +322,10 @@ proof -
   then obtain "h2" where 6:"h2 \<in> plane \<and> h2 \<notin> s1" using A5 by auto
   then obtain "l2" where 7:"l2 \<in> lines \<and> {h2,h} \<subseteq> l2" using 1 A3 by auto
   then obtain "r" where 8:"r \<in> l2 \<and> r \<in> l" using A6 assms by auto
+  have "h2 \<noteq> q" using 5 6 by auto
+  have "h2 \<noteq> h" using 5 6 by auto
+  have 12:"h \<noteq> q" using 1 assms by auto
+  have 10:"s1 \<noteq> l2 " using 6 7 by auto
   have "r \<notin> {p,q}"
   proof 
     assume 3:"r \<in>{p,q}"
@@ -330,7 +334,23 @@ proof -
       have "r = p  \<or> r = q" using 3 5 4 by auto
       thus False 
       proof (rule disjE)
-        oops
+        assume 11:"r = q" 
+        have " s1 \<inter> l2 = {} \<or> (\<exists>q \<in> plane. s1 \<inter> l2 = {q})" 
+          using A4 5 7  10    by auto
+        then show False 
+        proof 
+          assume "s1 \<inter> l2 = {}" 
+          then show False using 5 7 by auto
+        next 
+          assume " \<exists>q\<in>plane. s1 \<inter> l2 = {q}"
+          then obtain "t" where "s1 \<inter> l2 = {t}" by auto
+          then have "{q,h} \<subseteq> {t}" using 11 8 5 7 by auto
+          then show False using 12 by auto
+        qed
+      next 
+        assume "r = p" 
+        have " r1 \<inter> l2 = {} \<or> (\<exists>q \<in> plane. s1 \<inter> l2 = {q})" 
+
 
 
 (*  ----------------------------  *)
