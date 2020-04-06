@@ -370,32 +370,36 @@ proof
   assume 1:"p \<in> plane" 
   show "\<exists>l \<in> lines. p \<notin> l"
   proof - 
-     obtain "q" where 4:"q \<in> plane" using A1 by auto
-    then obtain "l" where 2:"l \<in> lines \<and> {p,q} \<subseteq> l " using A3 1 by auto
-    then obtain "r" where 3:" r \<notin> l \<and> r \<in> plane" using A5 by auto
-    then obtain "m" where 6:"m \<in> lines \<and> {q,r} \<subseteq> m" using A3 4 by auto
-    then have 7:"m \<noteq> l" using 3 by auto
-    then obtain " l \<inter> m = {} \<or> (\<exists>q\<in>plane. l \<inter> m = {q})" using A4 2 6 by
-        auto
-    have "p \<notin> m"
-    proof
-      assume 5:"p \<in> m"
-      obtain  " l \<inter> m = {} \<or> (\<exists>q\<in>plane. l \<inter> m = {q})" using A4 2 6 7 by
-        auto
-      then  show False 
-      proof (rule disjE)
-        assume 8:"l \<inter> m = {}"
-        have 9:"{p,q,r} \<subseteq> m" using 5 6 by auto
-        then show False using 2 8  by auto
+    obtain "l1" where 2:"l1 \<in> lines \<and> {p,p} \<subseteq> l1" using 1 A3 by auto
+    then obtain "r" where 3:"r \<in> plane \<and> r \<notin> l1" using A5 by auto
+    then have "p \<noteq> r" using 2 by auto
+    obtain "l2" where 4:"l2 \<in> lines \<and> {p,r} \<subseteq> l2" using 1 3 A3 by auto
+    then obtain "s" where 5:"s \<in> plane \<and> s \<notin> l2" using A5 3 by auto
+    then have "r \<noteq> s" using 4 by auto
+    obtain "l" where 6:"l \<in> lines \<and> {r,s} \<subseteq> l" using 3 5 A3 by auto
+    have "p \<notin> l" 
+    proof 
+      assume 7:"p \<in> l" 
+      have "l \<noteq> l2" using 5 4 6 by auto
+      then  have " l \<inter> l2 = {} \<or> (\<exists>q \<in> plane. l \<inter> l2 = {q}) "
+        using A4 4 6 by auto
+      thus False
+      proof 
+        assume "l \<inter> l2 = {}" 
+        thus False using 7 4 by auto
       next
-        assume " \<exists>q\<in>plane. l \<inter> m = {q}"
-        then obtain "t" where 10:"l \<inter> m = {t}" by auto
-        have 9:"{p,q,r} \<subseteq> m" using 5 6 by auto
-        then have "{p,q} \<subseteq> {t}" using 2 10  by auto
-        thus False 
-          oops
+        assume "\<exists>q\<in>plane. l \<inter> l2 = {q} "
+        then obtain "t" where 8:"l \<inter> l2 = {t} \<and> t \<in> plane" by auto
+        have "{p,r} \<subseteq> l \<inter> l2" using 7 6 4 by auto
+        then have "{p,r} \<subseteq> {t}" using 8 by auto
+        thus False using 2 3 by auto
+      qed
+    qed
+    thus ?thesis using 6 by auto
+  qed
+qed
 
-       
+      
 
 
 
