@@ -311,8 +311,27 @@ qed
 (* Prove yet another alternative to axiom A7  *)
 
 lemma (in Projective_Geometry) A7'': 
- "l \<in> lines \<Longrightarrow> {p,q} \<subseteq> l \<Longrightarrow> (\<exists>r \<in> plane. r \<notin> {p,q} \<and> r \<in> l)"
-  oops
+  assumes "l \<in> lines"
+          "{p,q} \<subseteq> l " 
+        shows "(\<exists>r \<in> plane. r \<notin> {p,q} \<and> r \<in> l)" 
+proof -
+  have 2:"p \<in> plane \<and> q \<in> plane" using assms A2 by auto
+  obtain "h" where 1:"h \<in> plane \<and> h \<notin> l" using assms A5 by auto
+  then obtain "r1" where 4:"r1 \<in> lines \<and> {h,p} \<subseteq> r1" using 2 A3 by auto
+  obtain "s1" where 5:"s1 \<in> lines \<and> {h,q} \<subseteq> s1" using 1 2 A3 by auto
+  then obtain "h2" where 6:"h2 \<in> plane \<and> h2 \<notin> s1" using A5 by auto
+  then obtain "l2" where 7:"l2 \<in> lines \<and> {h2,h} \<subseteq> l2" using 1 A3 by auto
+  then obtain "r" where 8:"r \<in> l2 \<and> r \<in> l" using A6 assms by auto
+  have "r \<notin> {p,q}"
+  proof 
+    assume 3:"r \<in>{p,q}"
+    show False
+    proof -
+      have "r = p  \<or> r = q" using 3 5 4 by auto
+      thus False 
+      proof (rule disjE)
+        oops
+
 
 (*  ----------------------------  *)
 (* |   Problem 27 (5 marks):   | *)
