@@ -350,7 +350,7 @@ proof -
       next 
         assume "r = p" 
         have " r1 \<inter> l2 = {} \<or> (\<exists>q \<in> plane. s1 \<inter> l2 = {q})" 
-
+          oops
 
 
 (*  ----------------------------  *)
@@ -430,9 +430,82 @@ qed
 (*  ----------------------------  *)
 lemma (in Projective_Geometry) three_lines_per_point:
   "\<forall>p \<in> plane. \<exists>l m n. distinct [l,m,n] \<and> {l,m,n} \<subseteq> lines \<and> p \<in> l \<inter> m \<inter> n" 
-  oops
-
-
+proof 
+  fix p 
+  assume 1:"p \<in> plane"
+  show "\<exists>l m n. distinct [l, m, n] \<and> {l, m, n} \<subseteq> lines \<and> p \<in> l \<inter> m \<inter> n"
+  proof - 
+    obtain "h" where 6:"h \<in> lines \<and> p \<notin> h" using 1 external_line by auto
+    then obtain "a" "b" "c" 
+      where  2:"{a,b,c} \<subseteq> plane \<and> distinct [a,b,c] \<and> {a,b,c} \<subseteq> h"
+      using A7' by auto 
+    then obtain "l"  where 3:"l \<in> lines \<and> {a,p} \<subseteq> l " using 1 A3 by auto
+    obtain "m"  where 4:"m \<in> lines \<and> {b,p} \<subseteq> m " using 1 2 A3 by auto
+    obtain "n"  where 5:"n \<in> lines \<and> {c,p} \<subseteq> n " using 1 2 A3 by auto
+    have "{m,n,l} \<subseteq> lines" using 3 4 5 by auto
+    have 12:"m \<noteq> l" 
+    proof 
+      assume 7:"m = l" 
+      show False
+      proof - 
+        have 8:"{a,p,b} \<subseteq> l" using 3 4 7 by auto
+        have " l \<inter> h = {} \<or> (\<exists>q\<in>plane. l \<inter> h = {q})" using A4 3 6 by
+            auto
+        then show False
+        proof 
+          assume "l \<inter> h = {}" 
+          then show False using 8 2 by auto
+        next 
+          assume " \<exists>q\<in>plane. l \<inter> h = {q} "
+          then obtain "t" where "t \<in> plane \<and> l \<inter> h = {t}" by auto
+          then have "{a,b} \<subseteq> {t}" using 8 2 by auto
+          then show False using 2 by auto
+        qed
+      qed
+    qed
+    have 11: "m \<noteq> n" 
+    proof 
+  assume 9:"m = n" 
+      show False
+      proof - 
+        have 10:"{b,p,c} \<subseteq> m" using 5 4 9 by auto
+        have " m \<inter> h = {} \<or> (\<exists>q\<in>plane. m \<inter> h = {q})" using A4 4 6 by
+            auto
+        then show False
+        proof 
+          assume "m \<inter> h = {}" 
+          then show False using 10 2 by auto
+        next 
+          assume " \<exists>q\<in>plane. m \<inter> h = {q} "
+          then obtain "t" where "t \<in> plane \<and> m \<inter> h = {t}" by auto
+          then have "{c,b} \<subseteq> {t}" using 10 2 by auto
+          then show False using 2 by auto
+        qed
+      qed
+    qed
+     have 13: "l \<noteq> n" 
+    proof 
+      assume 14:"l = n" 
+      show False
+      proof - 
+        have 15:"{a,p,c} \<subseteq> l" using 3 5 14 by auto
+        have " l \<inter> h = {} \<or> (\<exists>q\<in>plane. l \<inter> h = {q})" using A4 6 3 by
+            auto
+        then show False
+        proof 
+          assume "l \<inter> h = {}" 
+          then show False using 15 2 by auto
+        next 
+          assume " \<exists>q\<in>plane. l \<inter> h = {q} "
+          then obtain "t" where "t \<in> plane \<and> l \<inter> h = {t}" by auto
+          then have "{a,c} \<subseteq> {t}" using 15 2 by auto 
+          then show False using 2 by auto
+        qed
+      qed
+    qed
+    have "distinct [n,m,l] " using 11 12 13 by auto  
+    have "l \<inter> n = {p}"
+      oops
 (*  -----------------------------  *)
 (* |   Problem 30 (8 marks):   | *)
 (*  -----------------------------  *)
