@@ -442,7 +442,7 @@ proof
     then obtain "l"  where 3:"l \<in> lines \<and> {a,p} \<subseteq> l " using 1 A3 by auto
     obtain "m"  where 4:"m \<in> lines \<and> {b,p} \<subseteq> m " using 1 2 A3 by auto
     obtain "n"  where 5:"n \<in> lines \<and> {c,p} \<subseteq> n " using 1 2 A3 by auto
-    have "{m,n,l} \<subseteq> lines" using 3 4 5 by auto
+    have 27:"{m,n,l} \<subseteq> lines" using 3 4 5 by auto
     have 12:"m \<noteq> l" 
     proof 
       assume 7:"m = l" 
@@ -503,17 +503,19 @@ proof
         qed
       qed
     qed
-    have "distinct [n,m,l] " using 11 12 13 by auto  
-    have "l \<inter> n = {p}"
-      oops
+    have 16:"distinct [n,m,l] " using 11 12 13 by auto  
+    have "p \<in> l \<inter> m \<inter> n " using 3 4 5 by auto
+    then show ?thesis using 16 27 by auto
+  qed
+qed
+
 (*  -----------------------------  *)
 (* |   Problem 30 (8 marks):   | *)
 (*  -----------------------------  *)
 lemma (in Projective_Geometry) at_least_seven_points: 
   "\<exists>p1 p2 p3 p4 p5 p6 p7. distinct [p1,p2,p3,p4,p5,p6,p7] \<and> {p1,p2,p3,p4,p5,p6,p7} \<subseteq> plane" 
-  oops
 
-  
+  oops
 (*  -----------------------------  *)
 (* |   Problem 31 (3 marks):    | *)
 (*  -----------------------------  *)
