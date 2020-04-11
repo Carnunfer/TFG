@@ -224,96 +224,95 @@ interpretation Non_projective_geometry_card_4:
      "it is not true that every pair of lines intersect"  
   ------------------------------------------------------------------- *)
 
-
-
 lemma (in Non_Projective_Geometry) non_projective:
-"\<not>(\<forall>r \<in> lines. \<forall>s \<in> lines. r \<inter> s \<noteq> {})"
+  "\<not>(\<forall>r \<in> lines. \<forall>s \<in> lines. r \<inter> s \<noteq> {})"
 proof 
-  assume  4:"\<forall>r\<in>lines. \<forall>s\<in>lines. r \<inter> s \<noteq> {}"
+  assume 4: "\<forall>r\<in>lines. \<forall>s\<in>lines. r \<inter> s \<noteq> {}"
   show False
   proof -
     obtain "l1" where 1: "l1 \<in> lines" 
-    using one_line_exists by auto
-  then obtain "q1" where 2: "q1 \<in> plane \<and> q1 \<notin> l1" 
-    using A5 by auto
-  then  have " q1 \<notin> l1 \<longrightarrow> (\<exists>m \<in> lines. q1 \<in> m \<and> m \<inter> l1 = {} )" 
-    using 1 parallels_Ex by simp
-   then obtain "m1" where 3:"m1 \<in> lines \<and> q1 \<in> m1 \<and> m1 \<inter> l1 = {}"
-     using 2 by auto
-   then obtain "m1 \<inter> l1 \<noteq> {}" using 1 4 by auto
-   then show ?thesis using 3 by auto
- qed
+      using one_line_exists by auto
+    then obtain "q1" where 2: "q1 \<in> plane \<and> q1 \<notin> l1" 
+      using A5 by auto
+    then have "q1 \<notin> l1 \<longrightarrow> (\<exists>m \<in> lines. q1 \<in> m \<and> m \<inter> l1 = {} )" 
+      using 1 parallels_Ex by simp
+    then obtain "m1" where 3: "m1 \<in> lines \<and> q1 \<in> m1 \<and> m1 \<inter> l1 = {}"
+      using 2 by auto
+    then obtain "m1 \<inter> l1 \<noteq> {}" using 1 4 by auto
+    then show ?thesis using 3 by auto
+  qed
 qed
-
-
-   (*  fill this space *)
-   
 
 (* The following are some auxiliary lemmas that may be useful.
    You don't need to use them if you don't want. *)
-lemma construct_set_of_card1:  
+
+lemma construct_set_of_card1:
   "card x = 1 \<Longrightarrow> \<exists> p1. x = {p1}"
   by (metis One_nat_def card_eq_SucD)
-lemma construct_set_of_card2:  
+
+lemma construct_set_of_card2:
   "card x = 2 \<Longrightarrow> \<exists> p1 p2 . distinct [p1,p2] \<and> x = {p1,p2}" 
   by (metis card_eq_SucD distinct.simps(2) 
       distinct_singleton list.set(1) list.set(2) numeral_2_eq_2)
-lemma construct_set_of_card3: 
+
+lemma construct_set_of_card3:
   "card x = 3 \<Longrightarrow> \<exists> p1 p2 p3. distinct [p1,p2,p3] \<and> x = {p1,p2,p3}" 
   by (metis card_eq_SucD distinct.simps(2) 
       distinct_singleton list.set(1) list.set(2) numeral_3_eq_3)
-lemma construct_set_of_card4: 
+
+lemma construct_set_of_card4:
   "card x = 4 \<Longrightarrow> \<exists> p1 p2 p3 p4. distinct [p1,p2,p3,p4] \<and> x = {p1,p2,p3,p4}" 
   by (metis (no_types, lifting) card_eq_SucD construct_set_of_card3 
       Suc_numeral add_num_simps(1) add_num_simps(7) 
       distinct.simps(2) empty_set list.set(2))
   
-(* GIVEN *)
 locale Projective_Geometry = 
   Simple_Geometry + 
   assumes A6: "\<forall>l \<in> lines. \<forall>m \<in> lines. \<exists>p \<in> plane. p \<in> l \<and> p \<in> m"
-      and A7: "\<forall>l \<in> lines.\<exists>x. card x = 3 \<and> x \<subseteq> l" 
-  
+      and A7: "\<forall>l \<in> lines. \<exists>x. card x = 3 \<and> x \<subseteq> l" 
 
-(*  ----------------------------  *)
-(* |   Problem 25 (3 marks):   | *)
-(*  ----------------------------  *)
-(*   Prove this alternative to axiom A7   *)
-lemma (in Projective_Geometry) A7': 
-  "\<forall>l \<in> lines. \<exists>p1 p2 p3. {p1,p2,p3} \<subseteq> plane \<and> distinct [p1,p2,p3] \<and> {p1,p2,p3} \<subseteq> l" 
+(* ---------------------------------------------------------------------
+   Problem 25: Prove this alternative to axiom A7  
+   ------------------------------------------------------------------ *)
+
+lemma (in Projective_Geometry) A7a:
+  "\<forall>l \<in> lines. \<exists>p1 p2 p3. {p1, p2, p3} \<subseteq> plane \<and> 
+                          distinct [p1, p2, p3] \<and> 
+                          {p1, p2, p3} \<subseteq> l" 
 proof
   fix l
-  assume 1:"l \<in> lines"
-  show "\<exists>p1 p2 p3. {p1, p2, p3} \<subseteq> plane \<and> distinct [p1, p2, p3] \<and> {p1,p2, p3} \<subseteq> l "
+  assume 1: "l \<in> lines"
+  show "\<exists>p1 p2 p3. {p1, p2, p3} \<subseteq> plane \<and> 
+                   distinct [p1, p2, p3] \<and> 
+                   {p1, p2, p3} \<subseteq> l"
   proof -
-    obtain x where 2:"card x = 3 \<and> x \<subseteq> l"  using 1 A7 by auto
-    then have 3:"card x = 3" by (rule conjE)
-    have "\<exists> p1 p2 p3. distinct [p1,p2,p3] \<and> x = {p1,p2,p3}" using 3
-      by (rule construct_set_of_card3)
-    then obtain "p1" "p2" "p3" where 4:"distinct [p1,p2,p3] \<and> x =
-      {p1,p2,p3}" by auto
-     obtain "l \<subseteq> plane \<and> l \<noteq> {}" using 1 A2  by auto
+    obtain x where 2: "card x = 3 \<and> x \<subseteq> l"  
+      using 1 A7 by auto
+    then have 3: "card x = 3" 
+      by (rule conjE)
+    have "\<exists> p1 p2 p3. distinct [p1, p2, p3] \<and> x = {p1, p2, p3}" 
+      using 3 by (rule construct_set_of_card3)
+    then obtain "p1" "p2" "p3" 
+      where 4 :"distinct [p1,p2,p3] \<and> x = {p1, p2, p3}" 
+      by auto
+    obtain "l \<subseteq> plane \<and> l \<noteq> {}" 
+      using 1 A2  by auto
     then have 
-"{p1,p2,p3} \<subseteq> plane \<and> distinct [p1,p2,p3] \<and> {p1,p2,p3} \<subseteq> l"
+      "{p1, p2, p3} \<subseteq> plane \<and> distinct [p1, p2, p3] \<and> {p1, p2, p3} \<subseteq> l"
       using 4 2 by auto
-    then show ?thesis by auto
+    then show ?thesis 
+      by auto
   qed
 qed
 
+(* ---------------------------------------------------------------------
+   Problem 26: Prove yet another alternative to axiom A7  
+   ------------------------------------------------------------------ *)
 
-   
-
-
-
-(*  ----------------------------  *)
-(* |   Problem 26 (3 marks):   | *)
-(*  ----------------------------  *)
-(* Prove yet another alternative to axiom A7  *)
-
-lemma (in Projective_Geometry) A7'': 
+lemma (in Projective_Geometry) A7b: 
   assumes "l \<in> lines"
-          "{p,q} \<subseteq> l " 
-        shows "(\<exists>r \<in> plane. r \<notin> {p,q} \<and> r \<in> l)" 
+          "{p, q} \<subseteq> l " 
+  shows   "\<exists>r \<in> plane. r \<notin> {p, q} \<and> r \<in> l" 
 proof -
   have 2:"p \<in> plane \<and> q \<in> plane" using assms A2 by auto
   obtain "h" where 1:"h \<in> plane \<and> h \<notin> l" using assms A5 by auto
