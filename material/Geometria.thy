@@ -329,21 +329,7 @@ proof -
     using 1 by auto
   then have "p1 \<notin> {p,q} \<or> p2 \<notin> {p,q} \<or> p3 \<notin> {p,q}" 
     using 2 by auto
-  then show ?thesis 
-  proof 
-    assume "p1 \<notin> {p,q}" 
-    then show ?thesis using 1 2 3  by auto
-  next
-    assume " p2 \<notin> {p, q} \<or> p3 \<notin> {p, q}"
-    then show ?thesis
-    proof 
-      assume "p2 \<notin> {p,q}" 
-      then show ?thesis using  1 2 3  by auto
-    next
-      assume "p3 \<notin> {p,q}" 
-      then show ?thesis using  1 2 3  by auto
-    qed
-  qed
+  then show ?thesis using 1 2 3 by auto
 qed
 
 
