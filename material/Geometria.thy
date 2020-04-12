@@ -314,44 +314,34 @@ lemma (in Projective_Geometry) A7b:
           "{p, q} \<subseteq> l " 
   shows   "\<exists>r \<in> plane. r \<notin> {p, q} \<and> r \<in> l" 
 proof -
-  have 2:"p \<in> plane \<and> q \<in> plane" using assms A2 by auto
-  obtain "h" where 1:"h \<in> plane \<and> h \<notin> l" using assms A5 by auto
-  then obtain "r1" where 4:"r1 \<in> lines \<and> {h,p} \<subseteq> r1" using 2 A3 by auto
-  obtain "s1" where 5:"s1 \<in> lines \<and> {h,q} \<subseteq> s1" using 1 2 A3 by auto
-  then obtain "h2" where 6:"h2 \<in> plane \<and> h2 \<notin> s1" using A5 by auto
-  then obtain "l2" where 7:"l2 \<in> lines \<and> {h2,h} \<subseteq> l2" using 1 A3 by auto
-  then obtain "r" where 8:"r \<in> l2 \<and> r \<in> l" using A6 assms by auto
-  have "h2 \<noteq> q" using 5 6 by auto
-  have "h2 \<noteq> h" using 5 6 by auto
-  have 12:"h \<noteq> q" using 1 assms by auto
-  have 10:"s1 \<noteq> l2 " using 6 7 by auto
-  have "r \<notin> {p,q}"
-  proof 
-    assume 3:"r \<in>{p,q}"
-    show False
-    proof -
-      have "r = p  \<or> r = q" using 3 5 4 by auto
-      thus False 
-      proof (rule disjE)
-        assume 11:"r = q" 
-        have " s1 \<inter> l2 = {} \<or> (\<exists>q \<in> plane. s1 \<inter> l2 = {q})" 
-          using A4 5 7  10    by auto
-        then show False 
-        proof 
-          assume "s1 \<inter> l2 = {}" 
-          then show False using 5 7 by auto
-        next 
-          assume " \<exists>q\<in>plane. s1 \<inter> l2 = {q}"
-          then obtain "t" where "s1 \<inter> l2 = {t}" by auto
-          then have "{q,h} \<subseteq> {t}" using 11 8 5 7 by auto
-          then show False using 12 by auto
-        qed
-      next 
-        assume "r = p" 
-        have " r1 \<inter> l2 = {} \<or> (\<exists>q \<in> plane. s1 \<inter> l2 = {q})" 
-          oops
+  obtain "x" where 1:"card x = 3 \<and> x \<subseteq> l" using assms A7 by auto
+  then have "card x = 3" by (rule conjE)
+    then have "\<exists> p1 p2 p3. distinct [p1,p2,p3] \<and> x = {p1,p2,p3}" 
+      by (rule construct_set_of_card3)
+    then obtain "p1" "p2" "p3" where 2:"distinct [p1,p2,p3] \<and> x =
+      {p1,p2,p3}" by auto
+    have "l \<subseteq> plane \<and> l \<noteq> {}" using A2 assms by auto
+    then have 3:"x \<subseteq> plane" using 1 by auto
+    then have "p1 \<notin> {p,q} \<or> p2 \<notin> {p,q} \<or> p3 \<notin> {p,q}" using 2 by auto
+    then show ?thesis
+    proof 
+      assume "p1 \<notin> {p,q}" 
+      then show ?thesis using 1 2 3  by auto
+    next
+      assume " p2 \<notin> {p, q} \<or> p3 \<notin> {p, q}"
+      then show ?thesis
+      proof 
+        assume "p2 \<notin> {p,q}" 
+        then show ?thesis using  1 2 3  by auto
+      next
+        assume "p3 \<notin> {p,q}" 
+        then show ?thesis using  1 2 3  by auto
+      qed
+    qed
+  qed
 
 
+      
 (*  ----------------------------  *)
 (* |   Problem 27 (5 marks):   | *)
 (*  ----------------------------  *)
