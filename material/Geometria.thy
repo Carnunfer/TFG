@@ -316,13 +316,31 @@ lemma (in Projective_Geometry) A7'':
         shows "(\<exists>r \<in> plane. r \<notin> {p,q} \<and> r \<in> l)" 
 proof -
   obtain "x" where 1:"card x = 3 \<and> x \<subseteq> l" using assms A7 by auto
-    then have 3:"card x = 3" by (rule conjE)
-    have "\<exists> p1 p2 p3. distinct [p1,p2,p3] \<and> x = {p1,p2,p3}" using 3
+  then have "card x = 3" by (rule conjE)
+    then have "\<exists> p1 p2 p3. distinct [p1,p2,p3] \<and> x = {p1,p2,p3}" 
       by (rule construct_set_of_card3)
-    then obtain "p1" "p2" "p3" where 4:"distinct [p1,p2,p3] \<and> x =
+    then obtain "p1" "p2" "p3" where 2:"distinct [p1,p2,p3] \<and> x =
       {p1,p2,p3}" by auto
-    show ?thesis using 1 4 assms
-      by (metis A2 distinct.simps(2) insert_iff list.set(1) list.simps(15) subsetD)
+    have "l \<subseteq> plane \<and> l \<noteq> {}" using A2 assms by auto
+    then have 3:"x \<subseteq> plane" using 1 by auto
+    then have "p1 \<notin> {p,q} \<or> p2 \<notin> {p,q} \<or> p3 \<notin> {p,q}" using 2 by auto
+    then show ?thesis
+    proof 
+      assume "p1 \<notin> {p,q}" 
+      then show ?thesis using 1 2 3  by auto
+    next
+      assume " p2 \<notin> {p, q} \<or> p3 \<notin> {p, q}"
+      then show ?thesis
+      proof 
+        assume "p2 \<notin> {p,q}" 
+        then show ?thesis using  1 2 3  by auto
+      next
+        assume "p3 \<notin> {p,q}" 
+        then show ?thesis using  1 2 3  by auto
+      qed
+    qed
+  qed
+
 
       
 (*  ----------------------------  *)
