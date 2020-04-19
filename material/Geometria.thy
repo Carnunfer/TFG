@@ -331,27 +331,34 @@ proof -
     using 2 by auto
   then show ?thesis using 1 2 3 by auto
 qed
-
-
       
-(*  ----------------------------  *)
-(* |   Problem 27 (5 marks):   | *)
-(*  ----------------------------  *)
+(* ---------------------------------------------------------------------
+   Problem 27
+   ------------------------------------------------------------------ *)
+
 lemma (in Projective_Geometry) two_lines_per_point:
   "\<forall>p \<in> plane. \<exists>l \<in> lines. \<exists>m \<in> lines. l \<noteq> m \<and> p \<in> l \<inter> m" 
 proof 
   fix p 
-  assume 1:"p \<in> plane"
-  show " \<exists>l \<in> lines. \<exists>m \<in> lines. l \<noteq> m \<and> p \<in> l \<inter> m" 
+  assume 1: "p \<in> plane"
+  show "\<exists>l \<in> lines. \<exists>m \<in> lines. l \<noteq> m \<and> p \<in> l \<inter> m" 
   proof - 
-    obtain "q" where "q \<in> plane" using A1 by auto
-    then obtain "l" where 2:"l \<in> lines \<and> {p,q} \<subseteq> l " using A3 1 by auto
-    then obtain "r" where 3:" r \<notin> l \<and> r \<in> plane" using A5 by auto
-    then obtain "m" where 4: " m \<in> lines \<and> {p,r} \<subseteq> m " using A3 1  by auto
-    then have 5:"l \<noteq> m" using  3 by auto
-    have "p \<in> l \<inter> m" using 2 4 by auto
-    then have "l \<noteq> m \<and> p \<in> l \<inter> m" using 5 by auto
-    thus ?thesis using 2 4 by auto
+    obtain "q" where "q \<in> plane" 
+      using A1 by auto
+    then obtain "l" where 2: "l \<in> lines \<and> {p,q} \<subseteq> l" 
+      using A3 1 by auto
+    then obtain "r" where 3:" r \<notin> l \<and> r \<in> plane" 
+      using A5 by auto
+    then obtain "m" where 4: "m \<in> lines \<and> {p,r} \<subseteq> m " 
+      using A3 1  by auto
+    then have 5:"l \<noteq> m" 
+      using 3 by auto
+    have "p \<in> l \<inter> m" 
+      using 2 4 by auto
+    then have "l \<noteq> m \<and> p \<in> l \<inter> m" 
+      using 5 by auto
+    then show ?thesis 
+      using 2 4 by auto
   qed
 qed
 
