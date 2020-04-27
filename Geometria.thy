@@ -84,7 +84,17 @@ locale Simple_Geometry =
 
 
 text \<open>
+A pesar de la definición del entorno local goemetría simple de 5
+ axiomas, no en todas las demostraciones, se van a usar todos ellos. Sin
+embardo, al haber definido tanto las lineas como el plano como conjuntos
+ tenemos todas las funciones definidas en Isabelle/HOL de la teoría de
+ conjuntos
+  \href{https://www.cl.cam.ac.uk/research/hvg/Isabelle/dist/library/HOL/HOL/Set.html}{Set.thy}.
+\<close>
 
+
+subsection \<open>
+Proposiciones de geometría simple
 \<close>
 
 (* ---------------------------------------------------------------------
@@ -162,6 +172,9 @@ qed
    Problem 19
    ------------------------------------------------------------------ *)
 
+subsection \<open>
+Interpretación mínimo modelo geometría simple 
+\<close>
 definition "plane_3 \<equiv> {1::nat,2,3} "
 
 definition "lines_3 \<equiv> {{1,2},{2,3},{1,3}}"
@@ -260,7 +273,7 @@ section \<open>Geometría no proyectiva \<close>
      if a point p lies outside of line l then there must exist at least
      one line m that passes through p, which does not intersect l 
   ------------------------------------------------------------------- *)
-
+subsection \<open>Entorno local \<close>
 locale Non_Projective_Geometry =
   Simple_Geometry +
   assumes parallels_Ex:
@@ -272,6 +285,7 @@ locale Non_Projective_Geometry =
    Show that it is indeed a model using the command "interpretation" 
    ------------------------------------------------------------------ *)
 
+subsection \<open>Interpretacion modelo geometría no proyectiva \<close>
 definition "plane_4 \<equiv> {1::nat, 2, 3, 4}"
 
 definition "lines_4 \<equiv> {{1,2},{2,3},{1,3},{1,4},{2,4},{3,4}}"
@@ -287,6 +301,7 @@ interpretation Non_projective_geometry_card_4:
      "it is not true that every pair of lines intersect"  
   ------------------------------------------------------------------- *)
 
+subsection \<open>Proposiciones de geometría no proyectiva \<close>
 lemma (in Non_Projective_Geometry) non_projective:
   "\<not>(\<forall>r \<in> lines. \<forall>s \<in> lines. r \<inter> s \<noteq> {})"
 proof 
@@ -332,6 +347,9 @@ lemma construct_set_of_card4:
 
 section \<open>Geometría proyectiva \<close>
 
+subsection \<open>
+Entorno local 
+\<close>
 locale Projective_Geometry = 
   Simple_Geometry + 
   assumes A6: "\<forall>l \<in> lines. \<forall>m \<in> lines. \<exists>p \<in> plane. p \<in> l \<and> p \<in> m"
@@ -340,6 +358,7 @@ locale Projective_Geometry =
 (* ---------------------------------------------------------------------
    Problem 25: Prove this alternative to axiom A7  
    ------------------------------------------------------------------ *)
+subsection \<open>Proposiciones de geometría proyectiva \<close>
 
 lemma (in Projective_Geometry) A7a:
   "\<forall>l \<in> lines. \<exists>p1 p2 p3. {p1, p2, p3} \<subseteq> plane \<and> 
@@ -788,7 +807,7 @@ proof -
 
 
 
-
+ subsection \<open>Interpretación modelo geometría proyectiva \<close>
 (*  -----------------------------  *)
 (* |   Problem 31 (3 marks):    | *)
 (*  -----------------------------  *)
