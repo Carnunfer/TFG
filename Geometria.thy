@@ -1,16 +1,72 @@
+(*<*)
 theory Geometria
-imports Main 
+imports Main  "HOL-Library.LaTeXsugar" "HOL-Library.OptionalSugar" 
 begin
+(*>*)
 
 (* ---------------------------------------------------------------------  
                   FORMALISING AND REASONING                  
                 ABOUT GEOMETRIES USING LOCALES                
    ------------------------------------------------------------------ *)
 
+section \<open>Introducción a la geometría \<close>
+
+text \<open>La geometría posee una larga de historía de estar presentada y
+ representada por sistemas axiomáticos, es decir, cualquier conjunto de
+ axiomas a partir del cual se pueden usar algunos o todos los axiomas en
+ conjunto para derivar lógicamente teoremas. Un axioma es una
+ declaración que se considera verdadera, que sirve como punto 
+de partida para razonamientos y argumentos adicionales.
+
+
+ Por ello, vamos a representar la geometria simple, que la entenderemos
+ definiendo el  plano como un conjunto de puntos y las líneas como 
+conjuntos de puntos, la geometría no proyectiva añadiéndole un axioma a 
+la simple y por  último, la geometria proyectiva añadiendole 3 axiomas 
+a la simple. 
+
+Todo esto se definirá en Isabelle/HOL como un entorno local. Un entorno
+ local o declaración local consiste en secuencia de elementos que
+ declararán parámetros(\textbf{fixed}) y suposiciones
+ (\textbf{assumption}).
+
+
+\<close>
 (* --------------------------------------------------------------------
    Problem 14: State formally the following axioms.  
   ------------------------------------------------------------------- *)
 
+section \<open>Geometría simple \<close>
+
+subsection \<open>Entorno local \<close>
+
+text \<open> 
+
+La geometría simple, como ya se ha nombrado anteriormente, posee tres
+ elementos fundamentales. Los puntos, el plano, que es el conjunto de
+ todos ellos, y las rectas, que son conjuntos de puntos. Esta geometría
+ posee 5 axiomas:
+
+
+\begin{enumerate}
+
+\item{El plano es no vacío.}
+
+\item{Toda línea es un subconjunto no vacío del plano.}
+
+\item{Para cualquier par de puntos en el plano, existe una línea que
+ contiene a ambos.}
+
+\item{Dos líneas diferentes intersecan en no mas de un punto.}
+
+\item{Para toda línea, existe un punto del plano que no pertenece a
+ ella.}
+\end{enumerate}
+
+Se ha declarado un entorno local, denotado \textbf{Simple$-$Geometry}, con
+un par de constantes(\textbf{lines} y \textbf{plane}) junto con los 5
+ axiomas ya definidos anteriormente.
+\<close>
 
 locale Simple_Geometry =
   fixes plane :: "'a set"
@@ -25,6 +81,21 @@ locale Simple_Geometry =
       and A5: "\<forall>l \<in> lines. \<exists>q \<in> plane. q \<notin> l"
               (* For every line L there is a point in the plane outside 
                  of L. *)
+
+
+text \<open>
+A pesar de la definición del entorno local goemetría simple de 5
+ axiomas, no en todas las demostraciones, se van a usar todos ellos. Sin
+embardo, al haber definido tanto las lineas como el plano como conjuntos
+ tenemos todas las funciones definidas en Isabelle/HOL de la teoría de
+ conjuntos
+  \href{https://www.cl.cam.ac.uk/research/hvg/Isabelle/dist/library/HOL/HOL/Set.html}{Set.thy}.
+\<close>
+
+
+subsection \<open>
+Proposiciones de geometría simple
+\<close>
 
 (* ---------------------------------------------------------------------
    Problem 15 : Formalise the statement: the set of lines is non-empty 
@@ -101,6 +172,9 @@ qed
    Problem 19
    ------------------------------------------------------------------ *)
 
+subsection \<open>
+Interpretación mínimo modelo geometría simple 
+\<close>
 definition "plane_3 \<equiv> {1::nat,2,3} "
 
 definition "lines_3 \<equiv> {{1,2},{2,3},{1,3}}"
@@ -192,12 +266,14 @@ proof
   qed
 qed
 
+section \<open>Geometría no proyectiva \<close>
+
 (* ---------------------------------------------------------------------
    Problem 22: Formalise the following axiom: 
      if a point p lies outside of line l then there must exist at least
      one line m that passes through p, which does not intersect l 
   ------------------------------------------------------------------- *)
-
+subsection \<open>Entorno local \<close>
 locale Non_Projective_Geometry =
   Simple_Geometry +
   assumes parallels_Ex:
@@ -209,6 +285,7 @@ locale Non_Projective_Geometry =
    Show that it is indeed a model using the command "interpretation" 
    ------------------------------------------------------------------ *)
 
+subsection \<open>Interpretacion modelo geometría no proyectiva \<close>
 definition "plane_4 \<equiv> {1::nat, 2, 3, 4}"
 
 definition "lines_4 \<equiv> {{1,2},{2,3},{1,3},{1,4},{2,4},{3,4}}"
@@ -224,6 +301,7 @@ interpretation Non_projective_geometry_card_4:
      "it is not true that every pair of lines intersect"  
   ------------------------------------------------------------------- *)
 
+subsection \<open>Proposiciones de geometría no proyectiva \<close>
 lemma (in Non_Projective_Geometry) non_projective:
   "\<not>(\<forall>r \<in> lines. \<forall>s \<in> lines. r \<inter> s \<noteq> {})"
 proof 
@@ -265,7 +343,13 @@ lemma construct_set_of_card4:
   by (metis (no_types, lifting) card_eq_SucD construct_set_of_card3 
       Suc_numeral add_num_simps(1) add_num_simps(7) 
       distinct.simps(2) empty_set list.set(2))
-  
+
+
+section \<open>Geometría proyectiva \<close>
+
+subsection \<open>
+Entorno local 
+\<close>
 locale Projective_Geometry = 
   Simple_Geometry + 
   assumes A6: "\<forall>l \<in> lines. \<forall>m \<in> lines. \<exists>p \<in> plane. p \<in> l \<and> p \<in> m"
@@ -274,6 +358,7 @@ locale Projective_Geometry =
 (* ---------------------------------------------------------------------
    Problem 25: Prove this alternative to axiom A7  
    ------------------------------------------------------------------ *)
+subsection \<open>Proposiciones de geometría proyectiva \<close>
 
 lemma (in Projective_Geometry) A7a:
   "\<forall>l \<in> lines. \<exists>p1 p2 p3. {p1, p2, p3} \<subseteq> plane \<and> 
@@ -340,25 +425,14 @@ lemma (in Projective_Geometry) two_lines_per_point:
   "\<forall>p \<in> plane. \<exists>l \<in> lines. \<exists>m \<in> lines. l \<noteq> m \<and> p \<in> l \<inter> m" 
 proof 
   fix p 
-  assume 1: "p \<in> plane"
-  show "\<exists>l \<in> lines. \<exists>m \<in> lines. l \<noteq> m \<and> p \<in> l \<inter> m" 
-  proof - 
-    obtain "q" where "q \<in> plane" 
-      using A1 by auto
-    then obtain "l" where 2: "l \<in> lines \<and> {p,q} \<subseteq> l" 
-      using A3 1 by auto
-    then obtain "r" where 3:" r \<notin> l \<and> r \<in> plane" 
-      using A5 by auto
-    then obtain "m" where 4: "m \<in> lines \<and> {p,r} \<subseteq> m " 
-      using A3 1  by auto
-    then have 5:"l \<noteq> m" 
-      using 3 by auto
-    have "p \<in> l \<inter> m" 
-      using 2 4 by auto
-    then have "l \<noteq> m \<and> p \<in> l \<inter> m" 
-      using 5 by auto
-    then show ?thesis 
-      using 2 4 by auto
+  assume 1:"p \<in> plane"
+  show " \<exists>l \<in> lines. \<exists>m \<in> lines. l \<noteq> m \<and> p \<in> l \<inter> m" 
+  proof -
+    obtain "l" where 2:"l \<in> lines \<and> {p,p} \<subseteq> l " using A3 1 by auto
+    then obtain "r" where 3:" r \<notin> l \<and> r \<in> plane" using A5 by auto
+    then obtain "m" where 4: " m \<in> lines \<and> {p,r} \<subseteq> m " using A3 1  by auto
+    then have "l \<noteq> m \<and> p \<in> l \<inter> m" using  2 3 by auto
+    thus ?thesis using 2 4 by auto
   qed
 qed
 
@@ -732,7 +806,7 @@ proof -
 
 
 
-
+ subsection \<open>Interpretación modelo geometría proyectiva \<close>
 (*  -----------------------------  *)
 (* |   Problem 31 (3 marks):    | *)
 (*  -----------------------------  *)
