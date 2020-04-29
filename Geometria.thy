@@ -571,6 +571,33 @@ qed
 (* ---------------------------------------------------------------------
    Problem 30
    ------------------------------------------------------------------ *)
+lemma (in Projective_Geometry) puntos_diferentes:
+  assumes "l \<in> lines"
+          "l1 \<in> lines"
+          "{p,c} \<subseteq> l"
+          "{q,c} \<subseteq> l1"
+          "l \<noteq> l1"
+          "c \<noteq> p"
+        shows "p \<noteq> q" 
+proof 
+  assume 1:"p = q" 
+  have "l \<inter> l1 = {} \<or> (\<exists>q \<in> plane. l \<inter> l1 = {q})" using assms(1,2,5) A4
+    by auto
+  then show False
+  proof 
+    assume "l \<inter> l1 = {}"
+    then show False using assms(3,4) by auto
+  next
+    assume " \<exists>q\<in>plane. l \<inter> l1 = {q}"
+    then obtain "t" where "l \<inter> l1 = {t}" by auto
+    then have "{p,c} \<subseteq> {t}" using assms(3,4) 1 by auto
+    then show False using assms(6) by auto
+  qed
+qed
+
+
+
+
 
 lemma (in Projective_Geometry) at_least_seven_points: 
   "\<exists>p1 p2 p3 p4 p5 p6 p7. 
@@ -601,46 +628,10 @@ proof -
     using A7b 7 by metis
   then have 34: "p4 \<in> plane" 
     using A2 7 by auto
-  have 17: "p4 \<noteq> p2" 
-  proof 
-    assume 10: "p4 = p2" 
-    have "l \<inter> l1 = {} \<or> (\<exists>q \<in> plane. l \<inter> l1 = {q})" 
-      using A4 7 1 8 by auto
-    then show False
-    proof 
-      assume "l \<inter> l1 = {}" 
-      then show False 
-        using 7 4 by auto
-    next 
-      assume "\<exists>q\<in>plane. l \<inter> l1 = {q}" 
-      then obtain t where "l \<inter> l1 = {t}" 
-        by auto
-      then have "{p1,p2} \<subseteq> {t}" 
-        using 7 4 9 10 by auto
-      then show False 
-        using 11 by auto
-    qed
-  qed
-  have 18: "p4 \<noteq> p3" 
-  proof 
-    assume 10: "p4 = p3" 
-    have "l \<inter> l1 = {} \<or> (\<exists>q \<in> plane. l \<inter> l1 = {q})" 
-      using A4 7 1 8 by auto
-    then show False
-    proof 
-      assume "l \<inter> l1 = {}" 
-      then show False 
-        using 7 4 by auto
-    next 
-      assume  "\<exists>q\<in>plane. l \<inter> l1 = {q}" 
-      then obtain t where "l \<inter> l1 = {t}" 
-        by auto
-      then have "{p1,p3} \<subseteq> {t}" 
-        using 7 4 9 10 by auto
-      then show False 
-        using 11 by auto
-    qed
-  qed
+  have 17:"p4 \<noteq> p2" using 7 1 9 4 11 8 puntos_diferentes
+    by (metis insertCI insert_subset)
+  have 18: "p4 \<noteq> p3" using 7 1 9 4 11 8 puntos_diferentes
+    by (metis insertCI insert_subset)
   obtain l2 where 13: "l2 \<in> lines \<and> {p2,q} \<subseteq> l2" 
     using 5 6 A3 by auto
   then obtain p5 where 12: "p5 \<notin> {p2,q} \<and> p5 \<in> l2" 
@@ -649,46 +640,10 @@ proof -
     using 13 A2 by auto
   have 27: "l2 \<noteq> l" 
     using 5 13 by auto
-  have 19: "p5 \<noteq> p1"  
-  proof 
-    assume 10: "p5 = p1" 
-    have "l \<inter> l2 = {} \<or> (\<exists>q \<in> plane. l \<inter> l2 = {q})" 
-      using A4 13 1 27 by auto
-    then show False
-    proof 
-      assume "l \<inter> l2 = {}" 
-      then show False 
-        using 13 4 by auto
-    next 
-      assume  "\<exists>q\<in>plane. l \<inter> l2 = {q}" 
-      then obtain t where "l \<inter> l2 = {t}" 
-        by auto
-      then have "{p1,p2} \<subseteq> {t}" 
-        using 10 13 12 4 by auto
-      then show False 
-        using 11 by auto
-    qed
-  qed
-  have 20: "p5 \<noteq> p3" 
-  proof 
-    assume 10:"p5 = p3" 
-    have "l \<inter> l2 = {} \<or> (\<exists>q \<in> plane. l \<inter> l2 = {q})" 
-      using A4 13 1 27 by auto
-    then show False
-    proof 
-      assume "l \<inter> l2 = {}" 
-      then show False 
-        using 13 4 by auto
-    next 
-      assume "\<exists>q\<in>plane. l \<inter> l2 = {q}" 
-      then obtain t where "l \<inter> l2 = {t}" 
-        by auto
-      then have "{p3,p2} \<subseteq> {t}" 
-        using 10 13 12 4 by auto
-      then show False 
-        using 11 by auto
-    qed
-  qed
+  have 19:"p5 \<noteq> p1" using 1 13 12 4  27 puntos_diferentes 12
+    by (metis  insert_iff insert_subset) 
+  have 20:"p5 \<noteq> p3" using 1 13 12 4  27 puntos_diferentes 12
+    by (metis  insert_iff insert_subset)
   have 15: "l1 \<noteq> l2" 
   proof 
     assume 14: "l1 = l2" 
@@ -709,26 +664,8 @@ proof -
         using 11 by auto
     qed
   qed
-  have 21: "p4 \<noteq> p5" 
-  proof 
-    assume 16: "p4 = p5"
-    have "l2 \<inter> l1 = {} \<or> (\<exists>q \<in> plane. l2 \<inter> l1 = {q})" 
-      using A4 7 15 13 by auto
-    then show False 
-    proof 
-      assume "l2 \<inter> l1 = {}"
-      then show False 
-        using 13 7 by auto
-    next
-      assume "\<exists>q\<in>plane. l2 \<inter> l1 = {q}"
-      then obtain t where "l2 \<inter> l1 = {t}" 
-        by auto
-      then have "{p4,q} = {t}" 
-        using 16 13 7 12 9 by auto
-      then show False 
-        using 9 by auto
-    qed
-  qed
+  have 21: "p4 \<noteq> p5" using 13 7 12 4 9 15 puntos_diferentes
+    by (metis  insert_iff insert_subset) 
   have 29: "distinct [p1,p2,p3,p4,p5,q]" 
     using 11 9 17 18 12 19 20 21 by auto
   obtain l3 where 22: "l3 \<in> lines \<and> {p3,q} \<subseteq> l3" 
@@ -739,47 +676,11 @@ proof -
     using 22 A2 by auto
   have 23: "l3 \<noteq> l" 
     using 22 5 by auto
-  have 30: "p6 \<noteq> p1" 
-  proof 
-    assume 24: "p6 = p1" 
-    have "l3 \<inter> l = {} \<or> (\<exists>q \<in> plane. l3\<inter> l = {q})" 
-      using A4 23 22 1 by auto
-    then show False
-    proof 
-      assume "l3 \<inter> l = {}" 
-      then show False 
-        using 22 4 by auto
-    next 
-      assume "\<exists>q\<in>plane. l3 \<inter> l = {q}" 
-      then obtain t where "l3 \<inter> l = {t}" 
-        by auto
-      then have "{p1,p3} = {t}" 
-        using 24 4 22 26 by auto
-      then show False 
-        using 11 by auto
-    qed
-  qed
-  have 31: "p6 \<noteq> p2"
-  proof 
-    assume 24: "p6 = p2" 
-    have "l3 \<inter> l = {} \<or> (\<exists>q \<in> plane. l3\<inter> l = {q})" 
-      using A4 23 22 1 by auto
-    then show False
-    proof 
-      assume "l3 \<inter> l = {}" 
-      then show False 
-        using 22 4 by auto
-    next 
-      assume "\<exists>q\<in>plane. l3 \<inter> l = {q}" 
-      then obtain t where "l3 \<inter> l = {t}" 
-        by auto
-      then have "{p2,p3} = {t}" 
-        using 24 4 22 26 by auto
-      then show False 
-        using 11 by auto
-    qed
-  qed
-  have 25: "l1 \<noteq> l3"
+  have 30: "p6 \<noteq> p1" using 1 22 26 4  23 puntos_diferentes
+    by (metis  insert_iff insert_subset) 
+  have 31: "p6 \<noteq> p2" using 1 22 26 4  23 puntos_diferentes
+    by (metis  insert_iff insert_subset)
+  have 25: "l1 \<noteq> l3" 
   proof 
     assume 14: "l1 = l3" 
     have "l \<inter> l1 = {} \<or> (\<exists>q \<in> plane. l \<inter> l1 = {q})" 
@@ -799,27 +700,9 @@ proof -
         using 11 by auto
     qed
   qed
-  have 32: "p6 \<noteq> p4"
-  proof 
-    assume 16: "p6 = p4"
-    have "l3 \<inter> l1 = {} \<or> (\<exists>q \<in> plane. l3 \<inter> l1 = {q})" 
-      using A4 7 25 22 by auto 
-    then show False
-    proof 
-      assume "l3 \<inter> l1 = {}"
-      then show False 
-        using 22 7 by auto
-    next
-      assume "\<exists>q\<in>plane. l3 \<inter> l1 = {q}"
-      then obtain t where "l3 \<inter> l1 = {t}" 
-        by auto
-      then have "{p4,q} = {t}" 
-        using 16 9 26 22 7 by auto
-      then show False 
-        using 9 by auto
-    qed
-  qed
-  have 28: "l2 \<noteq> l3" 
+  have 32: "p6 \<noteq> p4" using 22 7 26 9 25  puntos_diferentes
+    by (metis  insert_iff insert_subset) 
+  have 28: "l2 \<noteq> l3"
   proof 
     assume 14: "l2 = l3" 
     have "l \<inter> l2 = {} \<or> (\<exists>q \<in> plane. l \<inter> l2 = {q})" 
@@ -839,26 +722,8 @@ proof -
         using 11 by auto
     qed
   qed
-  have 33: "p6 \<noteq> p5" 
-  proof 
-    assume 16: "p6 = p5"
-    have "l3 \<inter> l2 = {} \<or> (\<exists>q \<in> plane. l3 \<inter> l2 = {q})" 
-      using A4 28 22 13 by auto 
-    then show False
-    proof 
-      assume "l3 \<inter> l2 = {}"
-      then show False 
-        using 22 13 by auto
-    next
-      assume "\<exists>q\<in>plane. l3 \<inter> l2 = {q}"
-      then obtain t where "l3 \<inter> l2 = {t}" 
-        by auto
-      then have "{p5,q} = {t}" 
-        using 16 12 26 22 13  by auto
-      then show False 
-        using 29 by auto
-    qed
-  qed
+  have 33:"p6 \<noteq> p5" using  22 13 26 12 28 29  puntos_diferentes
+by (metis  insert_iff insert_subset)
   have 37: "distinct [p1,p2,p3,p4,p5,p6,q]" 
     using 29 26 30 31 32 33 by auto
   have "{p1,p2,p3,p4,p5,p6,q} \<subseteq> plane" 
