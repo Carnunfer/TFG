@@ -101,6 +101,27 @@ Proposiciones de geometría simple
    Problem 15 : Formalise the statement: the set of lines is non-empty 
    ------------------------------------------------------------------ *)
 
+text \<open>
+A continuación vamos a presentar una serie de lemas que vamos a
+ demostrar dentro del entorno de geometría simple.
+
+El primer lema es el siguiente:
+
+\begin{lema} 
+Existe al menos una línea.
+\end{lema}
+
+\begin{demostracion}
+Vamos a demostrar que el conjunto de línes es no vacío, para ello,
+ supongamos en primer lugar por el axioma A1 que $\exists q$ tal que $q$
+pertenece al plano. Entonces por el axioma A2 tenemos que $\exists l$
+ línea tal que el conjunto $\{q,q\} \subseteq l$ luego ya tenemos
+ probado que existe una línea.
+\end{demostracion}
+
+La formalización del lema y su demostración es la siguiente:
+
+\<close>
 lemma (in Simple_Geometry) one_line_exists:
   "\<exists>l. l \<in> lines " 
 proof - 
@@ -114,6 +135,25 @@ qed
    Problem 16
    ------------------------------------------------------------------ *)
 
+text \<open>
+El segundo lema es el siguiente 
+
+\begin{lema}
+Existen al menos dos puntos que son diferentes en el plano 
+\end{lema}
+
+\begin{demostracion}
+Para la demostración del lema, vamos a usar el lema anterior, luego
+ supongamos que $\exists l$ tal que $l$ es una línea. Luego por el
+ axioma A2, sabemos que $l \neq \emptyset$ luego esto implica que
+ $\exists q$ tal que $q \in l.$ Por otro lado por el axioma A5 sabemos
+ que $\exists p$ tal que es un punto y $p \notin l$ luego ya tenemos
+ probada la existencia de dos puntos. A parte, como $p \notin l$ y $q
+ \in l$ tienen que ser distintos. 
+\end{demostracion}
+
+La especificación y demostración del lema es la siguiente:
+\<close>
 lemma (in Simple_Geometry) two_points_exist:
   "\<exists>p1 p2. p1 \<noteq> p2 \<and> {p1, p2} \<subseteq> plane"
 proof -
@@ -134,7 +174,24 @@ qed
 (* --------------------------------------------------------------------- 
    Problem 17 
    ------------------------------------------------------------------ *)
+text \<open>
+El siguiente lema es el siguiente: 
 
+\begin{lema}
+Existen al menos tres puntos diferentes en el plano.
+\end{lema}
+
+\begin{demostracion}
+Para la demostración del lema vamos a usar el lema anterior, es decir,
+supongamos que $\exists p,q$ tal que $p \neq q.$ Por el axioma A2 se
+ tiene que $\exists l$ línea con ${p,q} \subseteq {l}.$ Usando el axioma
+A5 obtenemos que $\exists r$ tal que $r \notin l,$ luego ya hemos 
+probado la existencia. Veamos que son diferentes, es decir, como hemos
+ tomado $p \neq q$ simplemente tenemos que probar que $r \neq q$ y $r
+ \neq p$. Como $r \notin l$ ya se tiene probado.
+\end{demostracion}
+
+\<close>
 lemma (in Simple_Geometry) three_points_exist:
   "\<exists>p1 p2 p3. distinct [p1, p2, p3] \<and> {p1, p2, p3} \<subseteq> plane" 
 proof - 
@@ -153,7 +210,21 @@ qed
 (* ---------------------------------------------------------------------  
    Problem 18 
    ------------------------------------------------------------------ *)
+text \<open>
+El siguiente lema es una consecuencia inmediata del lema anterior.
 
+\begin{lema}
+Si el plano es finito, entonces la cardinalidad del plano es mayor o 
+igual que $3.$
+\end{lema}
+
+\begin{demostracion}
+Usando el lema anterior, ya tenemos probado que $\exists p,q,r$
+ pertenecientes al plano  con $p  \neq q \neq r.$ Como estos puntos son
+ diferentes se tiene directamente que al meno la cardinalidad del plano
+ es mayor o igual que $3.$
+\end{demostracion}
+\<close>
 lemma (in Simple_Geometry) card_of_plane_greater:
   assumes "finite plane" 
   shows "card plane \<ge> 3"
@@ -172,22 +243,25 @@ qed
    Problem 19
    ------------------------------------------------------------------ *)
 
-subsection \<open>
-Interpretación mínimo modelo geometría simple 
-\<close>
-definition "plane_3 \<equiv> {1::nat,2,3} "
-
-definition "lines_3 \<equiv> {{1,2},{2,3},{1,3}}"
-
-interpretation Simple_Geometry_smallest_model:
-  Simple_Geometry plane_3 lines_3
-  apply standard 
-      apply (simp add: plane_3_def lines_3_def)+
-  done
-
 (* ---------------------------------------------------------------------
    Problem 20
    ------------------------------------------------------------------ *)
+text \<open>
+El siguiente lema es el siguiente:
+
+\begin{lema}
+Sea $l$ una línea tal que existen dos puntos $\{a,b\} \subseteq l$ con
+ $a \neq b,$  un punto $p$ tal que $p \notin l.$ Sea $n$ una línea tal que
+$\{a,p\} \subseteq n$ y $m$ otra línea tal que $\{b,p\} \subseteq m.$
+ Entonces $m \neq n.$ 
+\end{lema}
+
+\begin{figure}
+\begin{center} 
+\includegraphics[height=8cm]{geogebra.png}\caption{Visión geométrica}
+\end{center}
+\end{figure}
+\<close>
 
 lemma (in Simple_Geometry) how_to_produce_different_lines:
   assumes
@@ -229,7 +303,15 @@ qed
 (* --------------------------------------------------------------------- 
    Problem 21   
    ------------------------------------------------------------------ *)
+text \<open>El siguiente lema es: 
 
+\begin{lema}
+Sea $l$ una línea tal que existen dos puntos $\{a,b\} \subseteq l$ con
+ $a \neq b,$  un punto $p$ tal que $p \notin l.$ Sea $n$ una línea tal que
+$\{a,p\} \subseteq n$ y $m$ otra línea tal que $\{b,p\} \subseteq m.$
+Supongamos además que existen otros dos puntos $c,d$ tales que
+ pertenecen a $n$ y $m$ respectivamente y $c \neq p.$
+\end{lema}\<close>
 lemma (in Simple_Geometry) how_to_produce_different_points:
   assumes
     "l \<in> lines" 
@@ -265,6 +347,21 @@ proof
     qed
   qed
 qed
+
+
+subsection \<open>
+Interpretación mínimo modelo geometría simple 
+\<close>
+definition "plane_3 \<equiv> {1::nat,2,3} "
+
+definition "lines_3 \<equiv> {{1,2},{2,3},{1,3}}"
+
+interpretation Simple_Geometry_smallest_model:
+  Simple_Geometry plane_3 lines_3
+  apply standard 
+      apply (simp add: plane_3_def lines_3_def)+
+  done
+
 
 section \<open>Geometría no proyectiva \<close>
 

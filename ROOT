@@ -18,3 +18,4 @@ session TFG = HOL +
     "root.bib"
     "definiciones.tex"
     "castellano.tex"
+    "geogebra.png"
