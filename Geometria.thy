@@ -30,6 +30,13 @@ Todo esto se definirá en Isabelle/HOL como un entorno local. Un entorno
  declararán parámetros(\textbf{fixed}) y suposiciones
  (\textbf{assumption}).
 
+También de cada tipo de geometría se dará el modelo mínimo que posee
+ cada una, esto se hará mediante el comando \textbf{interpretation}.
+El comando \textbf{interpretation} como su nombre indica consiste en
+ interpretar los comandos locales, es decir, dar un modelo(que en este
+ caso será el mínimo que ofrece cada entorno local) y probar todos los
+ axiomas que este tenga.
+
 
 \<close>
 (* --------------------------------------------------------------------
@@ -119,7 +126,7 @@ pertenece al plano. Entonces por el axioma A2 tenemos que $\exists l$
  probado que existe una línea.
 \end{demostracion}
 
-La formalización del lema y su demostración es la siguiente:
+La formalización del lema y su demostración en Isabelle/HOl es la siguiente:
 
 \<close>
 lemma (in Simple_Geometry) one_line_exists:
@@ -152,7 +159,7 @@ Para la demostración del lema, vamos a usar el lema anterior, luego
  \in l$ tienen que ser distintos. 
 \end{demostracion}
 
-La especificación y demostración del lema es la siguiente:
+La especificación y demostración del lema en Isabelle/HOL es la siguiente:
 \<close>
 lemma (in Simple_Geometry) two_points_exist:
   "\<exists>p1 p2. p1 \<noteq> p2 \<and> {p1, p2} \<subseteq> plane"
@@ -191,6 +198,8 @@ probado la existencia. Veamos que son diferentes, es decir, como hemos
  \neq p$. Como $r \notin l$ ya se tiene probado.
 \end{demostracion}
 
+
+La especificación y demostración del lema en Isabelle/HOL es la siguiente:
 \<close>
 lemma (in Simple_Geometry) three_points_exist:
   "\<exists>p1 p2 p3. distinct [p1, p2, p3] \<and> {p1, p2, p3} \<subseteq> plane" 
@@ -224,6 +233,8 @@ Usando el lema anterior, ya tenemos probado que $\exists p,q,r$
  diferentes se tiene directamente que al meno la cardinalidad del plano
  es mayor o igual que $3.$
 \end{demostracion}
+
+La especificación y demostración del lema en Isabelle/HOL es la siguiente:
 \<close>
 lemma (in Simple_Geometry) card_of_plane_greater:
   assumes "finite plane" 
@@ -256,11 +267,36 @@ $\{a,p\} \subseteq n$ y $m$ otra línea tal que $\{b,p\} \subseteq m.$
  Entonces $m \neq n.$ 
 \end{lema}
 
-\begin{figure}
-\begin{center} 
-\includegraphics[height=8cm]{geogebra.png}\caption{Visión geométrica}
-\end{center}
+\begin{demostracion}
+La demostración se hará por reducción al absurdo, es decir, supongamos
+ que $m = n$ y se llegará a un absurdo. Primero notemos que $m \neq l$
+ ya que $p \notin l$ pero $p \in m,$ luego podemos aplicar el axioma A4
+ a las líneas $m$ y $l.$ Al aplicarlo resulta que tenemos que $l \cap m
+ = \emptyset$ o existe un punto $q$ tal que $l \cap m = \{q\}.$ 
+
+Primero supongamos que $l \cap m = \emptyset,$ sin embargo $b \in l$ y
+ $b \in m$ luego hemos llegado a n absurdo.
+
+Segundo supongamos que sea $q$ el punto tal que $l \cap m = {q},$ sin
+ embargo al principio se ha supuesto que $m = n$. Por lo tanto, se tiene
+que $\{a,b\} \subseteq \{q\}$ con lo que se ha llegado a un absurdo ya que $a \neq
+b.$
+
+Por los dos casos se ha llegado a un absurdo luego, $m \neq n.$
+\end{demostracion}
+
+Para tener una visión geométrica de la demostración incluimos la figura
+ \ref{lineas_diferentes}.
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=6cm]{geogebra.png}
+\caption{Visión geométrica de la demostración de líneas diferentes}
+\label{lineas_diferentes}
 \end{figure}
+
+La especificación y demostración del lema en Isabelle/HOL es la siguiente:
 \<close>
 
 lemma (in Simple_Geometry) how_to_produce_different_lines:
@@ -310,8 +346,41 @@ Sea $l$ una línea tal que existen dos puntos $\{a,b\} \subseteq l$ con
  $a \neq b,$  un punto $p$ tal que $p \notin l.$ Sea $n$ una línea tal que
 $\{a,p\} \subseteq n$ y $m$ otra línea tal que $\{b,p\} \subseteq m.$
 Supongamos además que existen otros dos puntos $c,d$ tales que
- pertenecen a $n$ y $m$ respectivamente y $c \neq p.$
-\end{lema}\<close>
+ pertenecen a $n$ y $m$ respectivamente y $c \neq p.$ Entonces $c \neq
+ d.$
+\end{lema}
+
+\begin{demostracion}
+La demostración se hará por reducción al absurdo, es decir, supongamos
+ que $c = d$ y llegaremos a una contradicción. Tenemos todas las
+ hipótesis del lema anterior, luego $m \neq n,$ por lo que podemos
+ aplicar el axioma A4 a las líneas $m$ y $n.$ Se tiene por lo tanto que
+ $m \cap n = \emptyset$ o existe un punto $q$ tal que $m \cap n = \{q\}.$
+
+Primero supongamos que $m \cap n = \emptyset,$ sin embargo por hipótesis
+se tiene que $p \in m$ y $p \in n$ luego hemos llegado a una
+ contradicción.
+
+Segundo sea $q$ el punto tal que $m \cap n = \{q\}.$ Como se ha supuesto
+que $c = d$ se tiene que ${c,p} \subseteq \{q\},$ pero por hipótesis se
+ tiene que $c \neq p$ luego se ha llegado a una contradicción.
+
+En los dos caso se ha llegado a una contradicción, por lo que $c \neq d.$
+\end{demostracion}
+
+Para entender mejor la demostración se puede ver geométricamente en la 
+siguiente figura \ref{puntos_diferentes}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=6cm]{geogebra2.png}
+\caption{Visión geométrica de la demostración de puntos diferentes}
+\label{puntos_diferentes}
+\end{figure}
+
+La especificación y demostración del lema en Isabelle/HOL es la siguiente:
+\<close>
 lemma (in Simple_Geometry) how_to_produce_different_points:
   assumes
     "l \<in> lines" 
@@ -351,6 +420,18 @@ qed
 
 subsection \<open>
 Interpretación mínimo modelo geometría simple 
+\<close>
+
+text \<open>
+El mínimo modelo que tiene la geometría simple es considerar el plano
+ como el conjunto formado por tres números $\{a,b,c\}$, ya pueden ser
+ enteros,naturales etc y con ellos formar únicamente 3 líneas. En este
+ caso serían las combinaciones que se pueden hacer de 2 elementos de
+ un conjunto de 2, es decir, 3. 
+
+Para ello se va a dar el la definicion del \textbf{planes-3} que es el
+ plano de 3 elementos y \textbf{lines-3} que es el conjunto formado por
+ 3 líneas.
 \<close>
 definition "plane_3 \<equiv> {1::nat,2,3} "
 

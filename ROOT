@@ -19,3 +19,4 @@ session TFG = HOL +
     "definiciones.tex"
     "castellano.tex"
     "geogebra.png"
+    "geogebra2.png"
