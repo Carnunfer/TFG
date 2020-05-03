@@ -668,7 +668,8 @@ proof
     obtain l where 6: "l \<in> lines \<and> {r,s} \<subseteq> l" 
       using 3 5 A3 by auto
     have "p \<noteq> r" using 2 3 by auto
-    then have "p \<notin> l" using  4  6  5 punto_no_pertenece by metis
+    then have "p \<notin> l" 
+      using 4 6 5 punto_no_pertenece by metis
     then show ?thesis 
       using 6 by auto
   qed
@@ -678,7 +679,6 @@ qed
    Problem 29   
    ------------------------------------------------------------------ *)
 
-
 lemma (in Projective_Geometry) lineas_distintas:
   assumes "m \<in> lines \<and> {b,p} \<subseteq> m"
           "n \<in> lines \<and> {c,p} \<subseteq> n"
@@ -687,30 +687,29 @@ lemma (in Projective_Geometry) lineas_distintas:
           "b \<noteq> c"
         shows "m \<noteq> n"
 proof 
- assume  1:"m = n" 
- show False
-      proof - 
-        have  "{c,p,b} \<subseteq> m" 
-          using assms(1,2) 1 by auto
-        have "m \<inter> h = {} \<or> (\<exists>q\<in>plane. m \<inter> h = {q})" 
-          using A4 assms(1,3,4) by auto
-        then show False
-        proof 
-          assume "m \<inter> h = {}" 
-          then show False 
-            using assms(1,3) by auto
-        next 
-          assume "\<exists>q\<in>plane. m \<inter> h = {q}"
-          then obtain t where "t \<in> plane \<and> m \<inter> h = {t}" 
-            by auto
-          then have "{c,b} \<subseteq> {t}" 
-            using assms(1,2,3) 1 by auto
-          then show False 
-            using assms(5) by auto
-        qed
-      qed
+  assume  1:"m = n" 
+  show False
+  proof - 
+    have  "{c,p,b} \<subseteq> m" 
+      using assms(1,2) 1 by auto
+    have "m \<inter> h = {} \<or> (\<exists>q\<in>plane. m \<inter> h = {q})" 
+      using A4 assms(1,3,4) by auto
+    then show False
+    proof 
+      assume "m \<inter> h = {}" 
+      then show False 
+        using assms(1,3) by auto
+    next 
+      assume "\<exists>q\<in>plane. m \<inter> h = {q}"
+      then obtain t where "t \<in> plane \<and> m \<inter> h = {t}" 
+        by auto
+      then have "{c,b} \<subseteq> {t}" 
+        using assms(1,2,3) 1 by auto
+      then show False 
+        using assms(5) by auto
     qed
-
+  qed
+qed
 
 lemma (in Projective_Geometry) three_lines_per_point:
   "\<forall>p \<in> plane. \<exists>l m n. 
@@ -731,17 +730,23 @@ proof
       using 1 3 A3 by auto
     obtain n where 6: "n \<in> lines \<and> {c,p} \<subseteq> n" 
       using 1 3 A3 by auto
-    have 7:"h \<noteq> l" using 4 2 by auto
-    have "a \<noteq> b" using 3 by auto
-    then have 9:"m \<noteq> l" using 3 4 5 2 7  lineas_distintas 
-      by (smt  insert_commute)  
-    have 8: "h \<noteq> m" using 5 2 by auto
-    have  "b \<noteq> c" using 3 by auto
-    then have 10:"m \<noteq> n" using 6 5 3 2 8 lineas_distintas by metis
-    have "a \<noteq> c" using 3 by auto
-    then  have 11: "l \<noteq> n" using 2 3 4 6 7 lineas_distintas
-      by (smt insert_commute)   
-     show ?thesis 
+    have 7:"h \<noteq> l" 
+      using 4 2 by auto
+    have "a \<noteq> b" 
+      using 3 by auto
+    then have 9: "m \<noteq> l" 
+      using 3 4 5 2 7 lineas_distintas [of l a p m b h c] by simp
+    have 8: "h \<noteq> m" 
+      using 5 2 by auto
+    have  "b \<noteq> c" 
+      using 3 by auto
+    then have 10: "m \<noteq> n" 
+      using 6 5 3 2 8 lineas_distintas [of m b p n c h a] by simp
+    have "a \<noteq> c" 
+      using 3 by auto
+    then  have 11: "l \<noteq> n" 
+      using 2 3 4 6 7 lineas_distintas [of l a p n c h b] by simp 
+    show ?thesis 
       using  4 5 6 9 10 11 by auto
   qed
 qed
@@ -749,6 +754,7 @@ qed
 (* ---------------------------------------------------------------------
    Problem 30
    ------------------------------------------------------------------ *)
+
 lemma (in Projective_Geometry) puntos_diferentes:
   assumes "l \<in> lines"
           "l1 \<in> lines"
@@ -758,18 +764,22 @@ lemma (in Projective_Geometry) puntos_diferentes:
           "c \<noteq> p"
         shows "p \<noteq> q" 
 proof 
-  assume 1:"p = q" 
-  have "l \<inter> l1 = {} \<or> (\<exists>q \<in> plane. l \<inter> l1 = {q})" using assms(1,2,5) A4
-    by auto
+  assume 1: "p = q" 
+  have "l \<inter> l1 = {} \<or> (\<exists>q \<in> plane. l \<inter> l1 = {q})" 
+    using assms(1,2,5) A4 by auto
   then show False
   proof 
     assume "l \<inter> l1 = {}"
-    then show False using assms(3,4) by auto
+    then show False 
+      using assms(3,4) by auto
   next
-    assume " \<exists>q\<in>plane. l \<inter> l1 = {q}"
-    then obtain "t" where "l \<inter> l1 = {t}" by auto
-    then have "{p,c} \<subseteq> {t}" using assms(3,4) 1 by auto
-    then show False using assms(6) by auto
+    assume "\<exists>q\<in>plane. l \<inter> l1 = {q}"
+    then obtain t where "l \<inter> l1 = {t}" 
+      by auto
+    then have "{p,c} \<subseteq> {t}" 
+      using assms(3,4) 1 by auto
+    then show False 
+      using assms(6) by auto
   qed
 qed
 
@@ -779,7 +789,7 @@ lemma (in Projective_Geometry) lineas_diferentes_2:
           "l2 \<in> lines \<and> {r,q} \<subseteq> l2"
           "l1 \<noteq> l "
           "p \<noteq> r"
-shows "l1 \<noteq> l2"
+  shows   "l1 \<noteq> l2"
 proof 
   assume 1:"l1 = l2"
   have "l \<inter> l1 = {} \<or> (\<exists>q \<in> plane. l \<inter> l1 = {q})"
@@ -787,18 +797,17 @@ proof
   then show False 
   proof 
     assume "l \<inter> l1 = {}"
-    then show False using assms(1,2) by auto
+    then show False 
+      using assms(1,2) by auto
   next
-    assume " \<exists>q\<in>plane. l \<inter> l1 = {q}"
-    then obtain "t" where "l \<inter> l1 = {t}" by auto
-    then have "{p,r} \<subseteq> {t}" using assms(1,2,3) 1 by auto
-    then show False using assms(5) by auto
+    assume "\<exists>q\<in>plane. l \<inter> l1 = {q}"
+    then obtain t where "l \<inter> l1 = {t}" by auto
+    then have "{p,r} \<subseteq> {t}" 
+      using assms(1,2,3) 1 by auto
+    then show False 
+      using assms(5) by auto
   qed
 qed
-
-
-
-
 
 lemma (in Projective_Geometry) at_least_seven_points: 
   "\<exists>p1 p2 p3 p4 p5 p6 p7. 
@@ -812,7 +821,7 @@ proof -
     by (rule conjE)
   then obtain p1 p2 p3 
     where 3: "distinct [p1,p2,p3] \<and> x = {p1,p2,p3}" 
-    using construct_set_of_card3  by metis
+    using construct_set_of_card3 [of x] by auto
   then have 4: "{p1,p2,p3} \<subseteq> l" 
     using 2 by auto
   then have 5: "{p1,p2,p3} \<subseteq> plane" 
@@ -820,21 +829,21 @@ proof -
   obtain q where 6: "q \<in> plane \<and> q \<notin> l"
     using A5 1 by auto
   then have 7: "distinct [p1,p2,p3,q]" 
-    using 3 4  by auto
+    using 3 4 by auto
   obtain l1 where 8: "l1 \<in> lines \<and> {p1,q} \<subseteq> l1" 
     using 5 6 A3 by auto
   then have 9: "l1 \<noteq> l" 
     using 6 by auto
   obtain p4 where 10: "p4 \<notin> {p1,q} \<and> p4 \<in> l1" 
-    using A7b 8 by metis
-  have 11:"p4 \<noteq> p2" using 7 1 9 4 10 8 puntos_diferentes
-    by (metis insertCI insert_subset)
-  have 12: "p4 \<noteq> p3" using 7 1 9 4 10 8 puntos_diferentes
-    by (metis insertCI insert_subset)
+    using A7b [of l1 p1 q] 8 by auto
+  have 11: "p4 \<noteq> p2" 
+    using 7 1 9 4 10 8 puntos_diferentes [of l1 l p4 p1 p2] by auto
+  have 12: "p4 \<noteq> p3" 
+    using 7 1 9 4 10 8 puntos_diferentes [of l1 l p4 p1 p3] by auto
   obtain l2 where 13: "l2 \<in> lines \<and> {p2,q} \<subseteq> l2" 
     using 5 6 A3 by auto
   then obtain p5 where 14: "p5 \<notin> {p2,q} \<and> p5 \<in> l2" 
-    using A7b 7 by metis
+    using A7b [of l2 p2 q] 7 by auto
   have 15: "l2 \<noteq> l" 
     using 6 13 by auto
   have 16:"p5 \<noteq> p1" using 1 13 14 4  15 puntos_diferentes 12
