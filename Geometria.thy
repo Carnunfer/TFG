@@ -114,7 +114,7 @@ A continuación vamos a presentar una serie de lemas que vamos a
 
 El primer lema es el siguiente:
 
-\begin{lema} 
+\begin{lema}\label{one-line-exists}
 Existe al menos una línea.
 \end{lema}
 
@@ -452,6 +452,30 @@ section \<open>Geometría no proyectiva \<close>
      one line m that passes through p, which does not intersect l 
   ------------------------------------------------------------------- *)
 subsection \<open>Entorno local \<close>
+
+text \<open>
+La geometría no proyectiva es un tipo de geometría en el que asusmimos
+ paralelismo, en nuestro caso entre rectas.
+
+\begin{definicion}
+El paralelismos es una relación que se establece entre dos rectas
+cualesquiera del plano, esta relación dice que dos rectas son paralelas
+ si bien son la misma recta o no comparten ningún punto, es decir, su
+ intersección es vacía.
+ \end{definicion}
+
+Gracias a esta relación entre rectas, podemos definir un nuevo entorno
+ local añadiendo al ya definido \textbf{Simple-Geometry} un nuevo
+ axioma, el axioma de la existencia del paralelismo.
+
+
+\textbf{Parallels-Ex}: sea $p$ un punto del plano y $l$ una línea. Si $p
+\notin l$ entonces debe existir una línea $m$ tal que $p \in m$ y $l
+ \cap m = \emptyset.$
+
+Al nuevo entorno local lo denotaremos como
+ \textbf{Non-Projective-Geometry}.
+\<close>
 locale Non_Projective_Geometry =
   Simple_Geometry +
   assumes parallels_Ex:
@@ -463,23 +487,36 @@ locale Non_Projective_Geometry =
    Show that it is indeed a model using the command "interpretation" 
    ------------------------------------------------------------------ *)
 
-subsection \<open>Interpretacion modelo geometría no proyectiva \<close>
-definition "plane_4 \<equiv> {1::nat, 2, 3, 4}"
-
-definition "lines_4 \<equiv> {{1,2},{2,3},{1,3},{1,4},{2,4},{3,4}}"
-
-interpretation Non_projective_geometry_card_4:
-  Non_Projective_Geometry plane_4 lines_4
-  apply standard
-       apply (simp add: plane_4_def lines_4_def)+
-  done
-
 (* ---------------------------------------------------------------------
    Problem 24: Formalise and prove: 
      "it is not true that every pair of lines intersect"  
   ------------------------------------------------------------------- *)
 
 subsection \<open>Proposiciones de geometría no proyectiva \<close>
+
+text\<open>
+A continuación vamos a presentar un lema sobre geometría no proyectiva:
+
+\begin{lema}
+Es falso que todo par de líneas intersecta en un punto.
+\end{lema}
+
+\begin{demostracion}
+La demostración se hará suponiendo que es cierto y llegaremos a una
+ contradicción, es decir, supongamos que se verifica que $\forall \,l\, m$
+ líneas se tiene que $l \cap m \neq \emptyset.$ \\
+Sea ahora una línea, denostemosla $l1$, obtenida por el el lema
+ \ref{one-line-exists}. Luego por el axioma A5 obtenemos un punto $q1$
+ tal que $q1 \notin l1$, usando el axioma \textbf{Parallels-Ex} aplicado
+al punto $q1$ y a la línea $l1$ obtenemos que existe una línea $m$ tal
+ que $q1 \in m$ y $m \cap l = \emptyset.$ Por lo tanto, hemos llegado a
+ una contradicción ya que se ha demostrado que existen dos líneas cuya
+ intersección es vacía.
+\end{demostracion}
+
+
+La formalización y demostración en Isabelle/Hol es la siguiente:
+\<close>
 lemma (in Non_Projective_Geometry) non_projective:
   "\<not>(\<forall>r \<in> lines. \<forall>s \<in> lines. r \<inter> s \<noteq> {})"
 proof 
@@ -498,6 +535,21 @@ proof
     then show ?thesis using 3 by auto
   qed
 qed
+
+
+
+subsection \<open>Interpretacion modelo geometría no proyectiva \<close>
+
+
+definition "plane_4 \<equiv> {1::nat, 2, 3, 4}"
+
+definition "lines_4 \<equiv> {{1,2},{2,3},{1,3},{1,4},{2,4},{3,4}}"
+
+interpretation Non_projective_geometry_card_4:
+  Non_Projective_Geometry plane_4 lines_4
+  apply standard
+       apply (simp add: plane_4_def lines_4_def)+
+  done
 
 (* The following are some auxiliary lemmas that may be useful.
    You don't need to use them if you don't want. *)
