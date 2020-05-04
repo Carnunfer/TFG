@@ -538,31 +538,6 @@ locale Projective_Geometry =
    ------------------------------------------------------------------ *)
 subsection \<open>Proposiciones de geometría proyectiva \<close>
 
-lemma (in Projective_Geometry) punto_no_pertenece:
-  assumes "l \<in> lines \<and> {p,r} \<subseteq> l2"
-          "l2 \<in> lines \<and>  {r,s} \<subseteq> l"
-          "p \<noteq> r"
-          "s \<notin> l2"
-        shows "p \<notin> l"
-proof 
-  assume 1:"p \<in> l"
-  have "l \<inter> l2 = {} \<or> (\<exists>q \<in> plane. l \<inter> l2 = {q})" using A4
-        assms(1,2,4)  by auto
-    then show False 
-    proof 
-      assume "l \<inter> l2 = {}"
-      then show False using assms(1,2) by auto
-    next 
-      assume " \<exists>q\<in>plane. l \<inter> l2 = {q}"
-      then obtain "t" where "l \<inter> l2 = {t}" by auto
-      then have "{p,r} \<subseteq> {t}" 
-          using  assms(1,2) 1  by auto
-      then show False 
-        using assms(3)  by auto
-    qed
-  qed
-
-
 
 lemma (in Projective_Geometry) A7a:
   "\<forall>l \<in> lines. \<exists>p1 p2 p3. {p1, p2, p3} \<subseteq> plane \<and> 
@@ -650,6 +625,31 @@ qed
    ------------------------------------------------------------------ *)
 
 
+lemma (in Projective_Geometry) punto_no_pertenece:
+  assumes "l2 \<in> lines \<and> {p,r} \<subseteq> l2"
+          "l \<in> lines \<and>  {r,s} \<subseteq> l"
+          "p \<noteq> r"
+          "s \<notin> l2"
+        shows "p \<notin> l"
+proof 
+  assume 1:"p \<in> l"
+  have "l \<inter> l2 = {} \<or> (\<exists>q \<in> plane. l \<inter> l2 = {q})" using A4
+        assms(1,2,4)  by auto
+    then show False 
+    proof 
+      assume "l \<inter> l2 = {}"
+      then show False using assms(1,2) by auto
+    next 
+      assume " \<exists>q\<in>plane. l \<inter> l2 = {q}"
+      then obtain "t" where "l \<inter> l2 = {t}" by auto
+      then have "{p,r} \<subseteq> {t}" 
+          using  assms(1,2) 1  by auto
+      then show False 
+        using assms(3)  by auto
+    qed
+  qed
+
+
 lemma (in Projective_Geometry) external_line:
   "\<forall>p \<in> plane. \<exists>l \<in> lines. p \<notin> l" 
 proof 
@@ -669,7 +669,7 @@ proof
       using 3 5 A3 by auto
     have "p \<noteq> r" using 2 3 by auto
     then have "p \<notin> l" 
-      using 4 6 5 punto_no_pertenece by metis
+      using 4 6 5 punto_no_pertenece [of l2 p r l s] by simp
     then show ?thesis 
       using 6 by auto
   qed
@@ -837,7 +837,7 @@ proof -
   obtain p4 where 10: "p4 \<notin> {p1,q} \<and> p4 \<in> l1" 
     using A7b [of l1 p1 q] 8 by auto
   have 11: "p4 \<noteq> p2" 
-    using 7 1 9 4 10 8 puntos_diferentes [of l1 l p4 p1 p2] by auto
+    using 3 4 1 6 2 10 8 puntos_diferentes [of l1 l p4 p1 p2] by auto
   have 12: "p4 \<noteq> p3" 
     using 7 1 9 4 10 8 puntos_diferentes [of l1 l p4 p1 p3] by auto
   obtain l2 where 13: "l2 \<in> lines \<and> {p2,q} \<subseteq> l2" 
@@ -846,38 +846,33 @@ proof -
     using A7b [of l2 p2 q] 7 by auto
   have 15: "l2 \<noteq> l" 
     using 6 13 by auto
-  have 16:"p5 \<noteq> p1" using 1 13 14 4  15 puntos_diferentes 12
-    by (metis  insert_iff insert_subset) 
-  have 17:"p5 \<noteq> p3" using 1 13 14 4  15 puntos_diferentes 12
-    by (metis  insert_iff insert_subset)
-  have 18:" {p1,p2} \<subseteq> l" using 4 by auto
-  have 19:"p1 \<noteq> p2" using 7 by auto
-  have 20:"l1 \<noteq> l2 " using 1 9 13 18 8 19  lineas_diferentes_2 by
-      metis
-  have 21: "p4 \<noteq> p5" using 13 8 14 4 10 20 puntos_diferentes
-    by (metis  insert_iff insert_subset)
+  have 16:"p5 \<noteq> p1" using 1 13 14 4  15 
+ puntos_diferentes [of l l2 p1 p2  p5] by auto 
+  have 17:"p5 \<noteq> p3" using 1 13 14 4  15
+ puntos_diferentes [of l l2 p3 p2 p5] 
+    by auto
+  have 20:"l1 \<noteq> l2 " using 1 9 13 4 8 7  
+      lineas_diferentes_2 [of l p1 p2 l1 q l2 ] by simp
+  have 21: "p4 \<noteq> p5" using 13 8 14 4 10 20 
+      puntos_diferentes [of l1 l2 p4 q p5]  by auto
   obtain l3 where 22: "l3 \<in> lines \<and> {p3,q} \<subseteq> l3" 
     using A3 5 6 by auto
   then obtain p6 where 23: "p6 \<notin> {p3,q} \<and> p6 \<in> l3" 
     using A7b by metis
-  have 24: "l3 \<noteq> l" 
-    using 22 6 by auto
-  have 25: "p6 \<noteq> p1" using 1 22 24 4  23 puntos_diferentes
-    by (metis  insert_iff insert_subset) 
-  have 26: "p6 \<noteq> p2" using 1 22 24 23 4  puntos_diferentes
-    by (metis  insert_iff insert_subset)
-  have 27:"{p1,p3} \<subseteq> l" using 4 by auto
-  have 28:"p1 \<noteq> p3" using 7 by auto
-  have 29:"l1 \<noteq> l3" using  1 27 9 22 8 28 lineas_diferentes_2 by metis
-  have 31:"p6 \<noteq> p4" using 22 8 10 23 9 29  puntos_diferentes 
-    by (metis  insert_iff insert_subset) 
-  have 32:"{p2,p3} \<subseteq> l" using 4 by auto
-  have 33:"p2 \<noteq> p3" using 7 by auto
-  have 34:"l2 \<noteq> l3" using 1 32 13 22 15 33 lineas_diferentes_2 by metis
-  have 35:"p6 \<noteq> p5" using  22 13 23 14 34  puntos_diferentes
-    by (metis  insert_iff insert_subset)
+  have 25: "p6 \<noteq> p1" using 1 22 6 4  23 
+puntos_diferentes [of l3 l p1 p3 p6]  by auto 
+  have 26: "p6 \<noteq> p2" using 1 22 6 23 4 
+ puntos_diferentes [of l3 l p2 p3 p6] by auto
+  have 29:"l1 \<noteq> l3" using  1 4 9 22 8 7
+ lineas_diferentes_2  [of l p1 p3 l1 q l3]  by simp
+  have 31:"p6 \<noteq> p4" using 22 8 10 23  29  
+puntos_diferentes [of l1 l3 p4 q p6] by auto
+  have 34:"l2 \<noteq> l3" using 1 4 13 22 15 7 
+lineas_diferentes_2  [of l p2 p3 l2 q l3] by simp
+  have 35:"p6 \<noteq> p5" using  22 13 23 14 34 
+ puntos_diferentes [of l2 l3 p5 q p6] by auto
   moreover have "distinct [p1,p2,p3,p4,p5,p6,q]" 
-     using 7 10 11 12 14 16 17 21 23 25 26 31 33 35 by auto
+     using 7 10 11 12 14 16 17 21 23 25 26 31 7 35 by auto
   moreover have "{p1,p2,p3,p4,p5,p6,q} \<subseteq> plane" 
     using 6 5  A2 10 8 14 13 22 23 by auto
   ultimately show ?thesis  by metis
