@@ -571,6 +571,23 @@ section \<open>Geometría proyectiva \<close>
 subsection \<open>
 Entorno local 
 \<close>
+
+text \<open>
+La geometría proyectiva es un tipo de geometría que se basa en que dado
+ cualquier par de rectas su intersección siempre es un punto. 
+
+Para ello vamos a definir un nuevo entorno local
+ \textbf{Projective-Geometry} tal que se basa en el entorno local ya
+ definido \textbf{Simple-Geometry} añadiéndole dos axiomas más. Estos
+ axiomas son los siguientes:
+
+\begin{enumerate}
+\item Cualquier par de líneas intersecta en un punto(A6).
+\item Toda línea tiene almenos $3$ puntos.
+\end{enumerate}
+
+El nuevo entorno local es el siguiente:
+\<close>
 locale Projective_Geometry = 
   Simple_Geometry + 
   assumes A6: "\<forall>l \<in> lines. \<forall>m \<in> lines. \<exists>p \<in> plane. p \<in> l \<and> p \<in> m"
@@ -581,11 +598,39 @@ locale Projective_Geometry =
    ------------------------------------------------------------------ *)
 subsection \<open>Proposiciones de geometría proyectiva \<close>
 
+text \<open>
+A continuación vamos a demostrar una serie de lemas dentro del entorno
+ \textbf{Projective-Geoemtry}. Antes de los lemas vamos a demostrar en
+ isabelle únicamente que un conjunto, denotemoslo $x$, de cardinalidad 3 
+significa que esta formado por 3 puntos y estos son distintos. Este
+ pequeño lema nos ayudará en las demostraciones de los siguientes.
+\<close>
 lemma construct_set_of_card3:
   "card x = 3 \<Longrightarrow> \<exists> p1 p2 p3. distinct [p1,p2,p3] \<and> x = {p1,p2,p3}" 
   by (metis card_eq_SucD distinct.simps(2) 
       distinct_singleton list.set(1) list.set(2) numeral_3_eq_3)
 
+text \<open>
+Los dos primeros lemas que vamos a demostrar son versiones equivalentes al
+ axioma $A7$ ya definido, por lo tanto, en los dos se utilizará el
+ axioma A7.
+
+\begin{lema}
+Para todo línea $l,$ $\exists p1,p2,p3$ tales que $\{p1,p2,p3\} \subseteq
+l$ y $p1 \neq p2 \neq p3$
+\end{lema}
+
+
+\begin{demostracion}
+Sea $l$ una línea cualquiera. Por el axioma A7 obtenemos que $\exists x$
+tal que cardinalidad $x = 3$ y que $x \subseteq l.$ Por el lema definido
+anteriormente, se obtiene que $\exists p1,p2,p3$ tales que $x =
+ \{p1,p2,p3\}$ y que $p1 \neq p2 \neq p3,$ luego ya se tiene probado el
+ lema.
+\end{demostracion}
+
+La formalización y demostración en Isabelle/HOL es la siguiente:
+\<close>
 lemma (in Projective_Geometry) A7a:
   "\<forall>l \<in> lines. \<exists>p1 p2 p3. {p1, p2, p3} \<subseteq> plane \<and> 
                           distinct [p1, p2, p3] \<and> 
@@ -620,6 +665,30 @@ qed
    Problem 26: Prove yet another alternative to axiom A7  
    ------------------------------------------------------------------ *)
 
+text \<open> 
+\begin{lema}
+Sea $l$ una linea y $p,q$ dos puntos tales que $\{p,q\} \subseteq l.$
+ Entonces $\exists r$ punto tal que $r \neq p, \, r \neq q$ y $r \in
+ l.$
+\end{lema}
+
+\begin{demostracion}
+Sea $l$ una linea y $p,q$ dos puntos tales que $\{p,q\} \subseteq l.$
+ Por el axioma $A7$ se tiene que $\exists x$ tal que la cardinalidad $x
+ = 3$ y $x \subseteq l.$ Por el lema demostrado anteriormente se tiene
+ que $\exists p1,p2,p3$ tales que $p1 \neq p2 \neq p3$ y
+ $\{p1,p2,p3\} \subseteq l.$ Luego usando las hipótesis se tiene 3
+ posibilidades:
+\begin{enumerate}
+\item Si $p1 \notin{p,q}$ entonces ya tendríamos probado el lema.
+\item Si $p2 \notin{p,q}$ entonces ya tendríamos probado el lema.
+\item Si $p3 \notin{p,q}$ entonces ya tendríamos probado el lema.
+\end{enumerate}
+
+En cualquiera de los 3 casos ya se tendría probado el lema.
+\end{demostracion}
+La formalización y demostración en Isabelle/HOL es la siguiente:
+\<close>
 lemma (in Projective_Geometry) A7b: 
   assumes "l \<in> lines"
     "{p, q} \<subseteq> l " 
