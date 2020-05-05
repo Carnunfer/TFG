@@ -540,7 +540,17 @@ qed
 
 subsection \<open>Interpretacion modelo geometría no proyectiva \<close>
 
+text \<open>
+El mínimo modelo de la geometría no proyectiva es considerar que el
+ plano tiene 4 elementos, es decir, considerar el plano como
+ $\{a,b,c,d\}$ siendo estos números enteros,naturales etc. Con estos 4
+ elementos para que sea un modelo de la geometría no proyectiva hay que
+ formar como mínimo 6 rectas.
 
+Para ello vamos a dar la definicion \textbf{plane-4} que es el plano
+ formado por 4 elementos y \textbf{lines-4} que son las líneas asociadas
+a estos elementos.
+\<close>
 definition "plane_4 \<equiv> {1::nat, 2, 3, 4}"
 
 definition "lines_4 \<equiv> {{1,2},{2,3},{1,3},{1,4},{2,4},{3,4}}"
@@ -554,25 +564,6 @@ interpretation Non_projective_geometry_card_4:
 (* The following are some auxiliary lemmas that may be useful.
    You don't need to use them if you don't want. *)
 
-lemma construct_set_of_card1:
-  "card x = 1 \<Longrightarrow> \<exists> p1. x = {p1}"
-  by (metis One_nat_def card_eq_SucD)
-
-lemma construct_set_of_card2:
-  "card x = 2 \<Longrightarrow> \<exists> p1 p2 . distinct [p1,p2] \<and> x = {p1,p2}" 
-  by (metis card_eq_SucD distinct.simps(2) 
-      distinct_singleton list.set(1) list.set(2) numeral_2_eq_2)
-
-lemma construct_set_of_card3:
-  "card x = 3 \<Longrightarrow> \<exists> p1 p2 p3. distinct [p1,p2,p3] \<and> x = {p1,p2,p3}" 
-  by (metis card_eq_SucD distinct.simps(2) 
-      distinct_singleton list.set(1) list.set(2) numeral_3_eq_3)
-
-lemma construct_set_of_card4:
-  "card x = 4 \<Longrightarrow> \<exists> p1 p2 p3 p4. distinct [p1,p2,p3,p4] \<and> x = {p1,p2,p3,p4}" 
-  by (metis (no_types, lifting) card_eq_SucD construct_set_of_card3 
-      Suc_numeral add_num_simps(1) add_num_simps(7) 
-      distinct.simps(2) empty_set list.set(2))
 
 
 section \<open>Geometría proyectiva \<close>
@@ -590,6 +581,10 @@ locale Projective_Geometry =
    ------------------------------------------------------------------ *)
 subsection \<open>Proposiciones de geometría proyectiva \<close>
 
+lemma construct_set_of_card3:
+  "card x = 3 \<Longrightarrow> \<exists> p1 p2 p3. distinct [p1,p2,p3] \<and> x = {p1,p2,p3}" 
+  by (metis card_eq_SucD distinct.simps(2) 
+      distinct_singleton list.set(1) list.set(2) numeral_3_eq_3)
 
 lemma (in Projective_Geometry) A7a:
   "\<forall>l \<in> lines. \<exists>p1 p2 p3. {p1, p2, p3} \<subseteq> plane \<and> 
