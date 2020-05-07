@@ -715,7 +715,25 @@ qed
 (* ---------------------------------------------------------------------
    Problem 27
    ------------------------------------------------------------------ *)
+text \<open>
+El siguiente lema es:
 
+\begin{lema}
+Para todo punto del plano existen dos líneas distintas que pasan por él.
+\end{lema}
+
+\begin{demostracion}
+Sea $p$ un punto del plano cualquiera. Por el axioma $A3$ obtenemos que
+ existe una línea $l$ tal que $\{p,p\} \subseteq l,$ luego por el axioma
+$A5$ se obtiene un punto $r$ tal que $r \notin l.$ Por lo tanto, por el
+ axioma $A3,$ de nuevo, se obtiene otra recta $m$ tal que $\{p,r\}
+ \subseteq m.$ Ya se tiene probada la existencia de las dos rectas que
+ pasan por el punto $p$, para probar que son diferentes simplemente
+ se usa que $r \in m$ y $r \notin l.$  
+\end{demostracion}
+
+La formalización y demostración en Isabelle/HOL  es la siguiente:
+\<close>
 lemma (in Projective_Geometry) two_lines_per_point:
   "\<forall>p \<in> plane. \<exists>l \<in> lines. \<exists>m \<in> lines. l \<noteq> m \<and> p \<in> l \<inter> m" 
 proof 
@@ -740,7 +758,37 @@ qed
    Problem 28
    ------------------------------------------------------------------ *)
 
+text \<open>
+Para el próximo lema se va a usar el siguiente lema auxiliar.
 
+\begin{lema}\label{lema1}[Lema auxiliar 1]
+Sea $l$ una línea y $r,s$ dos puntos tales que $\{r,s\} \subseteq l.$
+ Sea también $l2$ otra línea y $p$ otro punto tal que $\{p,r\} \subseteq
+l2.$ Entonces si $p \neq r$ y $s \notin l2$ se tiene que $p \notin l.$ 
+\end{lema}
+
+\begin{demostracion}
+La demostración se hará por reducción al absurdo, es decir, supongamos
+ $p \in l$ y se llegará a una contradicción. \\
+Supongamos que $p \in l.$ Primero obtenemos que como $s \in l$ y $s
+ \notin l2$ entonces $l \neq l2.$ Usando esto último, obtenemos del
+ axioma $A4$ que $l \cap l2 = \emptyset$ o $\exists q$ punto tal que $l
+ \cap l2 = \{q\}.$
+\begin{enumerate}
+\item Supongamos que $l \cap l2 = \emptyset,$ pero por hipótesis se
+ tiene que $r \in l$ y $r \in l2,$ luego se llega a una contradicción.
+\item Supongamos que $\exists q$ tal que $l \cap l2 = \{q,\}.$ Sin
+ embargo, como hemos supuesto que $p \in l$ y, además, $r \in l,$ $r \in
+l2,$ $p \in l2$ y $r \neq p$ se llega a una contradicción.
+\end{enumerate}
+En los dos casos hemos llegado a una contradicción luego se tiene que $p
+\notin l.$
+\end{demostracion}
+
+
+La formalización y demostración en Isabelle/HOL 
+ del lema auxiliar es la siguiente:
+\<close>
 lemma (in Projective_Geometry) punto_no_pertenece:
   assumes "l2 \<in> lines \<and> {p,r} \<subseteq> l2"
           "l \<in> lines \<and>  {r,s} \<subseteq> l"
@@ -765,7 +813,28 @@ proof
     qed
   qed
 
+  text \<open>
+El lema a demostrar es el siguiente:
 
+\begin{lema}
+Para todo punto $p$ existe una línea $l$ tal que $p \notin l.$
+\end{lema}
+
+\begin{demostracion}
+Sea $p$ un punto cualquiera, por el axioma $A3$ obtenemos una línea $l1$
+ tal que $\{p,p\} \subseteq l1.$ Usando el axioma $A5$ se obtiene un
+ punto $r$ tal que $r \notin l1,$ de nuevo usando el axioma $A3$
+ obtenemos una línea $l2$ tal que $\{p,r\} \subseteq l2.$ Repitiendo el
+ mismo razonamiento, usamos el axioma $A5$ para obtener un punto $s$ tal
+que $s \notin l2$ y por el axioma $A3$ una línea $l$ tal que $\{r,s\}
+ \subseteq l.$ Por último usando que $r \notin l1$ se tiene que $p \neq
+ r$ y, por lo tanto, se tienen todas las hipótesis del lema auxiliar
+ \ref{lema1}, luego se ha demostrado que existe una línea $l$
+ tal que $p \notin l.$
+\end{demostracion}
+
+La formalizacion y demostración en Isabelle/HOL es la siguiente:
+\<close>
 lemma (in Projective_Geometry) external_line:
   "\<forall>p \<in> plane. \<exists>l \<in> lines. p \<notin> l" 
 proof 
