@@ -20,3 +20,6 @@ session TFG = HOL +
     "castellano.tex"
     "geogebra.png"
     "geogebra2.png"
+    "geogebra3.png"
+    "geogebra4.png"
+

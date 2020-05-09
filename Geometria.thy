@@ -863,39 +863,86 @@ qed
 (* --------------------------------------------------------------------
    Problem 29   
    ------------------------------------------------------------------ *)
+text \<open>
+Para el siguiente lema, se va a usar el siguiente lema auxiliar:
+ \<close>
 
-lemma (in Projective_Geometry) lineas_distintas:
-  assumes "m \<in> lines \<and> {b,p} \<subseteq> m"
-          "n \<in> lines \<and> {c,p} \<subseteq> n"
-          "h \<in> lines \<and> {a,b,c} \<subseteq> h"
-          "h \<noteq> m" 
-          "b \<noteq> c"
-        shows "m \<noteq> n"
+text \<open>
+El siguiente lema auxiliar es el siguiente:
+
+\begin{lema}
+Sean $l,l1,l2$ líneas tales que existen puntos $p,q,r$ tal que $\{p,r\}
+ \subseteq l, \, \{p,q\} \subseteq l1 \, \{r,q\} \subseteq l2$ y,
+ además, $l \neq l1$ y $p \neq r.$ Entonces se tiene que $l1 \neq l2.$ 
+\end{lema}
+
+\begin{demostracion}
+La demostración se hará por reducción al absurdo, es decir, supongamos
+ que $l1 = l2$ y se llegará a una contradicción. \\
+Supongamos que $l1 = l2.$ Como por hipótesis se tiene que $l \neq l1$
+ entonces usando el axioma $A4$ obtenemos que $l \cap l1 = \emptyset$ o
+ existe un punto tal que $l \cap l1 = \emptyset.$ Veamos los dos casos:
+
+\begin{enumerate}
+\item Supongamos que $l \cap l1 = \emptyset.$ Como por hipótesis se
+ tiene que $p \in l$ y $p \in l1$ entonces se llega a un absurdo.
+\item Supongamos que $\exists t$ punto tal que $l \cap l1 = \{t\}.$ Como
+se había supuesto que $l1 = l2$ se tiene que, usando las hipótesis,
+ $\{p,r\} \subseteq \{t,\}.$ Sin embargo como $p \neq r$ entonces se
+ llega a un absurdo.
+\end{enumerate}
+
+En ambos casos hemos llegado a un absurdo, luego $l1 \neq l2.$
+\end{demostracion}
+
+Su demostración y formalización en Isabelle/HOL es la siguiente:
+\<close>
+lemma (in Projective_Geometry) lineas_diferentes:
+  assumes "l \<in> lines \<and> {p,r} \<subseteq> l"
+          "l1 \<in> lines \<and> {p,q} \<subseteq> l1"
+          "l2 \<in> lines \<and> {r,q} \<subseteq> l2"
+          "l1 \<noteq> l "
+          "p \<noteq> r"
+  shows   "l1 \<noteq> l2"
 proof 
-  assume  1:"m = n" 
-  show False
-  proof - 
-    have  "{c,p,b} \<subseteq> m" 
-      using assms(1,2) 1 by auto
-    have "m \<inter> h = {} \<or> (\<exists>q\<in>plane. m \<inter> h = {q})" 
-      using A4 assms(1,3,4) by auto
-    then show False
-    proof 
-      assume "m \<inter> h = {}" 
-      then show False 
-        using assms(1,3) by auto
-    next 
-      assume "\<exists>q\<in>plane. m \<inter> h = {q}"
-      then obtain t where "t \<in> plane \<and> m \<inter> h = {t}" 
-        by auto
-      then have "{c,b} \<subseteq> {t}" 
-        using assms(1,2,3) 1 by auto
-      then show False 
-        using assms(5) by auto
-    qed
+  assume 1:"l1 = l2"
+  have "l \<inter> l1 = {} \<or> (\<exists>q \<in> plane. l \<inter> l1 = {q})"
+    using A4 assms(1,2,4) by auto
+  then show False 
+  proof 
+    assume "l \<inter> l1 = {}"
+    then show False 
+      using assms(1,2) by auto
+  next
+    assume "\<exists>q\<in>plane. l \<inter> l1 = {q}"
+    then obtain t where "l \<inter> l1 = {t}" by auto
+    then have "{p,r} \<subseteq> {t}" 
+      using assms(1,2,3) 1 by auto
+    then show False 
+      using assms(5) by auto
   qed
 qed
 
+text \<open>
+El lema es el siguiente:
+
+\begin{lema}
+Para todo punto $p$ en el plano, existen almenos tres líneas que pasan 
+por $p.$
+\end{lema}
+
+\begin{demostracion}
+Hola
+\end{demostracion}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=6cm]{geogebra3.png}
+\caption{Visión geométrica de la demostración}
+\label{7_puntos}
+\end{figure}
+\<close>
 lemma (in Projective_Geometry) three_lines_per_point:
   "\<forall>p \<in> plane. \<exists>l m n. 
     distinct [l,m,n] \<and> {l,m,n} \<subseteq> lines \<and> p \<in> l \<inter> m \<inter> n" 
@@ -920,17 +967,17 @@ proof
     have "a \<noteq> b" 
       using 3 by auto
     then have 9: "m \<noteq> l" 
-      using 3 4 5 2 7 lineas_distintas [of l a p m b h c] by simp
+      using 3 4 5 2 7 lineas_diferentes [of h a b l p m ] by simp
     have 8: "h \<noteq> m" 
       using 5 2 by auto
     have  "b \<noteq> c" 
       using 3 by auto
     then have 10: "m \<noteq> n" 
-      using 6 5 3 2 8 lineas_distintas [of m b p n c h a] by simp
+      using 6 5 3 2 8 lineas_diferentes [of h b c m p n ] by simp
     have "a \<noteq> c" 
       using 3 by auto
     then  have 11: "l \<noteq> n" 
-      using 2 3 4 6 7 lineas_distintas [of l a p n c h b] by simp 
+      using 2 3 4 6 7 lineas_diferentes [of h a c l p n ] by simp 
     show ?thesis 
       using  4 5 6 9 10 11 by auto
   qed
@@ -939,7 +986,36 @@ qed
 (* ---------------------------------------------------------------------
    Problem 30
    ------------------------------------------------------------------ *)
+text \<open>
+Para el siguiente lema se va a usar el siguiente lema auxiliar:
 
+\begin{lema}
+Sea $l$ y $l1$ líneas tales que $l \neq l1$ y existen puntos $p,q,c$ 
+tales que $\{p,c\} \subseteq l$ y $\{q,c\} \subseteq l1$ con $c \neq p.$
+Entonces $p \neq q$ 
+\end{lema}
+
+\begin{demostracion}
+La demostración se hará por reducción al absurdo, es decir, supongamos
+ que $p = q$ y se llegará a un absurdo. \\
+Supongamos que $p = q.$ Entonces usando la hipótesis $l \neq l1$ y el
+ axioma $A4$ se obtiene que $l \cap l1 = \emptyset$ o existe un punto
+ tal que $l \cap l1 = \{q\}.$ Veamos los dos casos por separado:
+
+\begin{enumerate}
+\item Supongamos que $l \cap l1 = \emptyset.$ Como por hipótesis se
+ tiene que $c \in l$ y $c \in l1$ entonces se llega a un contradicción.
+\item Supongamos que $\exists t$ tal que $l \cap l1 = \{t\}.$ Sin
+ embargo, como hemos supuesto que $p = q,$ se tiene que $\{p,c\}
+ \subseteq \{t\}.$ Pero como $p \neq c$ se llega a una contradicción.
+\end{enumerate}
+
+En los dos casos se ha llegado a una contradicción luego se tiene que $p
+\neq q.$
+\end{demostracion}
+
+La formalización y demostración en Isabelle/HOL es la siguiente:
+\<close>
 lemma (in Projective_Geometry) puntos_diferentes:
   assumes "l \<in> lines"
           "l1 \<in> lines"
@@ -968,32 +1044,25 @@ proof
   qed
 qed
 
-lemma (in Projective_Geometry) lineas_diferentes_2:
-  assumes "l \<in> lines \<and> {p,r} \<subseteq> l"
-          "l1 \<in> lines \<and> {p,q} \<subseteq> l1"
-          "l2 \<in> lines \<and> {r,q} \<subseteq> l2"
-          "l1 \<noteq> l "
-          "p \<noteq> r"
-  shows   "l1 \<noteq> l2"
-proof 
-  assume 1:"l1 = l2"
-  have "l \<inter> l1 = {} \<or> (\<exists>q \<in> plane. l \<inter> l1 = {q})"
-    using A4 assms(1,2,4) by auto
-  then show False 
-  proof 
-    assume "l \<inter> l1 = {}"
-    then show False 
-      using assms(1,2) by auto
-  next
-    assume "\<exists>q\<in>plane. l \<inter> l1 = {q}"
-    then obtain t where "l \<inter> l1 = {t}" by auto
-    then have "{p,r} \<subseteq> {t}" 
-      using assms(1,2,3) 1 by auto
-    then show False 
-      using assms(5) by auto
-  qed
-qed
+text \<open>
+El lema es el siguiente:
 
+\begin{lema}
+Existen al menos 7 puntos diferenetes en el plano.
+\end{lema}
+
+\begin{demostracion}
+HOLa
+\end{demostracion}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=6cm]{geogebra4.png}
+\caption{Visión geométrica de la demostración}
+\label{7_puntos}
+\end{figure}
+\<close>
 lemma (in Projective_Geometry) at_least_seven_points: 
   "\<exists>p1 p2 p3 p4 p5 p6 p7. 
     distinct [p1,p2,p3,p4,p5,p6,p7] \<and> {p1,p2,p3,p4,p5,p6,p7} \<subseteq> plane" 
@@ -1037,7 +1106,7 @@ proof -
  puntos_diferentes [of l l2 p3 p2 p5] 
     by auto
   have 20:"l1 \<noteq> l2 " using 1 9 13 4 8 7  
-      lineas_diferentes_2 [of l p1 p2 l1 q l2 ] by simp
+      lineas_diferentes [of l p1 p2 l1 q l2 ] by simp
   have 21: "p4 \<noteq> p5" using 13 8 14 4 10 20 
       puntos_diferentes [of l1 l2 p4 q p5]  by auto
   obtain l3 where 22: "l3 \<in> lines \<and> {p3,q} \<subseteq> l3" 
@@ -1049,11 +1118,11 @@ puntos_diferentes [of l3 l p1 p3 p6]  by auto
   have 26: "p6 \<noteq> p2" using 1 22 6 23 4 
  puntos_diferentes [of l3 l p2 p3 p6] by auto
   have 29:"l1 \<noteq> l3" using  1 4 9 22 8 7
- lineas_diferentes_2  [of l p1 p3 l1 q l3]  by simp
+ lineas_diferentes  [of l p1 p3 l1 q l3]  by simp
   have 31:"p6 \<noteq> p4" using 22 8 10 23  29  
 puntos_diferentes [of l1 l3 p4 q p6] by auto
   have 34:"l2 \<noteq> l3" using 1 4 13 22 15 7 
-lineas_diferentes_2  [of l p2 p3 l2 q l3] by simp
+lineas_diferentes  [of l p2 p3 l2 q l3] by simp
   have 35:"p6 \<noteq> p5" using  22 13 23 14 34 
  puntos_diferentes [of l2 l3 p5 q p6] by auto
   moreover have "distinct [p1,p2,p3,p4,p5,p6,q]" 
