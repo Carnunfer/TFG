@@ -615,7 +615,7 @@ Los dos primeros lemas que vamos a demostrar son versiones equivalentes al
  axioma $A7$ ya definido, por lo tanto, en los dos se utilizará el
  axioma A7.
 
-\begin{lema}
+\begin{lema}\label{A7a}
 Para todo línea $l,$ $\exists p1,p2,p3$ tales que $\{p1,p2,p3\} \subseteq
 l$ y $p1 \neq p2 \neq p3$
 \end{lema}
@@ -666,7 +666,7 @@ qed
    ------------------------------------------------------------------ *)
 
 text \<open> 
-\begin{lema}
+\begin{lema}\label{A7b}
 Sea $l$ una linea y $p,q$ dos puntos tales que $\{p,q\} \subseteq l.$
  Entonces $\exists r$ punto tal que $r \neq p, \, r \neq q$ y $r \in
  l.$
@@ -816,7 +816,7 @@ proof
   text \<open>
 El lema a demostrar es el siguiente:
 
-\begin{lema}
+\begin{lema}\label{external_line}
 Para todo punto $p$ existe una línea $l$ tal que $p \notin l.$
 \end{lema}
 
@@ -865,12 +865,8 @@ qed
    ------------------------------------------------------------------ *)
 text \<open>
 Para el siguiente lema, se va a usar el siguiente lema auxiliar:
- \<close>
 
-text \<open>
-El siguiente lema auxiliar es el siguiente:
-
-\begin{lema}
+\begin{lema}\label{lineas_diferentes}
 Sean $l,l1,l2$ líneas tales que existen puntos $p,q,r$ tal que $\{p,r\}
  \subseteq l, \, \{p,q\} \subseteq l1 \, \{r,q\} \subseteq l2$ y,
  además, $l \neq l1$ y $p \neq r.$ Entonces se tiene que $l1 \neq l2.$ 
@@ -926,22 +922,35 @@ qed
 text \<open>
 El lema es el siguiente:
 
-\begin{lema}
+\begin{lema}\label{3lineas_diferentes}
 Para todo punto $p$ en el plano, existen almenos tres líneas que pasan 
 por $p.$
 \end{lema}
 
 \begin{demostracion}
-Hola
+Sea $p$ un punto del plano, usando el lema \ref{external_line} se
+ obitene que $\exists h$ líneal tal que $p \notin h.$ Usando la
+ definición equivalente del axioma $A7$ (lema \ref{A7a}) se obtienen
+ $a,b,c$ puntos tales que $a \neq b \neq c$ y $\{a,b,c\} \subseteq h.$
+Por lo tanto, usando el axioma $A3$ obtenemos de forma equivalente tres
+ líneas $l,m,n$ tales que $\{a,p\} \subseteq l, \, \{b,p\} \subseteq m,
+ \, \{c,p\} \subseteq n.$ Ya hemos probado que existen $3$ líneas que
+ verifican las condiciones, lo único que queda por probar es que sean
+ diferente. Entonces usando el lema auxiliar \ref{lineas_diferentes} se
+ tiene que $l \neq m \neq n,$ luego ya se ha probado el lema.
 \end{demostracion}
 
-
+La siguiente figura \ref{3lineas_diferentes} muestra una visión
+ geométrica de la demostración anterior.
 \begin{figure}[H]
 \centering
 \includegraphics[height=6cm]{geogebra3.png}
-\caption{Visión geométrica de la demostración}
-\label{7_puntos}
+\caption{Visión geométrica de la demostración del lema
+ \ref{3lineas_diferentes}}
+\label{3lineas_diferentes}
 \end{figure}
+
+La formalización y demostración en Isabelle/HOL es la siguiente:
 \<close>
 lemma (in Projective_Geometry) three_lines_per_point:
   "\<forall>p \<in> plane. \<exists>l m n. 
@@ -989,7 +998,7 @@ qed
 text \<open>
 Para el siguiente lema se va a usar el siguiente lema auxiliar:
 
-\begin{lema}
+\begin{lema}\label{puntos_diferentes}
 Sea $l$ y $l1$ líneas tales que $l \neq l1$ y existen puntos $p,q,c$ 
 tales que $\{p,c\} \subseteq l$ y $\{q,c\} \subseteq l1$ con $c \neq p.$
 Entonces $p \neq q$ 
@@ -1047,21 +1056,65 @@ qed
 text \<open>
 El lema es el siguiente:
 
-\begin{lema}
+\begin{lema}\label{7_puntos}
 Existen al menos 7 puntos diferenetes en el plano.
 \end{lema}
 
 \begin{demostracion}
-HOLa
+Primero sea $l$ una línea que se obtiene usando el lema
+ \ref{one-line-exists}, usando el lema equivalente al axioma $A7$ (lema
+ \ref{A7a} ) se obtienen $3$ puntos $p1,p2,p3$ tales que $p1 \neq p2
+ \neq p3$ y $\{p1,p2,p3\} \subseteq l.$ Ahora usando el axioma $A5$ se
+ obtiene que $\exists q$ punto tal que $q \notin l,$ luego ya se tienen
+ probado que existen $4$ puntos diferentes, ya que $q$ es diferente del
+ resto porque $q \notin l.$  Consideremos ahora tres líneas $l1,l2,l3$ 
+ obtenidas por el axioma $A3$ tales que $\{p1,q\} \subseteq l1, \,
+ \{p2,q\} \subseteq l2, \, \{p3,q\} \subseteq l3.$ Ahora vamos a obtener
+los tres puntos restantes, usando que $l \neq l1 \neq l2 \neq l3$ 
+gracias al lema auxiliar \ref{lineas_diferentes}:
+
+\begin{enumerate}
+\item Obtenemos $p4$ tal que $p4 \in l1$ y $p4 \notin \{p1,q\}$
+ usando el lema equivalente al axioma $A7$ (lema \ref{A7b}). Entonces
+ veamos que $p4$ es diferente al resto de los puntos. Se tiene que $p4
+ \notin \{p1,q\},$ luego veamos que $p4 \neq p2$ y $p4 \neq p3.$ Usando
+ el lema auxiliar \ref{puntos_diferentes} se tiene probado. Luego hemos
+ probado que $p4$ es diferente al resto de los puntos.
+
+\item Obtenemos $p5$ tal que $p5 \in l2$ y $p5 \notin \{p2,q\}$
+ usando el lema equivalente al axioma $A7$ (lema \ref{A7b}). Entonces
+ veamos que $p5$ es diferente al resto de los puntos, ya se tiene que
+ $p5 \notin \{p2,q\}$ luego falta por probar que $p5 \notin
+ \{p1,p3,p4\}.$ Sin embargo es inmediato comprobar que se verifica
+ usando el lema auxiliar \ref{puntos_diferente}, luego ya hemos probado
+ que $p5$ es diferente al resto de los puntos.
+
+\item Obtenemos $p6$ tal que $p6 \in l3$ y $p6 \notin \{p3,q\}$
+ usando el lema equivalente al axioma $A7$ (lema \ref{A7b}). Entonces
+ veamos que $p6$ es diferente al resto de los puntos, ya se tiene que
+ $p6 \notin \{p3,q\}$ luego falta por probar que $p6 \notin
+ \{p1,p2,p4,p5\}.$ Sin embargo es inmediato comprobar que se verifica
+ usando el lema auxiliar \ref{puntos_diferente}, luego ya hemos probado
+ que $p6$ es diferente al resto de los puntos.
+\end{enumerate}
+
+Por lo tanto, ya tenemos probado la existencia y  la disparidad de $7$
+ puntos \\ $\{p1,p2,p3,p4,p5,p6,p7\}.$
 \end{demostracion}
 
+La siguiente figura \ref{7_puntosdiferentes} muestra una intuición geométrica de 
+la demostración del lema \ref{7_puntos}.
 
 \begin{figure}[H]
 \centering
 \includegraphics[height=6cm]{geogebra4.png}
-\caption{Visión geométrica de la demostración}
-\label{7_puntos}
+\caption{Visión geométrica de la demostración del lema \ref{7_puntos}}
+\label{7_puntosdiferentes}
 \end{figure}
+
+
+La formalización y demostración del lema en Isabelle/HOL es la
+ siguiente:
 \<close>
 lemma (in Projective_Geometry) at_least_seven_points: 
   "\<exists>p1 p2 p3 p4 p5 p6 p7. 
@@ -1137,12 +1190,38 @@ subsection \<open>Interpretación modelo geometría proyectiva \<close>
 (* ---------------------------------------------------------------------
    Problem 31: Give a model of Projective Geometry with 7 points.
   ------------------------------------------------------------------- *)
+text \<open>
+El mínimo modelo que presenta la Geometria Proyectiva es considerar que
+ el plano tiene $7$ puntos y con ellos formar como mínimo $7$ líneas.
+ Este modelo se conoce como el \textbf{fano plane} que es el plano 
+proyectivo con el menor número de puntos y líneas necesarios para que 
+se verifiquen todos los axiomas. Para ello vamos a
+ dar la definición en Isabelle del plano de 7 elementos
+ \textbf{plane-7} y la definición \textbf{lines-7} asociado a sus 7
+ líneas.
 
+La siguiente figura \ref{proyectivo} muestra una visión del 
+\textbf{fano plane}:
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=6cm]{proyectivo.png}
+\caption{Visión geométrica del fano plane}
+\label{proyectivo}
+\end{figure}
+
+\<close>
 definition "plane_7 \<equiv> {1::nat,2,3,4,5,6,7}"
 
 definition "lines_7 \<equiv> {{1,2,3},{1,6,5},{3,4,5},{5,7,2},{3,7,6},
                         {1,4,7},{2,4,6}}"
 
+text \<open>
+Para poder demostrar la existencia de este modelo mínimo con el comando
+ \textbf{interpretation} es necesario definir los siguientes lemas
+ auxiliares:
+\<close>
 lemma aux1a: "card {Suc 0, 2, 3} = 3"
   by auto
 
@@ -1184,6 +1263,8 @@ lemma aux7a: "card {2::nat, 4, 6} = 3"
 
 lemma aux7: "\<exists>x. card x = 3 \<and> x \<subseteq> {2::nat, 4, 6}"
   using aux7a by blast
+
+
 interpretation Projective_Geometry_smallest_model:
   Projective_Geometry plane_7 lines_7
   apply standard 
