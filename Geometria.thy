@@ -4,76 +4,54 @@ imports Main  "HOL-Library.LaTeXsugar" "HOL-Library.OptionalSugar"
 begin
 (*>*)
 
-(* ---------------------------------------------------------------------  
-                  FORMALISING AND REASONING                  
-                ABOUT GEOMETRIES USING LOCALES                
-   ------------------------------------------------------------------ *)
-
 section \<open>Introducción a la geometría \<close>
 
-text \<open>La geometría posee una larga de historía de estar presentada y
- representada por sistemas axiomáticos, es decir, cualquier conjunto de
- axiomas a partir del cual se pueden usar algunos o todos los axiomas en
- conjunto para derivar lógicamente teoremas. Un axioma es una
- declaración que se considera verdadera, que sirve como punto 
-de partida para razonamientos y argumentos adicionales.
-
+text \<open>La geometría posee una larga de historia de estar presentada y
+ representada por sistemas axiomáticos; es decir, mediante conjuntos de
+ axiomas a partir del cual se pueden derivar lógicamente teoremas. Un 
+ axioma es una declaración que se considera verdadera, que sirve como 
+ punto de partida para razonamientos y argumentos adicionales.
 
  Por ello, vamos a representar la geometria simple, que la entenderemos
- definiendo el  plano como un conjunto de puntos y las líneas como 
-conjuntos de puntos, la geometría no proyectiva añadiéndole un axioma a 
-la simple y por  último, la geometria proyectiva añadiendole 3 axiomas 
-a la simple. 
+ definiendo el plano como un conjunto de puntos y las líneas como 
+ conjuntos de puntos, la geometría no proyectiva añadiéndole un axioma a 
+ la simple y por  último, la geometria proyectiva añadiendole 3 axiomas 
+ a la simple. 
 
-Todo esto se definirá en Isabelle/HOL como un entorno local. Un entorno
+ Todo esto se definirá en Isabelle/HOL como un entorno local. Un entorno
  local o declaración local consiste en secuencia de elementos que
  declararán parámetros(\textbf{fixed}) y suposiciones
  (\textbf{assumption}).
 
-También de cada tipo de geometría se dará el modelo mínimo que posee
+ También de cada tipo de geometría se dará el modelo mínimo que posee
  cada una, esto se hará mediante el comando \textbf{interpretation}.
-El comando \textbf{interpretation} como su nombre indica consiste en
- interpretar los comandos locales, es decir, dar un modelo(que en este
+ El comando \textbf{interpretation} como su nombre indica consiste en
+ interpretar los comandos locales; es decir, dar un modelo (que en este
  caso será el mínimo que ofrece cada entorno local) y probar todos los
  axiomas que este tenga.
-
-
 \<close>
-(* --------------------------------------------------------------------
-   Problem 14: State formally the following axioms.  
-  ------------------------------------------------------------------- *)
 
 section \<open>Geometría simple \<close>
 
 subsection \<open>Entorno local \<close>
 
-text \<open> 
-
-La geometría simple, como ya se ha nombrado anteriormente, posee tres
+text \<open>La geometría simple, como ya se ha dicho anteriormente, posee tres
  elementos fundamentales. Los puntos, el plano, que es el conjunto de
  todos ellos, y las rectas, que son conjuntos de puntos. Esta geometría
  posee 5 axiomas:
+ \begin{enumerate}
+  \item{El plano es no vacío.}
+  \item{Toda línea es un subconjunto no vacío del plano.}
+  \item{Para cualquier par de puntos en el plano, existe una línea que
+    contiene a ambos.}
+  \item{Dos líneas diferentes se cortan en no más de un punto.}
+  \item{Para cada línea, existe un punto del plano que no pertenece a
+    ella.}
+ \end{enumerate}
 
-
-\begin{enumerate}
-
-\item{El plano es no vacío.}
-
-\item{Toda línea es un subconjunto no vacío del plano.}
-
-\item{Para cualquier par de puntos en el plano, existe una línea que
- contiene a ambos.}
-
-\item{Dos líneas diferentes intersecan en no mas de un punto.}
-
-\item{Para toda línea, existe un punto del plano que no pertenece a
- ella.}
-\end{enumerate}
-
-Se ha declarado un entorno local, denotado \textbf{Simple$-$Geometry}, con
-un par de constantes(\textbf{lines} y \textbf{plane}) junto con los 5
- axiomas ya definidos anteriormente.
-\<close>
+ Se ha declarado un entorno local, denotado \textbf{Simple$-$Geometry}, 
+ con un par de constantes (\textbf{lines} y \textbf{plane}) junto con 
+ los 5 axiomas anteriores.\<close>
 
 locale Simple_Geometry =
   fixes plane :: "'a set"
@@ -83,52 +61,37 @@ locale Simple_Geometry =
       and A3: "\<forall>p \<in> plane. \<forall>q \<in> plane. \<exists>l \<in> lines. {p,q} \<subseteq> l"
       and A4: "\<forall>l \<in> lines. \<forall>r \<in> lines.
                l \<noteq> r  \<longrightarrow>  l \<inter> r = {} \<or> (\<exists>q \<in> plane. l \<inter> r = {q}) "
-               (* Two different lines intersect in no more than one 
-                  point. *)
       and A5: "\<forall>l \<in> lines. \<exists>q \<in> plane. q \<notin> l"
-              (* For every line L there is a point in the plane outside 
-                 of L. *)
 
-
-text \<open>
-A pesar de la definición del entorno local goemetría simple de 5
- axiomas, no en todas las demostraciones, se van a usar todos ellos. Sin
-embardo, al haber definido tanto las lineas como el plano como conjuntos
+text \<open>A pesar de la definición del anterior entorno local con 5 axiomas, 
+ no en todas las demostraciones, se van a usar todos ellos. Sin embargo, 
+ al haber definido tanto las líneas como el plano como conjuntos
  tenemos todas las funciones definidas en Isabelle/HOL de la teoría de
  conjuntos
   \href{https://www.cl.cam.ac.uk/research/hvg/Isabelle/dist/library/HOL/HOL/Set.html}{Set.thy}.
 \<close>
 
+subsection \<open>Proposiciones de geometría simple\<close>
 
-subsection \<open>
-Proposiciones de geometría simple
-\<close>
+text \<open>A continuación vamos a presentar una serie de lemas que vamos a
+ demostrar dentro del entorno de la geometría simple.
 
-(* ---------------------------------------------------------------------
-   Problem 15 : Formalise the statement: the set of lines is non-empty 
-   ------------------------------------------------------------------ *)
+ El primer lema es el siguiente:
+ \begin{lema}\label{one-line-exists}
+  Existe al menos una línea.
+ \end{lema}
 
-text \<open>
-A continuación vamos a presentar una serie de lemas que vamos a
- demostrar dentro del entorno de geometría simple.
+ \begin{demostracion}
+ Vamos a demostrar que el conjunto de líneas es no vacío. Para ello,
+ supongamos en primer lugar, por el axioma A1, que $q$ es un punto del
+ plano. Entonces, por el axioma A3, tenemos que existe una línea $l$
+ tal que $\{q,q\} \subseteq l$. Luego, ya hemos probado que existe 
+ una línea.
+ \end{demostracion}
 
-El primer lema es el siguiente:
+ La formalización del lema y su demostración en Isabelle/HOl es la 
+ siguiente:\<close>
 
-\begin{lema}\label{one-line-exists}
-Existe al menos una línea.
-\end{lema}
-
-\begin{demostracion}
-Vamos a demostrar que el conjunto de línes es no vacío, para ello,
- supongamos en primer lugar por el axioma A1 que $\exists q$ tal que $q$
-pertenece al plano. Entonces por el axioma A2 tenemos que $\exists l$
- línea tal que el conjunto $\{q,q\} \subseteq l$ luego ya tenemos
- probado que existe una línea.
-\end{demostracion}
-
-La formalización del lema y su demostración en Isabelle/HOl es la siguiente:
-
-\<close>
 lemma (in Simple_Geometry) one_line_exists:
   "\<exists>l. l \<in> lines " 
 proof - 
@@ -138,29 +101,23 @@ proof -
   then show ?thesis by auto
 qed
 
-(* ---------------------------------------------------------------------
-   Problem 16
-   ------------------------------------------------------------------ *)
+text \<open>El segundo lema es el siguiente 
+  \begin{lema}
+    Existen al menos dos puntos que son diferentes en el plano 
+  \end{lema}
 
-text \<open>
-El segundo lema es el siguiente 
+  \begin{demostracion}
+  Para la demostración del lema, usando el lema anterior, tenemos
+  que existe una línea $l$. Además, por el axioma A2, sabemos que 
+  $l \neq \emptyset$ lo que implica que existe un punto $q$ en $l$. Por 
+  otro lado, por el axioma A5, sabemos que existe un punto $p$ que 
+  no está en $l$. Luego ya tenemos probada la existencia de dos puntos. 
+  A parte, como $p \notin l$ y $q \in l$ tienen que ser distintos. 
+  \end{demostracion}
 
-\begin{lema}
-Existen al menos dos puntos que son diferentes en el plano 
-\end{lema}
+  La especificación y demostración del lema en Isabelle/HOL es la 
+  siguiente:\<close>
 
-\begin{demostracion}
-Para la demostración del lema, vamos a usar el lema anterior, luego
- supongamos que $\exists l$ tal que $l$ es una línea. Luego por el
- axioma A2, sabemos que $l \neq \emptyset$ luego esto implica que
- $\exists q$ tal que $q \in l.$ Por otro lado por el axioma A5 sabemos
- que $\exists p$ tal que es un punto y $p \notin l$ luego ya tenemos
- probada la existencia de dos puntos. A parte, como $p \notin l$ y $q
- \in l$ tienen que ser distintos. 
-\end{demostracion}
-
-La especificación y demostración del lema en Isabelle/HOL es la siguiente:
-\<close>
 lemma (in Simple_Geometry) two_points_exist:
   "\<exists>p1 p2. p1 \<noteq> p2 \<and> {p1, p2} \<subseteq> plane"
 proof -
@@ -178,29 +135,24 @@ proof -
     by force 
 qed
 
-(* --------------------------------------------------------------------- 
-   Problem 17 
-   ------------------------------------------------------------------ *)
-text \<open>
-El siguiente lema es el siguiente: 
+text \<open>El siguiente lema es el siguiente: 
+  \begin{lema}
+    Existen al menos tres puntos diferentes en el plano.
+  \end{lema}
 
-\begin{lema}
-Existen al menos tres puntos diferentes en el plano.
-\end{lema}
+  \begin{demostracion}
+  Para la demostración del lema vamos a usar el lema anterior; es decir,
+  tenemos que existen dos puntos distintos $p$ y $q$. Por el axioma A3, 
+  se tiene que existe una línea $l$ que pasa por esos dos puntos. 
+  Usando el axioma A5, sabemos que existe un punto $r$ que no pertenece
+  a $l$. Veamos que son diferentes; es decir, como hemos tomado 
+  $p \neq q$ simplemente tenemos que probar que $r \neq q$ y $r \neq p$. 
+  Como $r \notin l$ ya se tiene la prueba.
+  \end{demostracion}
 
-\begin{demostracion}
-Para la demostración del lema vamos a usar el lema anterior, es decir,
-supongamos que $\exists p,q$ tal que $p \neq q.$ Por el axioma A2 se
- tiene que $\exists l$ línea con ${p,q} \subseteq {l}.$ Usando el axioma
-A5 obtenemos que $\exists r$ tal que $r \notin l,$ luego ya hemos 
-probado la existencia. Veamos que son diferentes, es decir, como hemos
- tomado $p \neq q$ simplemente tenemos que probar que $r \neq q$ y $r
- \neq p$. Como $r \notin l$ ya se tiene probado.
-\end{demostracion}
+  La especificación y demostración del lema en Isabelle/HOL es la 
+  siguiente:\<close>
 
-
-La especificación y demostración del lema en Isabelle/HOL es la siguiente:
-\<close>
 lemma (in Simple_Geometry) three_points_exist:
   "\<exists>p1 p2 p3. distinct [p1, p2, p3] \<and> {p1, p2, p3} \<subseteq> plane" 
 proof - 
@@ -216,26 +168,16 @@ proof -
     by (intro exI)
 qed
 
-(* ---------------------------------------------------------------------  
-   Problem 18 
-   ------------------------------------------------------------------ *)
-text \<open>
-El siguiente lema es una consecuencia inmediata del lema anterior.
+text \<open>El siguiente lema es una consecuencia inmediata del lema anterior.
 
-\begin{lema}
-Si el plano es finito, entonces la cardinalidad del plano es mayor o 
-igual que $3.$
-\end{lema}
+  \begin{lema}
+    Si el plano es finito, entonces la cardinalidad del plano es mayor o 
+    igual que 3.
+    \end{lema}
 
-\begin{demostracion}
-Usando el lema anterior, ya tenemos probado que $\exists p,q,r$
- pertenecientes al plano  con $p  \neq q \neq r.$ Como estos puntos son
- diferentes se tiene directamente que al meno la cardinalidad del plano
- es mayor o igual que $3.$
-\end{demostracion}
+  La especificación y demostración del lema en Isabelle/HOL es la 
+  siguiente:\<close>
 
-La especificación y demostración del lema en Isabelle/HOL es la siguiente:
-\<close>
 lemma (in Simple_Geometry) card_of_plane_greater:
   assumes "finite plane" 
   shows "card plane \<ge> 3"
@@ -247,47 +189,38 @@ proof -
     by (rule conjE)
   then have "card {p1, p2, p3} \<le> card plane" 
     using assms by (simp add: card_mono)
-  ultimately show ?thesis  by auto
+  ultimately show ?thesis  
+    by auto
 qed
 
-(* --------------------------------------------------------------------- 
-   Problem 19
-   ------------------------------------------------------------------ *)
-
-(* ---------------------------------------------------------------------
-   Problem 20
-   ------------------------------------------------------------------ *)
 text \<open>
-El siguiente lema es el siguiente:
-
-\begin{lema}
-Sea $l$ una línea tal que existen dos puntos $\{a,b\} \subseteq l$ con
- $a \neq b,$  un punto $p$ tal que $p \notin l.$ Sea $n$ una línea tal que
-$\{a,p\} \subseteq n$ y $m$ otra línea tal que $\{b,p\} \subseteq m.$
- Entonces $m \neq n.$ 
+  \begin{lema}
+    Sean $a$ y $b$ dos puntos distintos, $l$ una línea que pasa por 
+    ellos y $p$ un punto fuera de $l$. Sea $n$ una línea que
+    pasa por $a$ y $p$ y $m$ una línea que pasa $b$ y $p$. Entonces, 
+    $m \neq n.$ 
 \end{lema}
 
 \begin{demostracion}
-La demostración se hará por reducción al absurdo, es decir, supongamos
+ La demostración se hará por reducción al absurdo; es decir, supongamos
  que $m = n$ y se llegará a un absurdo. Primero notemos que $m \neq l$
  ya que $p \notin l$ pero $p \in m,$ luego podemos aplicar el axioma A4
  a las líneas $m$ y $l.$ Al aplicarlo resulta que tenemos que $l \cap m
  = \emptyset$ o existe un punto $q$ tal que $l \cap m = \{q\}.$ 
 
-Primero supongamos que $l \cap m = \emptyset,$ sin embargo $b \in l$ y
+ Primero supongamos que $l \cap m = \emptyset,$ sin embargo $b \in l$ y
  $b \in m$ luego hemos llegado a n absurdo.
 
-Segundo supongamos que sea $q$ el punto tal que $l \cap m = {q},$ sin
+ Segundo supongamos que sea $q$ el punto tal que $l \cap m = {q},$ sin
  embargo al principio se ha supuesto que $m = n$. Por lo tanto, se tiene
-que $\{a,b\} \subseteq \{q\}$ con lo que se ha llegado a un absurdo ya que $a \neq
-b.$
+ que $\{a,b\} \subseteq \{q\}$ con lo que se ha llegado a un absurdo ya 
+ que $a \neq b.$
 
-Por los dos casos se ha llegado a un absurdo luego, $m \neq n.$
-\end{demostracion}
+ Por los dos casos se ha llegado a un absurdo luego, $m \neq n.$
+ \end{demostracion}
 
-Para tener una visión geométrica de la demostración incluimos la figura
+ Para tener una visión geométrica de la demostración incluimos la figura
  \ref{lineas_diferentes}.
-
 
 \begin{figure}[H]
 \centering
@@ -296,8 +229,8 @@ Para tener una visión geométrica de la demostración incluimos la figura
 \label{lineas_diferentes}
 \end{figure}
 
-La especificación y demostración del lema en Isabelle/HOL es la siguiente:
-\<close>
+ La especificación y demostración del lema en Isabelle/HOL es la 
+ siguiente:\<close>
 
 lemma (in Simple_Geometry) how_to_produce_different_lines:
   assumes
@@ -336,11 +269,7 @@ proof (rule notI)
   qed
 qed
 
-(* --------------------------------------------------------------------- 
-   Problem 21   
-   ------------------------------------------------------------------ *)
-text \<open>El siguiente lema es: 
-
+text \<open>
 \begin{lema}
 Sea $l$ una línea tal que existen dos puntos $\{a,b\} \subseteq l$ con
  $a \neq b,$  un punto $p$ tal que $p \notin l.$ Sea $n$ una línea tal que
@@ -418,9 +347,7 @@ proof
 qed
 
 
-subsection \<open>
-Interpretación mínimo modelo geometría simple 
-\<close>
+subsection \<open>Interpretación mínimo modelo geometría simple\<close>
 
 text \<open>
 El mínimo modelo que tiene la geometría simple es considerar el plano
@@ -433,6 +360,7 @@ Para ello se va a dar el la definicion del \textbf{planes-3} que es el
  plano de 3 elementos y \textbf{lines-3} que es el conjunto formado por
  3 líneas.
 \<close>
+
 definition "plane_3 \<equiv> {1::nat,2,3} "
 
 definition "lines_3 \<equiv> {{1,2},{2,3},{1,3}}"
@@ -443,30 +371,24 @@ interpretation Simple_Geometry_smallest_model:
       apply (simp add: plane_3_def lines_3_def)+
   done
 
-
 section \<open>Geometría no proyectiva \<close>
 
-(* ---------------------------------------------------------------------
-   Problem 22: Formalise the following axiom: 
-     if a point p lies outside of line l then there must exist at least
-     one line m that passes through p, which does not intersect l 
-  ------------------------------------------------------------------- *)
 subsection \<open>Entorno local \<close>
 
 text \<open>
-La geometría no proyectiva es un tipo de geometría en el que asusmimos
+La geometría no proyectiva es un tipo de geometría en el que asumimos
  paralelismo, en nuestro caso entre rectas.
 
 \begin{definicion}
-El paralelismos es una relación que se establece entre dos rectas
-cualesquiera del plano, esta relación dice que dos rectas son paralelas
+ El paralelismo es una relación que se establece entre dos rectas
+ cualesquiera del plano, esta relación dice que dos rectas son paralelas
  si bien son la misma recta o no comparten ningún punto, es decir, su
  intersección es vacía.
  \end{definicion}
 
-Gracias a esta relación entre rectas, podemos definir un nuevo entorno
- local añadiendo al ya definido \textbf{Simple-Geometry} un nuevo
- axioma, el axioma de la existencia del paralelismo.
+ Gracias a esta relación entre rectas, podemos definir un nuevo entorno
+ local a\-ña\-dien\-do al ya definido \textbf{Simple-Geometry} un nuevo
+ axioma, el axioma de la existencia del pa\-ra\-le\-lis\-mo.
 
 
 \textbf{Parallels-Ex}: sea $p$ un punto del plano y $l$ una línea. Si $p
@@ -476,21 +398,11 @@ Gracias a esta relación entre rectas, podemos definir un nuevo entorno
 Al nuevo entorno local lo denotaremos como
  \textbf{Non-Projective-Geometry}.
 \<close>
+
 locale Non_Projective_Geometry =
   Simple_Geometry +
   assumes parallels_Ex:
     "\<forall>p \<in> plane. \<forall>l \<in> lines. p \<notin> l \<longrightarrow> (\<exists>m \<in> lines. p \<in> m \<and> m \<inter> l = {} )"
-
-(* ---------------------------- ----------------------------------------
-   Problem 23: Give a model of Non-Projective Geometry with 
-   cardinality 4. 
-   Show that it is indeed a model using the command "interpretation" 
-   ------------------------------------------------------------------ *)
-
-(* ---------------------------------------------------------------------
-   Problem 24: Formalise and prove: 
-     "it is not true that every pair of lines intersect"  
-  ------------------------------------------------------------------- *)
 
 subsection \<open>Proposiciones de geometría no proyectiva \<close>
 
@@ -498,25 +410,24 @@ text\<open>
 A continuación vamos a presentar un lema sobre geometría no proyectiva:
 
 \begin{lema}
-Es falso que todo par de líneas intersecta en un punto.
+Es falso que todo par de líneas se cortan.
 \end{lema}
 
 \begin{demostracion}
-La demostración se hará suponiendo que es cierto y llegaremos a una
- contradicción, es decir, supongamos que se verifica que $\forall \,l\, m$
- líneas se tiene que $l \cap m \neq \emptyset.$ \\
-Sea ahora una línea, denostemosla $l1$, obtenida por el el lema
- \ref{one-line-exists}. Luego por el axioma A5 obtenemos un punto $q1$
- tal que $q1 \notin l1$, usando el axioma \textbf{Parallels-Ex} aplicado
+La demostración se hará por reducción al absurso. Es decir, supongamos 
+que todo par de líneas se cortan.
+
+Sea ahora $l1$ una línea obtenida por el el lema \ref{one-line-exists}. 
+Porr el axioma A5 obtenemos un punto $q1$ tal que $q1 \notin l1$.
+Usando el axioma \textbf{Parallels-Ex} aplicado
 al punto $q1$ y a la línea $l1$ obtenemos que existe una línea $m$ tal
- que $q1 \in m$ y $m \cap l = \emptyset.$ Por lo tanto, hemos llegado a
- una contradicción ya que se ha demostrado que existen dos líneas cuya
- intersección es vacía.
+que $q1 \in m$ y $m \cap l = \emptyset$. Por lo tanto, hemos llegado a
+una contradicción ya que se ha demostrado que existen dos líneas cuya
+intersección es vacía.
 \end{demostracion}
 
+La formalización y demostración en Isabelle/Hol es la siguiente:\<close>
 
-La formalización y demostración en Isabelle/Hol es la siguiente:
-\<close>
 lemma (in Non_Projective_Geometry) non_projective:
   "\<not>(\<forall>r \<in> lines. \<forall>s \<in> lines. r \<inter> s \<noteq> {})"
 proof 
@@ -536,21 +447,19 @@ proof
   qed
 qed
 
-
-
 subsection \<open>Interpretacion modelo geometría no proyectiva \<close>
 
 text \<open>
-El mínimo modelo de la geometría no proyectiva es considerar que el
- plano tiene 4 elementos, es decir, considerar el plano como
+ El mínimo modelo de la geometría no proyectiva es considerar que el
+ plano tiene 4 elementos; es decir, considerar el plano como
  $\{a,b,c,d\}$ siendo estos números enteros,naturales etc. Con estos 4
  elementos para que sea un modelo de la geometría no proyectiva hay que
  formar como mínimo 6 rectas.
 
 Para ello vamos a dar la definicion \textbf{plane-4} que es el plano
- formado por 4 elementos y \textbf{lines-4} que son las líneas asociadas
-a estos elementos.
-\<close>
+formado por 4 elementos y \textbf{lines-4} que son las líneas asociadas
+a estos elementos.\<close>
+
 definition "plane_4 \<equiv> {1::nat, 2, 3, 4}"
 
 definition "lines_4 \<equiv> {{1,2},{2,3},{1,3},{1,4},{2,4},{3,4}}"
@@ -561,76 +470,63 @@ interpretation Non_projective_geometry_card_4:
        apply (simp add: plane_4_def lines_4_def)+
   done
 
-(* The following are some auxiliary lemmas that may be useful.
-   You don't need to use them if you don't want. *)
-
-
-
 section \<open>Geometría proyectiva \<close>
 
-subsection \<open>
-Entorno local 
-\<close>
+subsection \<open>Entorno local \<close>
 
 text \<open>
-La geometría proyectiva es un tipo de geometría que se basa en que dado
+ La geometría proyectiva es un tipo de geometría que se basa en que dado
  cualquier par de rectas su intersección siempre es un punto. 
 
-Para ello vamos a definir un nuevo entorno local
+ Para ello vamos a definir un nuevo entorno local
  \textbf{Projective-Geometry} tal que se basa en el entorno local ya
  definido \textbf{Simple-Geometry} añadiéndole dos axiomas más. Estos
  axiomas son los siguientes:
 
 \begin{enumerate}
-\item Cualquier par de líneas intersecta en un punto(A6).
-\item Toda línea tiene almenos $3$ puntos.
+\item Cualquier par de líneas se cortan.
+\item Toda línea tiene al menos 3 puntos.
 \end{enumerate}
 
-El nuevo entorno local es el siguiente:
-\<close>
+El nuevo entorno local es el siguiente:\<close>
+
 locale Projective_Geometry = 
   Simple_Geometry + 
   assumes A6: "\<forall>l \<in> lines. \<forall>m \<in> lines. \<exists>p \<in> plane. p \<in> l \<and> p \<in> m"
       and A7: "\<forall>l \<in> lines. \<exists>x. card x = 3 \<and> x \<subseteq> l" 
 
-(* ---------------------------------------------------------------------
-   Problem 25: Prove this alternative to axiom A7  
-   ------------------------------------------------------------------ *)
 subsection \<open>Proposiciones de geometría proyectiva \<close>
 
 text \<open>
 A continuación vamos a demostrar una serie de lemas dentro del entorno
- \textbf{Projective-Geoemtry}. Antes de los lemas vamos a demostrar en
- isabelle únicamente que un conjunto, denotemoslo $x$, de cardinalidad 3 
-significa que esta formado por 3 puntos y estos son distintos. Este
- pequeño lema nos ayudará en las demostraciones de los siguientes.
-\<close>
+\textbf{Projective-Geometry}. Antes de los lemas vamos a demostrar en
+Isabelle que si un conjunto $x$ tiene cardinalidad 3, entonces 
+está formado por 3 puntos distintos. Este pequeño lema nos ayudará en 
+las demostraciones de los siguientes.\<close>
+
 lemma construct_set_of_card3:
   "card x = 3 \<Longrightarrow> \<exists> p1 p2 p3. distinct [p1,p2,p3] \<and> x = {p1,p2,p3}" 
   by (metis card_eq_SucD distinct.simps(2) 
       distinct_singleton list.set(1) list.set(2) numeral_3_eq_3)
 
 text \<open>
-Los dos primeros lemas que vamos a demostrar son versiones equivalentes al
- axioma $A7$ ya definido, por lo tanto, en los dos se utilizará el
- axioma A7.
+ Los dos primeros lemas que vamos a demostrar son versiones equivalentes al
+ axioma A7 ya definido y en los dos se utilizará el dicho axioma.
 
 \begin{lema}\label{A7a}
-Para todo línea $l,$ $\exists p1,p2,p3$ tales que $\{p1,p2,p3\} \subseteq
-l$ y $p1 \neq p2 \neq p3$
+Para todo línea $l$, existen $p1,p2,p3$ tales que 
+$\{p1,p2,p3\} \subseteq l$ y son distintos entre sí.
 \end{lema}
 
 
 \begin{demostracion}
-Sea $l$ una línea cualquiera. Por el axioma A7 obtenemos que $\exists x$
+Sea $l$ una línea cualquiera. Por el axioma A7 obtenemos que existe $x$
 tal que cardinalidad $x = 3$ y que $x \subseteq l.$ Por el lema definido
-anteriormente, se obtiene que $\exists p1,p2,p3$ tales que $x =
- \{p1,p2,p3\}$ y que $p1 \neq p2 \neq p3,$ luego ya se tiene probado el
- lema.
+anteriormente, se obtiene que existen $p1,p2,p3$ distintos entre sí y 
+tales que $x =\{p1,p2,p3\}$ y que $p1 \neq p2 \neq p3$.
 \end{demostracion}
 
-La formalización y demostración en Isabelle/HOL es la siguiente:
-\<close>
+La formalización y demostración en Isabelle/HOL es la siguiente:\<close>
 lemma (in Projective_Geometry) A7a:
   "\<forall>l \<in> lines. \<exists>p1 p2 p3. {p1, p2, p3} \<subseteq> plane \<and> 
                           distinct [p1, p2, p3] \<and> 
@@ -661,23 +557,18 @@ proof
   qed
 qed
 
-(* ---------------------------------------------------------------------
-   Problem 26: Prove yet another alternative to axiom A7  
-   ------------------------------------------------------------------ *)
-
 text \<open> 
 \begin{lema}\label{A7b}
-Sea $l$ una linea y $p,q$ dos puntos tales que $\{p,q\} \subseteq l.$
- Entonces $\exists r$ punto tal que $r \neq p, \, r \neq q$ y $r \in
- l.$
+Sea $l$ una linea y $p,q$ dos puntos de $l$. Entonces existe un punto
+$r$ tal que $r \neq p, \, r \neq q$ y $r \in l.$
 \end{lema}
 
 \begin{demostracion}
 Sea $l$ una linea y $p,q$ dos puntos tales que $\{p,q\} \subseteq l.$
- Por el axioma $A7$ se tiene que $\exists x$ tal que la cardinalidad $x
- = 3$ y $x \subseteq l.$ Por el lema demostrado anteriormente se tiene
- que $\exists p1,p2,p3$ tales que $p1 \neq p2 \neq p3$ y
- $\{p1,p2,p3\} \subseteq l.$ Luego usando las hipótesis se tiene 3
+ Por el axioma $A7$ se tiene que existe $x$ tal que la cardinalidad $x
+ = 3$ y $x \subseteq l$. Por el lema demostrado anteriormente, se tiene
+ que existen $p1,p2,p3$ distintos entre sí y tales que
+ $\{p1,p2,p3\} \subseteq l$. Luego, usando las hipótesis se tiene 3
  posibilidades:
 \begin{enumerate}
 \item Si $p1 \notin{p,q}$ entonces ya tendríamos probado el lema.
@@ -687,8 +578,8 @@ Sea $l$ una linea y $p,q$ dos puntos tales que $\{p,q\} \subseteq l.$
 
 En cualquiera de los 3 casos ya se tendría probado el lema.
 \end{demostracion}
-La formalización y demostración en Isabelle/HOL es la siguiente:
-\<close>
+La formalización y demostración en Isabelle/HOL es la siguiente:\<close>
+
 lemma (in Projective_Geometry) A7b: 
   assumes "l \<in> lines"
     "{p, q} \<subseteq> l " 
@@ -709,31 +600,27 @@ proof -
     using 1 by auto
   then have "p1 \<notin> {p,q} \<or> p2 \<notin> {p,q} \<or> p3 \<notin> {p,q}" 
     using 2 by auto
-  then show ?thesis using 1 2 3 by auto
+  then show ?thesis 
+    using 1 2 3 by auto
 qed
-      
-(* ---------------------------------------------------------------------
-   Problem 27
-   ------------------------------------------------------------------ *)
-text \<open>
-El siguiente lema es:
 
+text \<open>
 \begin{lema}
 Para todo punto del plano existen dos líneas distintas que pasan por él.
 \end{lema}
 
 \begin{demostracion}
 Sea $p$ un punto del plano cualquiera. Por el axioma $A3$ obtenemos que
- existe una línea $l$ tal que $\{p,p\} \subseteq l,$ luego por el axioma
-$A5$ se obtiene un punto $r$ tal que $r \notin l.$ Por lo tanto, por el
- axioma $A3,$ de nuevo, se obtiene otra recta $m$ tal que $\{p,r\}
- \subseteq m.$ Ya se tiene probada la existencia de las dos rectas que
+existe una línea $l$ tal que $\{p,p\} \subseteq l$. Luego, por el axioma
+$A5$, se obtiene un punto $r$ tal que $r \notin l$. Por lo tanto, por el
+ axioma $A3$ de nuevo, se obtiene otra recta $m$ tal que $\{p,r\}
+ \subseteq m$. Ya se tiene probada la existencia de las dos rectas que
  pasan por el punto $p$, para probar que son diferentes simplemente
- se usa que $r \in m$ y $r \notin l.$  
+ se usa que $r \in m$ y $r \notin l$.  
 \end{demostracion}
 
-La formalización y demostración en Isabelle/HOL  es la siguiente:
-\<close>
+La formalización y demostración en Isabelle/HOL  es la siguiente:\<close>
+
 lemma (in Projective_Geometry) two_lines_per_point:
   "\<forall>p \<in> plane. \<exists>l \<in> lines. \<exists>m \<in> lines. l \<noteq> m \<and> p \<in> l \<inter> m" 
 proof 
@@ -754,41 +641,37 @@ proof
   qed
 qed
 
-(* ---------------------------------------------------------------------
-   Problem 28
-   ------------------------------------------------------------------ *)
-
 text \<open>
 Para el próximo lema se va a usar el siguiente lema auxiliar.
 
 \begin{lema}\label{lema1}[Lema auxiliar 1]
 Sea $l$ una línea y $r,s$ dos puntos tales que $\{r,s\} \subseteq l.$
  Sea también $l2$ otra línea y $p$ otro punto tal que $\{p,r\} \subseteq
-l2.$ Entonces si $p \neq r$ y $s \notin l2$ se tiene que $p \notin l.$ 
+l2$. Entonces, si $p \neq r$ y $s \notin l2$ se tiene que $p \notin l$. 
 \end{lema}
 
 \begin{demostracion}
-La demostración se hará por reducción al absurdo, es decir, supongamos
- $p \in l$ y se llegará a una contradicción. \\
+La demostración se hará por reducción al absurdo; es decir, supongamos
+ $p \in l$ y se llegará a una contradicción. 
+
 Supongamos que $p \in l.$ Primero obtenemos que como $s \in l$ y $s
- \notin l2$ entonces $l \neq l2.$ Usando esto último, obtenemos del
+ \notin l2$ entonces $l \neq l2$. Usando esto último, obtenemos del
  axioma $A4$ que $l \cap l2 = \emptyset$ o $\exists q$ punto tal que $l
- \cap l2 = \{q\}.$
+ \cap l2 = \{q\}$
 \begin{enumerate}
-\item Supongamos que $l \cap l2 = \emptyset,$ pero por hipótesis se
- tiene que $r \in l$ y $r \in l2,$ luego se llega a una contradicción.
-\item Supongamos que $\exists q$ tal que $l \cap l2 = \{q,\}.$ Sin
- embargo, como hemos supuesto que $p \in l$ y, además, $r \in l,$ $r \in
-l2,$ $p \in l2$ y $r \neq p$ se llega a una contradicción.
+\item Supongamos que $l \cap l2 = \emptyset$, pero por hipótesis se
+ tiene que $r \in l$ y $r \in l2$. Luego se llega a una contradicción.
+\item Supongamos que existe $q$ tal que $l \cap l2 = \{q,\}$. Sin
+ embargo, como hemos supuesto que $p \in l$ y, además, $r \in l$, 
+$r \in l2$, $p \in l2$ y $r \neq p$ se llega a una contradicción.
 \end{enumerate}
-En los dos casos hemos llegado a una contradicción luego se tiene que $p
-\notin l.$
+En los dos casos hemos llegado a una contradicción luego se tiene que 
+$p \notin l.$
 \end{demostracion}
 
+La formalización y demostración en Isabelle/HOL del lema auxiliar es la 
+siguiente:\<close>
 
-La formalización y demostración en Isabelle/HOL 
- del lema auxiliar es la siguiente:
-\<close>
 lemma (in Projective_Geometry) punto_no_pertenece:
   assumes "l2 \<in> lines \<and> {p,r} \<subseteq> l2"
           "l \<in> lines \<and>  {r,s} \<subseteq> l"
@@ -797,24 +680,25 @@ lemma (in Projective_Geometry) punto_no_pertenece:
         shows "p \<notin> l"
 proof 
   assume 1:"p \<in> l"
-  have "l \<inter> l2 = {} \<or> (\<exists>q \<in> plane. l \<inter> l2 = {q})" using A4
-        assms(1,2,4)  by auto
+  have "l \<inter> l2 = {} \<or> (\<exists>q \<in> plane. l \<inter> l2 = {q})" 
+    using A4 assms(1,2,4) by auto
+  then show False 
+  proof 
+    assume "l \<inter> l2 = {}"
     then show False 
-    proof 
-      assume "l \<inter> l2 = {}"
-      then show False using assms(1,2) by auto
-    next 
-      assume " \<exists>q\<in>plane. l \<inter> l2 = {q}"
-      then obtain "t" where "l \<inter> l2 = {t}" by auto
-      then have "{p,r} \<subseteq> {t}" 
-          using  assms(1,2) 1  by auto
-      then show False 
-        using assms(3)  by auto
-    qed
+      using assms(1,2) by auto
+  next 
+    assume " \<exists>q\<in>plane. l \<inter> l2 = {q}"
+    then obtain "t" where "l \<inter> l2 = {t}" 
+      by auto
+    then have "{p,r} \<subseteq> {t}" 
+      using assms(1,2) 1  by auto
+    then show False 
+      using assms(3) by auto
   qed
+qed
 
-  text \<open>
-El lema a demostrar es el siguiente:
+text \<open>El lema a demostrar es el siguiente:
 
 \begin{lema}\label{external_line}
 Para todo punto $p$ existe una línea $l$ tal que $p \notin l.$
@@ -822,19 +706,19 @@ Para todo punto $p$ existe una línea $l$ tal que $p \notin l.$
 
 \begin{demostracion}
 Sea $p$ un punto cualquiera, por el axioma $A3$ obtenemos una línea $l1$
- tal que $\{p,p\} \subseteq l1.$ Usando el axioma $A5$ se obtiene un
- punto $r$ tal que $r \notin l1,$ de nuevo usando el axioma $A3$
- obtenemos una línea $l2$ tal que $\{p,r\} \subseteq l2.$ Repitiendo el
+ tal que $\{p,p\} \subseteq l1$. Usando el axioma $A5$ se obtiene un
+ punto $r$ tal que $r \notin l1$. De nuevo usando el axioma $A3$
+ obtenemos una línea $l2$ tal que $\{p,r\} \subseteq l2$. Repitiendo el
  mismo razonamiento, usamos el axioma $A5$ para obtener un punto $s$ tal
 que $s \notin l2$ y por el axioma $A3$ una línea $l$ tal que $\{r,s\}
- \subseteq l.$ Por último usando que $r \notin l1$ se tiene que $p \neq
+ \subseteq l$. Por último, usando que $r \notin l1$ se tiene que $p \neq
  r$ y, por lo tanto, se tienen todas las hipótesis del lema auxiliar
  \ref{lema1}, luego se ha demostrado que existe una línea $l$
  tal que $p \notin l.$
 \end{demostracion}
 
-La formalizacion y demostración en Isabelle/HOL es la siguiente:
-\<close>
+La formalizacion y demostración en Isabelle/HOL es la siguiente:\<close>
+
 lemma (in Projective_Geometry) external_line:
   "\<forall>p \<in> plane. \<exists>l \<in> lines. p \<notin> l" 
 proof 
@@ -860,11 +744,8 @@ proof
   qed
 qed
 
-(* --------------------------------------------------------------------
-   Problem 29   
-   ------------------------------------------------------------------ *)
 text \<open>
-Para el siguiente lema, se va a usar el siguiente lema auxiliar:
+Para el próximo lema, se va a usar el siguiente lema auxiliar:
 
 \begin{lema}\label{lineas_diferentes}
 Sean $l,l1,l2$ líneas tales que existen puntos $p,q,r$ tal que $\{p,r\}
@@ -874,25 +755,26 @@ Sean $l,l1,l2$ líneas tales que existen puntos $p,q,r$ tal que $\{p,r\}
 
 \begin{demostracion}
 La demostración se hará por reducción al absurdo, es decir, supongamos
- que $l1 = l2$ y se llegará a una contradicción. \\
+ que $l1 = l2$ y se llegará a una contradicción. 
+
 Supongamos que $l1 = l2.$ Como por hipótesis se tiene que $l \neq l1$
  entonces usando el axioma $A4$ obtenemos que $l \cap l1 = \emptyset$ o
- existe un punto tal que $l \cap l1 = \emptyset.$ Veamos los dos casos:
+ existe un punto tal que $l \cap l1 = \emptyset$. Veamos los dos casos.
 
 \begin{enumerate}
-\item Supongamos que $l \cap l1 = \emptyset.$ Como por hipótesis se
+\item Supongamos que $l \cap l1 = \emptyset$. Como por hipótesis se
  tiene que $p \in l$ y $p \in l1$ entonces se llega a un absurdo.
-\item Supongamos que $\exists t$ punto tal que $l \cap l1 = \{t\}.$ Como
-se había supuesto que $l1 = l2$ se tiene que, usando las hipótesis,
- $\{p,r\} \subseteq \{t,\}.$ Sin embargo como $p \neq r$ entonces se
+\item Supongamos que existe un punto $t$ tal que $l \cap l1 = \{t\}$. 
+Como se había supuesto que $l1 = l2$ se tiene que, usando las hipótesis,
+ $\{p,r\} \subseteq \{t,\}$. Sin embargo, como $p \neq r$ entonces se
  llega a un absurdo.
 \end{enumerate}
 
 En ambos casos hemos llegado a un absurdo, luego $l1 \neq l2.$
 \end{demostracion}
 
-Su demostración y formalización en Isabelle/HOL es la siguiente:
-\<close>
+Su demostración y formalización en Isabelle/HOL es la siguiente:\<close>
+
 lemma (in Projective_Geometry) lineas_diferentes:
   assumes "l \<in> lines \<and> {p,r} \<subseteq> l"
           "l1 \<in> lines \<and> {p,q} \<subseteq> l1"
@@ -911,7 +793,8 @@ proof
       using assms(1,2) by auto
   next
     assume "\<exists>q\<in>plane. l \<inter> l1 = {q}"
-    then obtain t where "l \<inter> l1 = {t}" by auto
+    then obtain t where "l \<inter> l1 = {t}" 
+      by auto
     then have "{p,r} \<subseteq> {t}" 
       using assms(1,2,3) 1 by auto
     then show False 
@@ -920,24 +803,23 @@ proof
 qed
 
 text \<open>
-El lema es el siguiente:
-
 \begin{lema}\label{3lineas_diferentes}
-Para todo punto $p$ en el plano, existen almenos tres líneas que pasan 
-por $p.$
+Para todo punto $p$ en el plano, existen al menos tres líneas que pasan 
+por $p$.
 \end{lema}
 
 \begin{demostracion}
 Sea $p$ un punto del plano, usando el lema \ref{external_line} se
- obitene que $\exists h$ líneal tal que $p \notin h.$ Usando la
+ obitene que una línea $h$ tal que $p \notin h$. Usando la
  definición equivalente del axioma $A7$ (lema \ref{A7a}) se obtienen
- $a,b,c$ puntos tales que $a \neq b \neq c$ y $\{a,b,c\} \subseteq h.$
-Por lo tanto, usando el axioma $A3$ obtenemos de forma equivalente tres
- líneas $l,m,n$ tales que $\{a,p\} \subseteq l, \, \{b,p\} \subseteq m,
- \, \{c,p\} \subseteq n.$ Ya hemos probado que existen $3$ líneas que
+ tres puntos $a,b,c$ distintos entre sí y tales que 
+ $\{a,b,c\} \subseteq h$. Por lo tanto, usando el axioma $A3$ obtenemos 
+ de forma equivalente tres líneas $l,m,n$ tales que 
+ $\{a,p\} \subseteq l, \, \{b,p\} \subseteq m,\, \{c,p\} \subseteq n$. 
+ Ya hemos probado que existen $3$ líneas que
  verifican las condiciones, lo único que queda por probar es que sean
- diferente. Entonces usando el lema auxiliar \ref{lineas_diferentes} se
- tiene que $l \neq m \neq n,$ luego ya se ha probado el lema.
+ diferente. Usando el lema auxiliar \ref{lineas_diferentes} se
+ concluye la prueba.
 \end{demostracion}
 
 La siguiente figura \ref{3lineas_diferentes} muestra una visión
@@ -950,8 +832,8 @@ La siguiente figura \ref{3lineas_diferentes} muestra una visión
 \label{3lineas_diferentes}
 \end{figure}
 
-La formalización y demostración en Isabelle/HOL es la siguiente:
-\<close>
+La formalización y demostración en Isabelle/HOL es la siguiente:\<close>
+
 lemma (in Projective_Geometry) three_lines_per_point:
   "\<forall>p \<in> plane. \<exists>l m n. 
     distinct [l,m,n] \<and> {l,m,n} \<subseteq> lines \<and> p \<in> l \<inter> m \<inter> n" 
@@ -992,39 +874,36 @@ proof
   qed
 qed
 
-(* ---------------------------------------------------------------------
-   Problem 30
-   ------------------------------------------------------------------ *)
 text \<open>
 Para el siguiente lema se va a usar el siguiente lema auxiliar:
 
 \begin{lema}\label{puntos_diferentes}
 Sea $l$ y $l1$ líneas tales que $l \neq l1$ y existen puntos $p,q,c$ 
-tales que $\{p,c\} \subseteq l$ y $\{q,c\} \subseteq l1$ con $c \neq p.$
-Entonces $p \neq q$ 
+tales que $\{p,c\} \subseteq l$ y $\{q,c\} \subseteq l1$ con 
+$c \neq p$. Entonces $p \neq q$ 
 \end{lema}
 
 \begin{demostracion}
 La demostración se hará por reducción al absurdo, es decir, supongamos
- que $p = q$ y se llegará a un absurdo. \\
+ que $p = q$ y se llegará a un absurdo. 
+
 Supongamos que $p = q.$ Entonces usando la hipótesis $l \neq l1$ y el
  axioma $A4$ se obtiene que $l \cap l1 = \emptyset$ o existe un punto
- tal que $l \cap l1 = \{q\}.$ Veamos los dos casos por separado:
+ tal que $l \cap l1 = \{q\}.$ Veamos los dos casos por separado.
 
 \begin{enumerate}
 \item Supongamos que $l \cap l1 = \emptyset.$ Como por hipótesis se
  tiene que $c \in l$ y $c \in l1$ entonces se llega a un contradicción.
-\item Supongamos que $\exists t$ tal que $l \cap l1 = \{t\}.$ Sin
- embargo, como hemos supuesto que $p = q,$ se tiene que $\{p,c\}
- \subseteq \{t\}.$ Pero como $p \neq c$ se llega a una contradicción.
+\item Supongamos que existe $t$ tal que $l \cap l1 = \{t\}$. Sin
+ embargo, como hemos supuesto que $p = q$, se tiene que $\{p,c\}
+ \subseteq \{t\}$. Pero como $p \neq c$ se llega a una contradicción.
 \end{enumerate}
 
-En los dos casos se ha llegado a una contradicción luego se tiene que $p
-\neq q.$
+En los dos casos se ha llegado a una contradicción luego se tiene que 
+$p \neq q.$
 \end{demostracion}
 
-La formalización y demostración en Isabelle/HOL es la siguiente:
-\<close>
+La formalización y demostración en Isabelle/HOL es la siguiente:\<close>
 lemma (in Projective_Geometry) puntos_diferentes:
   assumes "l \<in> lines"
           "l1 \<in> lines"
@@ -1054,8 +933,6 @@ proof
 qed
 
 text \<open>
-El lema es el siguiente:
-
 \begin{lema}\label{7_puntos}
 Existen al menos 7 puntos diferenetes en el plano.
 \end{lema}
@@ -1063,11 +940,11 @@ Existen al menos 7 puntos diferenetes en el plano.
 \begin{demostracion}
 Primero sea $l$ una línea que se obtiene usando el lema
  \ref{one-line-exists}, usando el lema equivalente al axioma $A7$ (lema
- \ref{A7a} ) se obtienen $3$ puntos $p1,p2,p3$ tales que $p1 \neq p2
- \neq p3$ y $\{p1,p2,p3\} \subseteq l.$ Ahora usando el axioma $A5$ se
- obtiene que $\exists q$ punto tal que $q \notin l,$ luego ya se tienen
+ \ref{A7a} ) se obtienen $3$ puntos $p1,p2,p3$ distintos entre sí tales 
+ que $\{p1,p2,p3\} \subseteq l$. Ahora usando el axioma $A5$ se
+ obtiene que existe $q$ tal que $q \notin l$, luego ya se tienen
  probado que existen $4$ puntos diferentes, ya que $q$ es diferente del
- resto porque $q \notin l.$  Consideremos ahora tres líneas $l1,l2,l3$ 
+ resto porque $q \notin l$.  Consideremos ahora tres líneas $l1,l2,l3$ 
  obtenidas por el axioma $A3$ tales que $\{p1,q\} \subseteq l1, \,
  \{p2,q\} \subseteq l2, \, \{p3,q\} \subseteq l3.$ Ahora vamos a obtener
 los tres puntos restantes, usando que $l \neq l1 \neq l2 \neq l3$ 
@@ -1099,7 +976,7 @@ gracias al lema auxiliar \ref{lineas_diferentes}:
 \end{enumerate}
 
 Por lo tanto, ya tenemos probado la existencia y  la disparidad de $7$
- puntos \\ $\{p1,p2,p3,p4,p5,p6,p7\}.$
+ puntos: $\{p1,p2,p3,p4,p5,p6,p7\}.$
 \end{demostracion}
 
 La siguiente figura \ref{7_puntosdiferentes} muestra una intuición geométrica de 
@@ -1114,8 +991,8 @@ la demostración del lema \ref{7_puntos}.
 
 
 La formalización y demostración del lema en Isabelle/HOL es la
- siguiente:
-\<close>
+ siguiente:\<close>
+
 lemma (in Projective_Geometry) at_least_seven_points: 
   "\<exists>p1 p2 p3 p4 p5 p6 p7. 
     distinct [p1,p2,p3,p4,p5,p6,p7] \<and> {p1,p2,p3,p4,p5,p6,p7} \<subseteq> plane" 
@@ -1153,47 +1030,54 @@ proof -
     using A7b [of l2 p2 q] 7 by auto
   have 15: "l2 \<noteq> l" 
     using 6 13 by auto
-  have 16:"p5 \<noteq> p1" using 1 13 14 4  15 
- puntos_diferentes [of l l2 p1 p2  p5] by auto 
-  have 17:"p5 \<noteq> p3" using 1 13 14 4  15
- puntos_diferentes [of l l2 p3 p2 p5] 
+  have 16: "p5 \<noteq> p1" 
+    using 1 13 14 4  15 puntos_diferentes [of l l2 p1 p2  p5] 
+    by auto 
+  have 17: "p5 \<noteq> p3" 
+    using 1 13 14 4  15 puntos_diferentes [of l l2 p3 p2 p5] 
     by auto
-  have 20:"l1 \<noteq> l2 " using 1 9 13 4 8 7  
-      lineas_diferentes [of l p1 p2 l1 q l2 ] by simp
-  have 21: "p4 \<noteq> p5" using 13 8 14 4 10 20 
-      puntos_diferentes [of l1 l2 p4 q p5]  by auto
+  have 20: "l1 \<noteq> l2 " 
+    using 1 9 13 4 8 7 lineas_diferentes [of l p1 p2 l1 q l2 ] 
+    by simp
+  have 21: "p4 \<noteq> p5" 
+    using 13 8 14 4 10 20 puntos_diferentes [of l1 l2 p4 q p5]  
+    by auto
   obtain l3 where 22: "l3 \<in> lines \<and> {p3,q} \<subseteq> l3" 
     using A3 5 6 by auto
   then obtain p6 where 23: "p6 \<notin> {p3,q} \<and> p6 \<in> l3" 
     using A7b by metis
-  have 25: "p6 \<noteq> p1" using 1 22 6 4  23 
-puntos_diferentes [of l3 l p1 p3 p6]  by auto 
-  have 26: "p6 \<noteq> p2" using 1 22 6 23 4 
- puntos_diferentes [of l3 l p2 p3 p6] by auto
-  have 29:"l1 \<noteq> l3" using  1 4 9 22 8 7
- lineas_diferentes  [of l p1 p3 l1 q l3]  by simp
-  have 31:"p6 \<noteq> p4" using 22 8 10 23  29  
-puntos_diferentes [of l1 l3 p4 q p6] by auto
-  have 34:"l2 \<noteq> l3" using 1 4 13 22 15 7 
-lineas_diferentes  [of l p2 p3 l2 q l3] by simp
-  have 35:"p6 \<noteq> p5" using  22 13 23 14 34 
- puntos_diferentes [of l2 l3 p5 q p6] by auto
+  have 25: "p6 \<noteq> p1" 
+    using 1 22 6 4  23 puntos_diferentes [of l3 l p1 p3 p6]  
+    by auto 
+  have 26: "p6 \<noteq> p2" 
+    using 1 22 6 23 4 puntos_diferentes [of l3 l p2 p3 p6] 
+    by auto
+  have 29: "l1 \<noteq> l3" 
+    using 1 4 9 22 8 7 lineas_diferentes [of l p1 p3 l1 q l3]  
+    by simp
+  have 31: "p6 \<noteq> p4" 
+    using 22 8 10 23  29 puntos_diferentes [of l1 l3 p4 q p6] 
+    by auto
+  have 34: "l2 \<noteq> l3" 
+    using 1 4 13 22 15 7 lineas_diferentes [of l p2 p3 l2 q l3] 
+    by simp
+  have 35: "p6 \<noteq> p5" 
+    using 22 13 23 14 34 puntos_diferentes [of l2 l3 p5 q p6] 
+    by auto
   moreover have "distinct [p1,p2,p3,p4,p5,p6,q]" 
-     using 7 10 11 12 14 16 17 21 23 25 26 31 7 35 by auto
+    using 7 10 11 12 14 16 17 21 23 25 26 31 7 35 by auto
   moreover have "{p1,p2,p3,p4,p5,p6,q} \<subseteq> plane" 
     using 6 5  A2 10 8 14 13 22 23 by auto
-  ultimately show ?thesis  by metis
+  ultimately show ?thesis  
+    by blast
 qed
 
 subsection \<open>Interpretación modelo geometría proyectiva \<close>
 
-(* ---------------------------------------------------------------------
-   Problem 31: Give a model of Projective Geometry with 7 points.
-  ------------------------------------------------------------------- *)
 text \<open>
 El mínimo modelo que presenta la Geometria Proyectiva es considerar que
  el plano tiene $7$ puntos y con ellos formar como mínimo $7$ líneas.
- Este modelo se conoce como el \textbf{fano plane} que es el plano 
+ Este modelo se conoce como el \textbf{plano de Fano} que es el plano 
 proyectivo con el menor número de puntos y líneas necesarios para que 
 se verifiquen todos los axiomas. Para ello vamos a
  dar la definición en Isabelle del plano de 7 elementos
@@ -1201,13 +1085,13 @@ se verifiquen todos los axiomas. Para ello vamos a
  líneas.
 
 La siguiente figura \ref{proyectivo} muestra una visión del 
-\textbf{fano plane}:
+\textbf{plano de Fano}:
 
 
 \begin{figure}[H]
 \centering
 \includegraphics[height=6cm]{proyectivo.png}
-\caption{Visión geométrica del fano plane}
+\caption{Visión geométrica del plano de Fano}
 \label{proyectivo}
 \end{figure}
 
@@ -1278,6 +1162,5 @@ interpretation Projective_Geometry_smallest_model:
   apply (rule aux6)
   apply (rule aux7)
   done
-
 
 end
