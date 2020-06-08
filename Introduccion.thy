@@ -7,41 +7,47 @@ begin
 
 
 text \<open>
-El razonamiento automático es una de las áreas de las ciencias de la
- computación dedicado principalmente a la creación de programas de forma
-que se le dote a un ordenador la capacidad de razonar de una manera
- autónoma. Dentro de este campo, podemos encontrar el subcampo de la
- deducción automatizada que es el que se encarga de la demostración de
- teoremas matemáticas mediante programas de ordenador. Para la
- demostración de teoremas matemáticos es necesario implementar una serie
-de información previamente para la posterior formalización de teoremas.
- Luego la formalización de teoremas es el primer paso a la hora del
- razonamiento automático, es decir, poder \textit{"traducir"} teoremas
- matemáticos en un ordenador. El estudio de la formalización comenzó con
-los trabajos de Hilbert, Tarski, Neumann, Russell, Turing y Herbrand
- entre otros. Dentro de estos grandes matemáticos, Hilbert se puede
- considerar como uno de los fundadores del formalismo moderno; su
- objetivo fue la construcción axiomática de la totalidad de las
- matemáticas a través de los números naturales y asumiendo que con el 
-uso de axiomas no es necesario definir objetos. 
+
+
+
+La formalización matemática consiste en la implementación 
+ de definiciones y pruebas de teoremas en un lenguaje de ordenador de
+ forma que usando razonamientos irrefutables puedan ser verificados por
+ una máquina. Su estudio se inició con la denominada demostración
+ automática de teoremas, los primeros en trabajarlo y estudiarlo entre
+ otros fueron Ackermann, Gödel, Church, Türing y Hilbert. En la década
+ de 1920, Hilbert intentó realizar un enfoque más riguroso intentando
+ axiomátizar la totalidad de las matemáticas  usando los
+ números naturales y asumiendo que con el uso de los axiomas no era
+ necesario definir objetos.
 
 
 Actualmente el gran interés de la formalización matemática es la
  capacidad de la verificación de demostraciones mediante un ordenador.
-Para ello, hay que dotar al ordenador de una información previa al
+Para ello, es necesario poder expresar las definiciones, teoremas y pruebas
+en un lenguaje generado por una gramática que permita verificar de forma 
+mecánica las pruebas. También hay que  dotar al ordenador de una información previa al
  teorema y junto con una orientación humana se pueda llegar a validar la
 demostración de los teoremas. La importancia que se le atribuye a la
  formalización es la capacidad de cálculos y razonamientos que puede
  realizar un ordenador a la vez, incluso demostrando teoremas muy
- difíciles como el teorema de los Knaster-Tarski. 
+ difíciles como el teorema de los Knaster-Tarski como se verá en el
+ Capítulo 5. En \cite{100theorems} podemos encontrar una lista de 100
+ teoremas formalizados junto con el programa usado.  
 
-Dentro de los sistemas de pruebas automáticas los más usados son HOL,
- Mizar, PVS, Coq, Isabelle/Isar entre otros. Isabelle es un asistente de
-prueba genérico, permitiendo expresar en lenguaje formal fórmulas
- matemáticas y proporcionando para probar esas fórmulas a través de
- cálculos lógicos. La instancia más extendida de Isabelle actualmente es
-Isabelle/HOL, que proporciona pruebas de teorema de lógica de orden
- superior.
+Dentro de los sistemas de pruebas automáticas los más usados como se 
+puede ver en \cite{Provers}  son HOL, Mizar, PVS, Coq, Isabelle/Isar
+ entre otros. Isabelle proporciona una estructura genérica para
+ construir sistemas deductivos con un especial foco en la prueba de
+ teoremas de lógica de orden superior. Sin embargo, Isar proporciona un
+ entorno de lenguaje propio, diseñado específicamente para el desarrollo
+de pruebas y teorias. En su conjunto Isabelle/Isar es un marco de
+ referencia para el desarrollo formal de documentos matemáticos
+ incluyendo una comprobación completa de pruebas, en el que las
+ definiciones y pruebas se organizan como teorias. 
+En nuestro caso el sistema de pruebas automático que usaremos es
+ Isabelle/HOL que es una especialización de Isabelle/Isar con lógica de
+ orden superior(HOL).
 
 El objetivo general de este trabajo es mostrar como se elaboran
  demostraciones formales y estructuradas en Isabelle/HOL. Mostrando la
