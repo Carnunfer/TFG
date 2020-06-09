@@ -15,11 +15,7 @@ La formalización matemática consiste en la implementación
  forma que usando razonamientos irrefutables puedan ser verificados por
  una máquina. Su estudio se inició con la denominada demostración
  automática de teoremas, los primeros en trabajarlo y estudiarlo entre
- otros fueron Ackermann, Gödel, Church, Türing y Hilbert. En la década
- de 1920, Hilbert intentó realizar un enfoque más riguroso intentando
- axiomátizar la totalidad de las matemáticas  usando los
- números naturales y asumiendo que con el uso de los axiomas no era
- necesario definir objetos.
+ otros fueron Ackermann, Gödel, Church, Türing y Hilbert. 
 
 
 Actualmente el gran interés de la formalización matemática es la
@@ -55,17 +51,32 @@ El objetivo general de este trabajo es mostrar como se elaboran
  diferentes aspectos de las matemáticas. 
 
 El objetivo específico es estudiar la similitud que se encuentran entre
- las demostraciones en lenguaje natural y las de Isabelle/HOL de
- aspectos básicos de las diferentes teorías de las matemáticas.
+ las demostraciones en lenguaje natural y las de lenguaje formal en 
+ Isabelle/HOL de aspectos básicos de las diferentes teorías de las 
+matemáticas.
 
 La metodología utilizada para este trabajo fue seleccionar y probar
  formalmente teoremas en las distintas áreas de las matemáticas de forma
 que se muestre la capacidad de Isabelle/HOl en los diferentes ámbitos.
- Para la demostración formal se ha necesitado usar diferentes teorías ya
- predefinidas en Isabelle/HOL e incluso en algunos casos definir una 
-serie de lemas y definiciones para llegar al objetivo final, demostrar
- formalmente un teorema. La descripción de los capítulos es la
- siguiente.
+Una vez escogido el teorema para formalizar se ha seguido siempre el 
+mismo esquema:
+\begin{enumerate}
+\item Enunciado del teorema en lenguaje natural.
+
+\item Demostración del teorema en lenguaje natural.
+
+\item Especificación en Isabelle/HOL.
+
+\item Demostración en Isabelle/HOL que visiblemente muestra la similitud
+con la prueba en lenguaje natural.
+
+\end{enumerate}
+
+Tanto para la demostración formal como para su anterior especificación
+ ha sido necesario usar diferentes teorías ya predefinidas en
+ Isabelle/HOl e incluso en algunos casos definir una seríe de lemas y
+ definiciones para poder llegar a entender y demostrar formalmente el
+ teorema. La descripción de los capítulos es la siguiente.
 
 
 \<close>
