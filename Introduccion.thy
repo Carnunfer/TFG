@@ -78,6 +78,49 @@ Tanto para la demostración formal como para su anterior especificación
  definiciones para poder llegar a entender y demostrar formalmente el
  teorema. La descripción de los capítulos es la siguiente.
 
+Dentro de la gran cantidad de aspectos que podemos encontrar en las
+ matemáticas, se ha elegido 5 de ellos que son los que vamos a tratar.
+
+En el capítulo 1 se muestran dos teoremas de la teoría de Números, el
+ primero de ellos es un resultado clásico sobre números impares. La
+ decisión de escoger este teorema fue debido a su demostración, ya que
+ se realiza por inducción sobre los números naturales; pudiendo mostrar 
+el esquema inductivo predefinido en Isabelle y observando que la gran 
+similitud existente entre la demostración en lenguaje natural y formal.
+También se muestra la capacidad de Isabelle/HOL dando pruebas menos
+ explícitas e incluso automáticas. El segundo teorema es una propiedad
+ sobre los conjuntos finitos de números naturales que al igual que en el
+anterior se demuestra de manera inductiva, pero esta vez una inducción
+ sobre conjuntos finitos; mostrando también el esquema ya predefinido en
+Isabelle/HOL de inducción sobre conjuntos finitos.
+
+En el capítulo 3 podemos encontrar dos resultados de la teoría de
+ funciones. Estos son una caracterización sobre funciones inyectivas y
+ sobreyectivas respectivamente. La importancía de estos teoremas es
+ mostrar la capacidad de Isabelle/HOL a la hora de trabajar con tipos,
+ es decir, con los dominios y codominios de las funciones. En la
+ demostración de ambos teoremas es necesario especificar los tipos tanto
+de las funciones como de los elementos, debido a que en el caso de no
+ especificarlo Isabelle/HOL toma el tipo mas general posible y no te
+ admite la prueba. También ha de descatar la necesidad de usar
+ definiciones de la teoría ya predefinida \href{http://bit.ly/2XuPQx5}{Fun.thy} e
+ introducir unas nuevas para conseguir la similitud con la
+ especificación y demostración formal. 
+
+En el capítulo 4 se muestra el teorema de Cantor, un teorema importante
+ de la teoría de Conjuntos. La elección del teorema fue debido a su
+ demostración formal y automática, ya que su demostración formal es
+ idéntica a la demostración en lenguaje natural y en cuanto a su
+ demostración automática cabe destacar la capacidad de Isabelle/HOL para
+demostrarlo autmáticamente.
+
+En el capítulo 5 estudio el teorema del punto fijo de Knaster-Tarski un
+ resultado de la teoría de Retículos. La elección del teorema fue debido
+a la teoría de Retículos, ya que es teoría importada en Isabelle/HOL y
+ para su perfecta comprensión tiene una notación específica. Además
+ notar la peculiaridad de los retículos y de los retículos completos que
+se definen en Isabelle/HOL como clases. 
+
 
 \<close>
 
