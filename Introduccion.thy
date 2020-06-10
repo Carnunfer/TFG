@@ -94,7 +94,7 @@ anterior se demuestra de manera inductiva, pero esta vez una inducción
  sobre conjuntos finitos; mostrando también el esquema ya predefinido en
 Isabelle/HOL de inducción sobre conjuntos finitos.
 
-En el capítulo 3 podemos encontrar dos resultados de la teoría de
+En el capítulo 2 podemos encontrar dos resultados de la teoría de
  funciones. Estos son una caracterización sobre funciones inyectivas y
  sobreyectivas respectivamente. La importancía de estos teoremas es
  mostrar la capacidad de Isabelle/HOL a la hora de trabajar con tipos,
@@ -107,20 +107,32 @@ de las funciones como de los elementos, debido a que en el caso de no
  introducir unas nuevas para conseguir la similitud con la
  especificación y demostración formal. 
 
-En el capítulo 4 se muestra el teorema de Cantor, un teorema importante
+En el capítulo 3 se muestra el teorema de Cantor, un teorema importante
  de la teoría de Conjuntos. La elección del teorema fue debido a su
  demostración formal y automática, ya que su demostración formal es
  idéntica a la demostración en lenguaje natural y en cuanto a su
  demostración automática cabe destacar la capacidad de Isabelle/HOL para
 demostrarlo autmáticamente.
 
-En el capítulo 5 estudio el teorema del punto fijo de Knaster-Tarski un
+En el capítulo 4 estudio el teorema del punto fijo de Knaster-Tarski un
  resultado de la teoría de Retículos. La elección del teorema fue debido
 a la teoría de Retículos, ya que es teoría importada en Isabelle/HOL y
  para su perfecta comprensión tiene una notación específica. Además
  notar la peculiaridad de los retículos y de los retículos completos que
 se definen en Isabelle/HOL como clases. 
 
+En el capítulo 5 se formaliza la teoría de la Geometría, en la que
+ diferenciamos tres tipos diferentes: Geometría simple, Geometría no
+ proyectiva y Geometría proyectiva. Cada tipo de geometría la
+ declararemos en un entorno local definiendo los axiomas propios de ella
+y dentro de él, demostrando una serie de lemas y dando, por último, una
+ interpretación del mínimo modelo que se puede formar verificando los
+ axiomas. 
+
+Por último cabe destacar el apéndice A, en el que basándonos en el
+ \href{http://bit.ly/2OMbjMM}{libro de HOL}
+ mostramos todos las reglas y lemas usados en el trabajo agrupándolas en 
+ diferentes secciones. 
 
 \<close>
 
