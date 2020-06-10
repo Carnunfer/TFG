@@ -7,13 +7,6 @@ begin
 
 
 text \<open>
- La formalización matemática consiste en la implementación 
- de definiciones y pruebas de teoremas en un lenguaje de ordenador de
- forma que usando razonamientos irrefutables puedan ser verificados por
- una máquina. Su estudio se inició con la denominada demostración
- automática de teoremas, los primeros en trabajarlo y estudiarlo entre
- otros fueron Ackermann, Gödel, Church, Türing y Hilbert. 
-
  Actualmente el gran interés de la formalización matemática es la
  capacidad de la verificación de demostraciones mediante un ordenador.
  Para ello, es necesario poder expresar las definiciones, teoremas y

@@ -1,3 +1,4 @@
+
 (* Propiedad de los conjuntos finitos de números naturales *)
 
 (*<*) 
