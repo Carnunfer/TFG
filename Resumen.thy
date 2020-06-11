@@ -5,19 +5,16 @@ begin
 (*>*)
 
 text\<open>
-Las matemáticas se pueden dividir en una gran cantidad de teorías,
- dentro de ellas podemos destacar entre otras 
- la teoría de números, la teoría de  conjuntos, la teoría de retículos.
- Todas ellas se basan en definiciones, lemas y teoremas que se han
- demostrado y, por lo tanto, verificado. Aquí entra a formar parte la
- formalización matemática que consiste al fin y al cabo en verificar
- toda una teoría mediante un ordenador, exactamente mediante
- un sistema de pruebas automáticas. Para llevar a cabo la formalización
- es necesario tener un lenguaje simple para poder formalizar dicha 
-teoría y  dotar al ordenador de una información previa de forma que
- pueda llegar a verificar la demostración. Exploraremos la
- formalización matemática de una serie de teorías a través del sistema
- de pruebas automático Isabelle/HOL.
+
+La finalidad de este trabajo es la formalización de
+ teoremas de diferentes teorías de las matemáticas. Para ello, se ha
+ elegido una serie de teoremas de la teoría de números, teoría de
+ conjuntos, teoría de funciones, teoría de retículos y teoría de
+ geometría. Una vez formalizados los mismos en el sistema
+de pruebas automáticas Isabelle/HOL, se han utilizado teorías ya
+ predefinidas en él  y comprobado la similitud existente entre la 
+demostración  en lenguaje natural y la demostración formal. 
+
 \<close>
 
 
