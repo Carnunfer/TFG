@@ -5,6 +5,7 @@ session TFG = HOL +
   sessions
     "HOL-Library"    
   theories
+    Resumen
     Introduccion
     SumaImpares
     ConjuntosFinitos
