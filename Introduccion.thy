@@ -7,19 +7,19 @@ begin
 
 
 text \<open>
- Actualmente el gran interés de la formalización matemática reside en la
- capacidad de la verificación de demostraciones mediante un ordenador.
- Para ello, se hace preciso poder expresar las definiciones, teoremas y
- pruebas en un lenguaje generado por una gramática que permita verificar
- de forma mecánica las pruebas. También hay que dotar al ordenador de
- una información previa al teorema de forma que junto con una orientación humana, se
- pueda llegar a validar la demostración de los teoremas. La importancia
- que se le atribuye a la formalización es la capacidad de cálculos y
- razonamientos que puede realizar un ordenador a la vez, incluso
- demostrando teoremas muy difíciles como el teorema de los
- Knaster--Tarski como se expondrá en el Capítulo 5. En \cite{100theorems}
- pueden encontrarse una lista de 100 teoremas formalizados junto con el
- programa usado.
+ Actualmente el gran interés de la formalización matemática reside
+ en la capacidad de la verificación de demostraciones mediante un
+ ordenador.  Para ello, se hace preciso poder expresar las definiciones,
+ teoremas y pruebas en un lenguaje generado por una gramática que
+ permita verificar de forma mecánica las pruebas. También hay que dotar
+ al ordenador de una información previa al teorema de forma que junto
+ con una orientación humana, se pueda llegar a validar la demostración
+ de los teoremas. La importancia que se le atribuye a la formalización
+ es la capacidad de cálculos y razonamientos que puede realizar un
+ ordenador a la vez, incluso demostrando teoremas muy difíciles como el
+ teorema de los Knaster--Tarski como se expondrá en el Capítulo 5. En
+ \cite{100theorems} pueden encontrarse una lista de 100 teoremas
+ formalizados junto con el programa usado.
 
  Dentro de los sistemas de pruebas automáticas los más usados, como se
  aprecia en \cite{Provers} son HOL, Mizar, PVS, Coq, Isabelle/Isar
