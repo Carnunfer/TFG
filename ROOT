@@ -25,4 +25,5 @@ session TFG = HOL +
     "geogebra3.png"
     "geogebra4.png"
     "proyectivo.png"
+    "sello.png"
 
