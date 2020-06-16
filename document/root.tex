@@ -137,16 +137,39 @@
 \addcontentsline{toc}{chapter}{Introducción}
 \input{Introduccion}
 \chapter{Teoría de números}
+En este capítulo se van a analizar dos teoremas sobre la teoría de
+números. El primero es un resultado sobre los números impares y el
+ segundo un resultado sobre conjuntos finitos, la importancia que se le
+ ortoga a estos, es debido a, su demostración inductiva. El primero se
+ demuestra por una inducción sobre números naturales y el segundo por
+ una inducción sobre conjuntos finitos, pudiendo mostrar un esquema
+ inductivo predefinido en Isabelle/HOL de ambas demostraciones. También
+ se mostrará la capacidad de Isabelle/HOL dando pruebas explícitas y
+ automáticas.
 \input{SumaImpares}
 \input{ConjuntosFinitos}
 \chapter{Teoría de funciones}
+Este capítulo muestra dos resultados de la teoría de funciones. Estos
+resultado son la caracterización de funciones inyectivas y sobreyectivas 
+respectivamente. Estos teoremas muestran la capacidad de Isabelle/HOL de 
+trabajar con tipos, debido a que, en la demostración de ambos teoremas 
+es necesario especificar los dominios y codominios de las funciones.
 \input{CancelacionInyectiva}
 \input{CancelacionSobreyectiva}
 \chapter{Teoría de conjuntos}
+En este capítulo se analiza un teorema importante de la teoría de conjuntos,
+el teorema de Cantor; en el que la demostración formal y en lenguaje natural
+es prácticamente idéntica. 
 \input{TeoremaCantor}
 \chapter{Teoría de retículos}
+En este capítulo se muestra un teorema de la teoría de retículos, el teorema de
+Knaster-Tarski. En Isabelle/HOL la teoría de retículos ya se encuentra predefinida
+y tanto los retículos como los retículos completos se definen como clases. 
 \input{TeoremaKnasterTarski}
 \chapter{Teoría de geometría}
+En este capítulo se formalizará la teoría de la geometría, dividiendola en tres tipos:
+geometría simple, geometría no proyectiva y geometría proyectiva. También se mostrará 
+la interpretación del mínimo modelo de cada geometría en Isabelle/HOL.
 \input{Geometria}
 
 \appendix
