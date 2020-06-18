@@ -117,10 +117,12 @@ text \<open>
  interpretación del mínimo modelo con que se puede formar verificando los
  axiomas.
 
- Por último, cabe destacar el apéndice A, en el que, basándonos en el
+ En el apéndice A, basándonos en el
  \href{http://bit.ly/2OMbjMM}{libro de HOL} se indican todas las reglas y
  lemas usados en el trabajo agrupadas en diferentes secciones.
 
+ Por último cabe destacar que el trabajo realizado se encuentra en 
+ \href{https://github.com/Carnunfer/TFG}{GitHub}
 \<close>
 
 (*<*)
