@@ -118,7 +118,8 @@ text \<open>
  axiomas.
 
  En el apéndice A, basándonos en el
- \href{http://bit.ly/2OMbjMM}{libro de HOL} se indican todas las reglas y
+ \href{http://isabelle.in.tum.de/website-Isabelle2019/dist/library/HOL/HOL/document.pdf}{libro de HOL}
+ se indican todas las reglas y
  lemas usados en el trabajo agrupadas en diferentes secciones.
 
  Por último cabe destacar que el trabajo realizado se encuentra en 

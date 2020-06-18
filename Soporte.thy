@@ -10,7 +10,8 @@ begin
 
 text \<open>En este apéndice se recogen la lista de los lemas usados en
   el trabajo indicando la página del
-  \href{http://bit.ly/2OMbjMM}{libro de HOL} donde se encuentra.\<close>
+  \href{http://isabelle.in.tum.de/website-Isabelle2019/dist/library/HOL/HOL/document.pdf}{libro de HOL}
+ donde se encuentra.\<close>
 
 section \<open>Las bases de lógica de orden superior (2)\<close>
 
